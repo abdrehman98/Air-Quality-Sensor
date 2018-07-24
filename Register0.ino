@@ -34,7 +34,7 @@ String WiFi_PASS;
 int DEVICE_ID;
 
 //------------------------------------// Server URL
-String URL_REGISTRATION; //URL to send email address and sensor combinations
+String URL_REGISTRATION = "http://182.180.122.28:8100/registration"; //URL to send email address and sensor combinations
 String URL_LOCATION; //URL to send Location
 String URL_UPDATE; //URL to update firmware
 
@@ -56,37 +56,28 @@ void loop() {
 
 bool connectWifi()        //Connect to WiFi network
 {
-  Serial.print("[WIFI SSID]");Serial.println(wifi_ssid);
-  Serial.print("[WIFI PASS]");Serial.println(wifi_password); 
-
   WiFi.disconnect(1);
   
   WiFi.mode(WIFI_STA);
   
   WiFi.begin(wifi_ssid,wifi_password);
-  Serial.println("Connecting To WiFi");
+  Serial.println("[WIFI STATUS] Connecting To WiFi");
   delay(2000);
   
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print("[WIFI CODE] "); Serial.println(WiFi.status());  
     if(WiFi.status()!= WL_DISCONNECTED && WiFi.status() != WL_CONNECTED)
     {
+      Serial.println("[WIFI STATUS] Could'nt connect to WiFi");
       return false; 
     }
     delay(500);
   }
 
-
-  Serial.print("Your IP address is ");Serial.println(WiFi.localIP());
+  Serial.println("[WIFI STATUS] WiFi Connected");
+  Serial.print("[IP] ");Serial.println(WiFi.localIP());
 
   return true;
-}
-
-
-void sendClientMessage(String message)
-{
-  if(client.connected())
-    client.print(message);
 }
 
 
@@ -95,12 +86,12 @@ void startHotSpot(){      //Start HotSpot
   // Start HoTSpoT so that Moblie can connect to this device
   WiFi.mode(WIFI_AP);
   WiFi.softAP(HOTSPOT_SSID, HOTSPOT_PASSWORD);
-  Serial.println("Starting Hotspot . . .");
+  Serial.println("[HOTSPOT STATUS] Starting");
   delay(2000);
 
   // Show IP/Adress of this device.
   IPAddress myIP = WiFi.softAPIP();
-  Serial.print("AP IP address: ");
+  Serial.print("[SOFT_AP IP]");
   Serial.println(myIP);
 
 }
@@ -115,15 +106,13 @@ WiFiClient TCPGetClient()    //Returns TCP client
   server.begin();
 
   // Wait for client to connect
-  Serial.println("\nWaiting for TCPClient");
+  Serial.println("[CLIENT STATUS] Waiting for TCPClient");
   while(true){
-    
-    showConnectWait();
-    client = server.available();
-
-    
-    if (client!=NULL)
+    client = server.available();    
+    if (client!=NULL){
+      Serial.println("[CLIENT STATUS] TCP CLIENT CONNECTED"); 
       return client;
+    }
     delay(100);
   }
 }
@@ -134,8 +123,9 @@ bool SendServerMessage(String url,String message,String& payload, int& httpCode)
          HTTPClient http;    //Declare object of class HTTPClient
      
          http.begin(url);      //Specify request destination
+         Serial.print("[SERVER CONNECTION] CONNECTING TO "); Serial.println(url);
          http.addHeader( "Content-Type", "application/json");  //Specify content-type header
-       
+         Serial.print("[SERVER CONNECTION] SENDING SERVER MESSAGE : "); Serial.println(message);
          httpCode = http.POST(message);   //Send the request
          String payload = http.getString();                  //Get the response payload
        
@@ -160,7 +150,7 @@ void SendClientMessage(WiFiClient client,String message)
         root.printTo(json_str);
         client.print(json_str);
 }
-String sendLocation()
+String sendLocation()            
 {
         StaticJsonBuffer<200> jsonBuffer;
         JsonObject& root  = jsonBuffer.createObject();
@@ -249,8 +239,8 @@ void InitiateCommunication()
         StaticJsonBuffer<200> jsonBuffer_1;
         JsonObject& details_1  = jsonBuffer_1.createObject();
         
-        details_1["Email"] = UserEmail;
-        details_1["SensorCombination"] = SensorCombination;
+        details_1["email"] = UserEmail;
+        details_1["sensor_comb"] = SensorCombination;
         
         details_1.printTo(json_str);
         
@@ -268,18 +258,20 @@ void InitiateCommunication()
             if(!server_response.success()) {
               Serial.println("parseObject() failed");
             }
-            DEVICE_ID = server_response["DeviceID"];
-            URL_UPDATE = server_response["URL"].as<String>();
+            DEVICE_ID = server_response["device_ID"];
+            URL_UPDATE = server_response["url_firmware"].as<String>();
           }
         }
      
         //===================================== Saving credentials in EEPROM ===================================================
         StorageIO rom; 
         rom.reposition();
+        rom.writeNextString(String(DEVICE_ID));       
         rom.writeNextString(WiFi_SSID);
         rom.writeNextString(WiFi_PASS);
-        rom.writeNextString(String(DEVICE_ID));       
-
+        rom.writeNextString(longitude);
+        rom.writeNextString(latitude);
+        
       
         //===================================== Sending server Location Data ===================================================
         String response=sendLocation();
@@ -289,24 +281,7 @@ void InitiateCommunication()
       }
      
 }
-
-
-void OTA_update_firmware()
-{    
-      t_httpUpdate_return ret = ESPhttpUpdate.update(URL_UPDATE);
-      switch(ret) {
-      case HTTP_UPDATE_FAILED:
-          Serial.println("[update] Update failed.");
-          break;
-      case HTTP_UPDATE_NO_UPDATES:
-          Serial.println("[update] Update no Update.");
-          break;
-      case HTTP_UPDATE_OK:
-          Serial.println("[update] Update ok."); // may not called we reboot the ESP
-          break;
-      }
-}
-
+ 
 
 
 

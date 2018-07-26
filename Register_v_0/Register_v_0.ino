@@ -46,7 +46,7 @@ void setup() {
   Serial.println("Starting...");
   
   InitiateCommunication();
- // OTA_update_firmware();
+  OTA_update_firmware();
   
 }
 
@@ -269,8 +269,8 @@ void InitiateCommunication()
         rom.writeNextString(String(DEVICE_ID));       
         rom.writeNextString(WiFi_SSID);
         rom.writeNextString(WiFi_PASS);
-        rom.writeNextString(longitude);
-        rom.writeNextString(latitude);
+        rom.writeNextString(String(longitude));
+        rom.writeNextString(String(latitude));
         
       
         //===================================== Sending server Location Data ===================================================
@@ -282,7 +282,21 @@ void InitiateCommunication()
      
 }
  
-
+void OTA_update_firmware()
+{    
+      t_httpUpdate_return ret = ESPhttpUpdate.update(URL_UPDATE);
+      switch(ret) {
+      case HTTP_UPDATE_FAILED:
+          Serial.println("[update] Update failed.");
+          break;
+      case HTTP_UPDATE_NO_UPDATES:
+          Serial.println("[update] Update no Update.");
+          break;
+      case HTTP_UPDATE_OK:
+          Serial.println("[update] Update ok."); // may not called we reboot the ESP
+          break;
+      }
+}
 
 
 

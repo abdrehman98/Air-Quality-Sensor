@@ -2,11 +2,13 @@
 #include <ESP8266WiFi.h>    // Wifi Liberary (Node MCU Core)
 #include <WiFiClient.h>     // TCP/Client    (Node MCU Core)
 #include <WiFiServer.h>     // TCP/Server    (Node MCU Core)
+#include <ESP8266httpUpdate.h>
+#include <ESP8266HTTPClient.h>     
 #include <string.h>         // String        (Arduino)
 #include <EEPROM.h>         // Accessing EEPROM (Arduino)
 #include <StorageIO.h>      // To save SSID/Password/Latitude/Longitude https://github.com/Zeeshan-itu/StorageIO
 #include <Indicator.h>      // To Show some output https://github.com/Zeeshan-itu/Indicator
-#include <FirebaseArduino.h>// For using Firebase(Google)
+#include<ArduinoJson.h>
 //--------------------------//-----------------------------
 
 
@@ -14,16 +16,17 @@
 StorageIO rom;                         // It will be used to Read/Write wifidata on ROM
 Indicator light(D4);                  // To show some output about operations going on. Change pin if you want to use external LED or anything else
 //====================================// Wifi Connection Attempt settings
+unsigned int SENSORCOMBINATION  ;
 #define WIFI_TIME_OUT 12              // Try to connect with wifi for (Seconds)
 #define WAIT_TIME     1               // Check for connection status after every (Second)
-int     connecTime = 0;               // Time Passed Since attempt made to connect to Wifi.
+int connecTime = 0;               // Time Passed Since attempt made to connect to Wifi.
 //====================================// Device HotSpoT Settings
 #define HOTSPOT_SSID      "Air Quality"  // Name of Hot Spot
 #define HOTSPOT_PASSWORD  "saveairsaveplanet"      // Password of Hot spot
 #define PORT_APP_SERVER    2525       // Port at which TCP/Server will start
 WiFiServer server(PORT_APP_SERVER);   // TCP/Server to recieve password.
 //=====================================// TCP Data recieving protocole(Data will be recieved in token seperated string)
-#define TOKEN ','
+
 
 
 #define INTERRUPT_PIN D2
@@ -44,6 +47,7 @@ void settingsResetRequest() {setSettings = true;}  // Interrupt pin function
 
 //-----------------------// Dust Sensorveriables
 #define DUST_SENSOR_PIN D8
+#define CODE_VERSION 0
 byte buff[2];
 int pin = D8; //DSM501A input D8
 unsigned long previousMillis = millis();
@@ -59,10 +63,15 @@ float lowpulseinsec = 0;
 float ratio = 0;
 float concentration = 0;
 
+String URL_Sensor="";
+String URL_Location="";
+String URL_UPDATE = "";
+String URL_CheckUpdate = "";
+
 void setup() {
   Serial.begin(9600); // - Initalized Serial Communication - //
   
-  String d_id=rom.readNextString()
+  String d_id=rom.readNextString();
   device_ID=d_id.toInt();
   
   // Attemp to noccet to wifi
@@ -86,13 +95,55 @@ void loop()
 
   //Code for accepting data from sensor functions and sending it to server
 
+  String sensorData = getSensorData();
+  
+  String sensorPayload = sendSensor(sensorData);
+
+  Serial.print("[sensorPayload] ");Serial.println(sensorPayload);
+
+  if(checkForUpdates()){
+    OTA_update_firmware();
+  }
   
   if ( setSettings )
     resetSettings();
 }
 
+String getSensorData(){}
 
+bool checkForUpdates()
+{
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& updates = jsonBuffer.createObject();
+  updates["DeviceID"] = device_ID;
+  updates["CodeVersion"] = CODE_VERSION ;
 
+  String payload;
+  int retCode;
+  String retval;
+  String json_data;
+  updates.printTo(json_data);
+  if(SendServerMessage(URL_CheckUpdate,json_data,payload,retCode))
+  {
+          if(retCode==HTTP_CODE_OK)
+          {  
+            // Indiacte that data is sent
+            light.blink(200,1,HIGH,1);
+            StaticJsonBuffer<200> jsonBuffer_2;              
+            JsonObject& server_response = jsonBuffer_2.parseObject(payload);
+            if(!server_response.success()) 
+            {
+              Serial.println("parseObject() failed");
+            }
+            retval=server_response["RES"].asString();
+            if(retval == "Available")
+            {
+              return true; 
+            }
+          }
+  }
+  return false;
+}
 
 void wifiConnection(){
 
@@ -128,13 +179,9 @@ void wifiConnection(){
 
 
 
-void setLocation() //Needed to be changed
+String setLocation() //Needed to be changed
 {
-  Serial.println();
-  Serial.println("Setting up location on firebase");
-  Serial.print("Path:");
-  Serial.println(LOCATION_PATH);
- 
+
   // Read location from storage
   char * lon = rom.readNextString();
   char * lat = rom.readNextString();
@@ -151,43 +198,96 @@ void setLocation() //Needed to be changed
   location["Longitude"] = longitude;
   location["Latitude"] = latitude;
 
-  // Send location on firebase
-  Firebase.set(LOCATION_PATH, location);
-  if (Firebase.failed()) {
-    Serial.print("pushing /temperature failed:");
-    Serial.println(Firebase.error());
-    return;
+  String payload;
+  int retCode;
+  String retval;
+  String json_data;
+  location.printTo(json_data);
+  if(SendServerMessage(URL_Location,json_data,payload,retCode))
+  {
+          if(retCode==HTTP_CODE_OK)
+          {  
+            // Indiacte that data is sent
+            light.blink(200,1,HIGH,1);
+            StaticJsonBuffer<200> jsonBuffer_2;              
+            JsonObject& server_response = jsonBuffer_2.parseObject(payload);
+            if(!server_response.success()) 
+            {
+              Serial.println("parseObject() failed");
+            }
+            retval=server_response["RES"].asString();
+            return retval;
+          }
   }
 
-  // Indicate that location is sent three consective blinks
+  
   light.blink(400,3,HIGH);
 }
 
 
 
 
-void sendSensor(float concentration)      //This functions needed to be changed
+String sendSensor(String jsonString)      //This functions needed to be changed
 {
 
   // create data object in json
   DynamicJsonBuffer jsonBuffer;
   JsonObject& airQualityObject = jsonBuffer.createObject();
-  JsonObject& timeStamp = airQualityObject.createNestedObject("timestamp");
-  airQualityObject["dust_25"] = concentration;
 
-  // Say server to apply timeStamp
-  timeStamp[".sv"] = "timestamp";
+  JsonObject& Sensor = airQualityObject.createNestedObject("Sensor");
+  airQualityObject["deviceId"] = device_ID;
+  airQualityObject["SensorCombination"] = SENSORCOMBINATION; 
+  airQualityObject["SensorData"] = jsonString; 
+  
 
-  // Send data on firebase
-  Firebase.push(DEVICE_ID, airQualityObject);
-  if (Firebase.failed()) {
-    Serial.print("pushing /temperature failed:");
-    Serial.println(Firebase.error());
-    return;
+
+  String payload;
+  int retCode;
+  String retval;
+  String json_data;
+  airQualityObject.printTo(json_data);
+  if(SendServerMessage(URL_Sensor,json_data,payload,retCode))
+  {
+          if(retCode==HTTP_CODE_OK)
+          {  
+            // Indiacte that data is sent
+            light.blink(200,1,HIGH,1);
+            StaticJsonBuffer<200> jsonBuffer_2;              
+            JsonObject& server_response = jsonBuffer_2.parseObject(payload);
+            if(!server_response.success()) 
+            {
+              Serial.println("parseObject() failed");
+            }
+            retval=server_response["RES"].asString();
+            return retval;
+          }
   }
 
-  // Indiacte that data is sent
-  light.blink(200,1,HIGH,1);
+}
+
+bool SendServerMessage(String url,String message,String& payload, int& httpCode) //Send Http server serialized JSON object and return payload and httpCode
+{
+       if(WiFi.status()== WL_CONNECTED){   //Check WiFi connection status
+ 
+         HTTPClient http;    //Declare object of class HTTPClient
+     
+         http.begin(url);      //Specify request destination
+         Serial.print("[SERVER CONNECTION] CONNECTING TO "); Serial.println(url);
+         http.addHeader( "Content-Type", "application/json");  //Specify content-type header
+         Serial.print("[SERVER CONNECTION] SENDING SERVER MESSAGE : "); Serial.println(message);
+         httpCode = http.POST(message);   //Send the request
+         String payload = http.getString();                  //Get the response payload
+       
+         Serial.printf("[HTTP CODE] %d \n",httpCode);   //Print HTTP return code
+         Serial.print("[HTTP PAYLOAD] ");Serial.println(payload);    //Print request response payload
+       
+         http.end();  //Close connection
+         return true;
+       }
+      else{
+        Serial.print("Error in WiFi connection");   
+        return false;
+     }
 }
 
 
@@ -256,7 +356,7 @@ String recieveDataFromClient(WiFiClient client) //Done
 
 
 
-void parseAndWriteDataOnROM(String data)//Done
+void parseAndWriteDataOnROM(String json)//Done
 {
 
   // go-to start of EEPROM
@@ -264,6 +364,7 @@ void parseAndWriteDataOnROM(String data)//Done
 
   // GET indecies of Tokens
    const size_t bufferSize = JSON_ARRAY_SIZE(2) + JSON_OBJECT_SIZE(4) + 100;
+   
    DynamicJsonBuffer jsonBuffer(bufferSize);
             
    JsonObject& root = jsonBuffer.parseObject(json);
@@ -272,8 +373,8 @@ void parseAndWriteDataOnROM(String data)//Done
      Serial.println("parseObject() failed");
    }
   
-   String wifi_ssid = root["SSID"].toString();
-   String wifi_password = root["Password"].;
+   String wifi_ssid = root["SSID"].as<String>();
+   String wifi_password = root["Password"].as<String>();
    latitude = root["Location"][0];
    longitude = root["Location"][1];
   
@@ -298,3 +399,20 @@ void showConnecWait()//Done
   Serial.print('.');
   light.blink(10, 50, HIGH, 0.9);
 }
+
+void OTA_update_firmware()
+{    
+      t_httpUpdate_return ret = ESPhttpUpdate.update(URL_UPDATE);
+      switch(ret) {
+      case HTTP_UPDATE_FAILED:
+          Serial.println("[update] Update failed.");
+          break;
+      case HTTP_UPDATE_NO_UPDATES:
+          Serial.println("[update] Update no Update.");
+          break;
+      case HTTP_UPDATE_OK:
+          Serial.println("[update] Update ok."); // may not called we reboot the ESP
+          break;
+      }
+}
+

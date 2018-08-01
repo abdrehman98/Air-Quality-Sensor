@@ -1,3 +1,4 @@
+
 // -------------------------// Internal/ External Import
 #include <ESP8266WiFi.h>    // Wifi Liberary (Node MCU Core)
 #include <ESP8266httpUpdate.h>
@@ -107,14 +108,53 @@ WiFiClient TCPGetClient()    //Returns TCP client
 
   // Wait for client to connect
   Serial.println("[CLIENT STATUS] Waiting for TCPClient");
-  while(true){
+  bool value=true;
+  while(value){
     client = server.available();    
     if (client!=NULL){
       Serial.println("[CLIENT STATUS] TCP CLIENT CONNECTED"); 
-      return client;
+          String json = client.readStringUntil('\0');
+         //====================================== Parsing data received from Mobile Phone ==========================================
+          
+          const size_t bufferSize = JSON_ARRAY_SIZE(2) + JSON_OBJECT_SIZE(4) + 100;
+          DynamicJsonBuffer jsonBuffer(bufferSize);
+            
+          JsonObject& root = jsonBuffer.parseObject(json);
+          if(!root.success()) {
+            Serial.println("parseObject() failed");
+          }
+          UserEmail = root["Email"];
+          wifi_ssid = root["SSID"];
+          wifi_password = root["Password"];
+          latitude = root["Location"][0];
+          longitude = root["Location"][1];
+          
+          //====================================== Displaying parsed data ==========================================================
+            
+          Serial.print("User Email :");    Serial.println(UserEmail);
+          Serial.print("WiFi SSID: ");     Serial.println(wifi_ssid);
+          Serial.print("WiFi Password :"); Serial.println(wifi_password);
+          Serial.print("Latitude: ");      Serial.println(latitude);
+          Serial.print("Longitude: ");     Serial.println(longitude);
+          
+          if(connectWifi())
+          {
+            WIFI_CONNECTED=true;
+            Serial.println("WiFi connection successful");
+            SendClientMessage(client,"WiFi connection successful");
+            value=false;
+          }
+          else
+          {
+            Serial.println("WiFi connection Unsuccessful\nTrying again...");
+            SendClientMessage(client,"WiFi connection Unsuccessful");
+            value=true;
+          }
+          
     }
     delay(100);
   }
+  return client;
 }
 bool SendServerMessage(String url,String message,String& payload, int& httpCode) //Send Http server serialized JSON object and return payload and httpCode
 {
@@ -154,6 +194,7 @@ String sendLocation()
 {
         StaticJsonBuffer<200> jsonBuffer;
         JsonObject& root  = jsonBuffer.createObject();
+        root["device_ID"] = DEVICE_ID;
         root["Longitude"] = longitude;
         root["Latitude"] = latitude;
         String json_str;
@@ -164,7 +205,7 @@ String sendLocation()
         if(SendServerMessage(URL_LOCATION,json_str,payload,retCode))
         {
           if(retCode==HTTP_CODE_OK)
-          {  
+          {   
             StaticJsonBuffer<200> jsonBuffer_2;              
             JsonObject& server_response = jsonBuffer_2.parseObject(payload);
             if(!server_response.success()) 
@@ -177,14 +218,56 @@ String sendLocation()
         }
         
 }
+bool a(WiFiClient client)
+{
+  
+          String json = client.readStringUntil('\0');
+         //====================================== Parsing data received from Mobile Phone ==========================================
+          
+          const size_t bufferSize = JSON_ARRAY_SIZE(2) + JSON_OBJECT_SIZE(4) + 100;
+          DynamicJsonBuffer jsonBuffer(bufferSize);
+            
+          JsonObject& root = jsonBuffer.parseObject(json);
+          if(!root.success()) {
+            Serial.println("parseObject() failed");
+          }
+          UserEmail = root["Email"];
+          wifi_ssid = root["SSID"];
+          wifi_password = root["Password"];
+          latitude = root["Location"][0];
+          longitude = root["Location"][1];
+          
+          //====================================== Displaying parsed data ==========================================================
+            
+          Serial.print("User Email :");    Serial.println(UserEmail);
+          Serial.print("WiFi SSID: ");     Serial.println(wifi_ssid);
+          Serial.print("WiFi Password :"); Serial.println(wifi_password);
+          Serial.print("Latitude: ");      Serial.println(latitude);
+          Serial.print("Longitude: ");     Serial.println(longitude);
+          
+          if(connectWifi())
+          {
+            WIFI_CONNECTED=true;
+            Serial.println("WiFi connection successful");
+            SendClientMessage(client,"WiFi connection successful");
+            return false;
+          }
+          else
+          {
+            Serial.println("WiFi connection Unsuccessful\nTrying again...");
+            SendClientMessage(client,"WiFi connection Unsuccessful");
+            return true;
+          }
+}
+
 void InitiateCommunication()
 {
       startHotSpot();                         // Turn on HoTSpoT
-      
+      WiFiClient client = TCPGetClient();
       
       while(true)                             //Keep asking untill mobile client provide correct WiFi information
       {
-          WiFiClient client = TCPGetClient();
+          
           String json = client.readStringUntil('\0');
          //====================================== Parsing data received from Mobile Phone ==========================================
           

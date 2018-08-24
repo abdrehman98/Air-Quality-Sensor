@@ -9,43 +9,43 @@
 #include <EEPROM.h>         // Accessing EEPROM (Arduino)
 #include <ArduinoJson.h>
 #include <StorageIO.h>      // To save SSID/Password/Latitude/Longitude https://github.com/Zeeshan-itu/StorageIO
-
-//--------------------------//-----------------------------
+#include <Indicator.h>
+//--------------------------//Indicators
+Indicator indicate_mobile_con(D1);
+Indicator indicate_wifi_con(D3);
+Indicator indicate_firmware_update(D4);
 
 //====================================// Device HotSpoT Settings
-#define HOTSPOT_SSID      "Air Quality"  // Name of Hot Spot
-#define HOTSPOT_PASSWORD  "saveairsaveplanet"      // Password of Hot spot
+#define HOTSPOT_SSID      "BjsRvbmjuz"  // Name of Hot Spot
+#define HOTSPOT_PASSWORD  "tbw2fb4js6tbwfq9"      // Password of Hot spot
 #define PORT_APP_SERVER    2525       // Port at which TCP/Server will start
 WiFiServer server(PORT_APP_SERVER);   // TCP/Server to recieve password.
 //====================================
 
 //------------------------------------// Globalveriables
-                        // It will be used to Read/Write wifidata on ROM
 const char * wifi_ssid;
 const char * wifi_password;
 const char * UserEmail;
 const char * HTTP_URL;
 bool WIFI_CONNECTED=false;
-WiFiClient client;
+WiFiClient client;  
 double latitude;
 double longitude;
-unsigned int SensorCombination = 1;
+unsigned int SensorCombination = 111;
 String WiFi_SSID;
 String WiFi_PASS;
 int DEVICE_ID;
 
 //------------------------------------// Server URL
 String URL_REGISTRATION = "http://182.180.122.28:8100/registration"; //URL to send email address and sensor combinations
-String URL_LOCATION; //URL to send Location
-String URL_UPDATE; //URL to update firmware
+String URL_LOCATION = "http://182.180.122.28:8100/location"; //URL to send Location
+String URL_UPDATE = "http://182.180.122.28:8100/binaryflash/BlinkWithoutDelay.ino.bin"; //URL to update firmware
 
 
 void setup() {
   Serial.begin(9600); // - Initalized Serial Communication - //
-    // Attemp to noccet to wifi
-  
   Serial.println("Starting...");
-  
+  WiFi.disconnect();
   InitiateCommunication();
   OTA_update_firmware();
   
@@ -54,52 +54,53 @@ void setup() {
 void loop() { 
 }
 
-
+/*
+  This function connect to WiFi network
+*/
 bool connectWifi()        //Connect to WiFi network
 {
-  WiFi.disconnect(1);
-  
-  WiFi.mode(WIFI_STA);
-  
   WiFi.begin(wifi_ssid,wifi_password);
   Serial.println("[WIFI STATUS] Connecting To WiFi");
-  delay(2000);
+  indicate_mobile_con.set(LOW) ;    // Set WiFi connection indicator to LOW
   
   while (WiFi.status() != WL_CONNECTED) {
-    Serial.print("[WIFI CODE] "); Serial.println(WiFi.status());  
+    Serial.print("[WIFI CODE] "); Serial.println(WiFi.status()); 
+    indicate_wifi_con.blink(100,50,LOW,0.5);    //Blinking indicates that device is trying to connect to WiFi
     if(WiFi.status()!= WL_DISCONNECTED && WiFi.status() != WL_CONNECTED)
     {
       Serial.println("[WIFI STATUS] Could'nt connect to WiFi");
+      indicate_wifi_con.set(LOW);   //Set WiFi connection indicator to Low as device didn't connected to WiFi
       return false; 
     }
-    delay(500);
   }
 
   Serial.println("[WIFI STATUS] WiFi Connected");
   Serial.print("[IP] ");Serial.println(WiFi.localIP());
-
+  indicate_wifi_con.set(HIGH);  //Set WiFi connection indicator to HIGH as device connected to WiFi
   return true;
 }
 
-
-void startHotSpot(){      //Start HotSpot 
+/*
+  This function setups Hotspot of device
+*/
+void startHotSpot(){     
 
   // Start HoTSpoT so that Moblie can connect to this device
-  WiFi.mode(WIFI_AP);
+  WiFi.mode(WIFI_AP_STA);
   WiFi.softAP(HOTSPOT_SSID, HOTSPOT_PASSWORD);
   Serial.println("[HOTSPOT STATUS] Starting");
-  delay(2000);
-
+  
   // Show IP/Adress of this device.
   IPAddress myIP = WiFi.softAPIP();
   Serial.print("[SOFT_AP IP]");
   Serial.println(myIP);
 
 }
-
-void showConnectWait(){
-  Serial.print('.');
-}
+/*
+  This function gets a TCP Client(Mobile phone)
+  Note:
+    The loop inside doesn't break untill connected device does'nt send some data 
+*/
 
 WiFiClient TCPGetClient()    //Returns TCP client
 {
@@ -108,54 +109,21 @@ WiFiClient TCPGetClient()    //Returns TCP client
 
   // Wait for client to connect
   Serial.println("[CLIENT STATUS] Waiting for TCPClient");
-  bool value=true;
-  while(value){
+  while(true){
+
     client = server.available();    
     if (client!=NULL){
-      Serial.println("[CLIENT STATUS] TCP CLIENT CONNECTED"); 
-          String json = client.readStringUntil('\0');
-         //====================================== Parsing data received from Mobile Phone ==========================================
-          
-          const size_t bufferSize = JSON_ARRAY_SIZE(2) + JSON_OBJECT_SIZE(4) + 100;
-          DynamicJsonBuffer jsonBuffer(bufferSize);
-            
-          JsonObject& root = jsonBuffer.parseObject(json);
-          if(!root.success()) {
-            Serial.println("parseObject() failed");
-          }
-          UserEmail = root["Email"];
-          wifi_ssid = root["SSID"];
-          wifi_password = root["Password"];
-          latitude = root["Location"][0];
-          longitude = root["Location"][1];
-          
-          //====================================== Displaying parsed data ==========================================================
-            
-          Serial.print("User Email :");    Serial.println(UserEmail);
-          Serial.print("WiFi SSID: ");     Serial.println(wifi_ssid);
-          Serial.print("WiFi Password :"); Serial.println(wifi_password);
-          Serial.print("Latitude: ");      Serial.println(latitude);
-          Serial.print("Longitude: ");     Serial.println(longitude);
-          
-          if(connectWifi())
-          {
-            WIFI_CONNECTED=true;
-            Serial.println("WiFi connection successful");
-            SendClientMessage(client,"WiFi connection successful");
-            value=false;
-          }
-          else
-          {
-            Serial.println("WiFi connection Unsuccessful\nTrying again...");
-            SendClientMessage(client,"WiFi connection Unsuccessful");
-            value=true;
-          }
-          
+      Serial.println("[CLIENT STATUS] TCP CLIENT CONNECTED");
+      indicate_mobile_con.set(HIGH);    // After Connecting successfully there is no more blinking and indicator becomes stable
+      return client; 
     }
-    delay(100);
+    indicate_mobile_con.blink(100,5,LOW,0.5); //Blinking indicates that device is trying to connect to TCP Client
   }
-  return client;
 }
+/*
+  This function send a message to server(url) and return response of server in payload and HTTP code of request 
+  200 HTTP code is for success
+*/
 bool SendServerMessage(String url,String message,String& payload, int& httpCode) //Send Http server serialized JSON object and return payload and httpCode
 {
        if(WiFi.status()== WL_CONNECTED){   //Check WiFi connection status
@@ -167,7 +135,7 @@ bool SendServerMessage(String url,String message,String& payload, int& httpCode)
          http.addHeader( "Content-Type", "application/json");  //Specify content-type header
          Serial.print("[SERVER CONNECTION] SENDING SERVER MESSAGE : "); Serial.println(message);
          httpCode = http.POST(message);   //Send the request
-         String payload = http.getString();                  //Get the response payload
+         payload = http.getString();                  //Get the response payload
        
          Serial.printf("[HTTP CODE] %d \n",httpCode);   //Print HTTP return code
          Serial.print("[HTTP PAYLOAD] ");Serial.println(payload);    //Print request response payload
@@ -180,7 +148,9 @@ bool SendServerMessage(String url,String message,String& payload, int& httpCode)
         return false;
      }
 }
-
+/*
+  This function sends Mobile Phone client message
+*/
 void SendClientMessage(WiFiClient client,String message)
 {
         StaticJsonBuffer<200> jsonBuffer;
@@ -190,6 +160,9 @@ void SendClientMessage(WiFiClient client,String message)
         root.printTo(json_str);
         client.print(json_str);
 }
+/*
+  This functions send location data to server
+*/
 String sendLocation()            
 {
         StaticJsonBuffer<200> jsonBuffer;
@@ -218,57 +191,25 @@ String sendLocation()
         }
         
 }
-bool a(WiFiClient client)
-{
-  
-          String json = client.readStringUntil('\0');
-         //====================================== Parsing data received from Mobile Phone ==========================================
-          
-          const size_t bufferSize = JSON_ARRAY_SIZE(2) + JSON_OBJECT_SIZE(4) + 100;
-          DynamicJsonBuffer jsonBuffer(bufferSize);
-            
-          JsonObject& root = jsonBuffer.parseObject(json);
-          if(!root.success()) {
-            Serial.println("parseObject() failed");
-          }
-          UserEmail = root["Email"];
-          wifi_ssid = root["SSID"];
-          wifi_password = root["Password"];
-          latitude = root["Location"][0];
-          longitude = root["Location"][1];
-          
-          //====================================== Displaying parsed data ==========================================================
-            
-          Serial.print("User Email :");    Serial.println(UserEmail);
-          Serial.print("WiFi SSID: ");     Serial.println(wifi_ssid);
-          Serial.print("WiFi Password :"); Serial.println(wifi_password);
-          Serial.print("Latitude: ");      Serial.println(latitude);
-          Serial.print("Longitude: ");     Serial.println(longitude);
-          
-          if(connectWifi())
-          {
-            WIFI_CONNECTED=true;
-            Serial.println("WiFi connection successful");
-            SendClientMessage(client,"WiFi connection successful");
-            return false;
-          }
-          else
-          {
-            Serial.println("WiFi connection Unsuccessful\nTrying again...");
-            SendClientMessage(client,"WiFi connection Unsuccessful");
-            return true;
-          }
-}
-
+/*
+  This function Intiats Communication of device with server side 
+  1.First it starts HotSpot  and let the mobile phone device connect through it to start communication with device
+  2.Then it receive data from Mobile phone device keeping that information it tries to connect to WiFi network whose SSID and pasword are provided through phone
+  3.If WiFi does't connect it ask device to send data again and it keep doing so untill WiFi connects
+  4.As WiFi connects it first send post request to server with Sensor Combination and Email of user
+  5.Server Responds by sending DEVICE ID and URL to update Firmware
+  6.Then it saves data on EEPROM
+  7.Then it send Location of device to server
+*/
 void InitiateCommunication()
-{
+{   
       startHotSpot();                         // Turn on HoTSpoT
-      WiFiClient client = TCPGetClient();
-      
-      while(true)                             //Keep asking untill mobile client provide correct WiFi information
+      while(!WIFI_CONNECTED)                             //Keep asking untill mobile client provide correct WiFi information
       {
-          
+          WiFiClient client = TCPGetClient();
           String json = client.readStringUntil('\0');
+          Serial.print("[Json String ]");Serial.println(json);
+         
          //====================================== Parsing data received from Mobile Phone ==========================================
           
           const size_t bufferSize = JSON_ARRAY_SIZE(2) + JSON_OBJECT_SIZE(4) + 100;
@@ -304,6 +245,7 @@ void InitiateCommunication()
             Serial.println("WiFi connection Unsuccessful\nTrying again...");
             SendClientMessage(client,"WiFi connection Unsuccessful");
           }
+          client.stop();
       }
       
       WiFi_SSID = (String)wifi_ssid;
@@ -334,14 +276,17 @@ void InitiateCommunication()
           {
             //code for parsing payload goes here
             //it gives device id and url to download firmware
-            
-            StaticJsonBuffer<200> jsonBuffer_2;
+           // Serial.print("[TEST Payload]");Serial.println(payload);
+            DynamicJsonBuffer jsonBuffer_2;
               
-            JsonObject& server_response = jsonBuffer_2.parseObject(payload);
+            JsonObject& server_response = jsonBuffer_2.parseObject(const_cast<char*>(payload.c_str()));
             if(!server_response.success()) {
               Serial.println("parseObject() failed");
             }
             DEVICE_ID = server_response["device_ID"];
+
+            Serial.printf("[DeviceID Test] %d \n",DEVICE_ID);
+           
             URL_UPDATE = server_response["url_firmware"].as<String>();
           }
         }
@@ -364,9 +309,16 @@ void InitiateCommunication()
       }
      
 }
- 
+ /*
+  This function updates the firmware of NodeMCU
+  NOTE:
+  It works fine but as written in the documentation of esp8266 if already existing firmware
+  is installed through serial then the device should be reset manually first then OTA update
+  will work fine.  
+ */
 void OTA_update_firmware()
 {    
+      indicate_firmware_update.blink(100,20,HIGH,0.7);
       t_httpUpdate_return ret = ESPhttpUpdate.update(URL_UPDATE);
       switch(ret) {
       case HTTP_UPDATE_FAILED:

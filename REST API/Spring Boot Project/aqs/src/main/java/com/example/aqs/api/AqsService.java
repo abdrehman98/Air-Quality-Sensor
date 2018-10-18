@@ -3,18 +3,22 @@ package com.example.aqs.api;
 
 import com.example.aqs.admin.Admin;
 import com.example.aqs.admin.AdminRepository;
+import com.example.aqs.codeversion.Codeversion;
 import com.example.aqs.codeversion.CodeversionRepository;
+import com.example.aqs.datapacket.Datapacket;
 import com.example.aqs.datapacket.DatapacketRepository;
 import com.example.aqs.devices.Devices;
 import com.example.aqs.devices.DevicesRepository;
 import com.example.aqs.error.Error;
 import com.example.aqs.error.ErrorRepository;
 import com.example.aqs.errorlog.ErrorlogRepository;
+import com.example.aqs.location.Location;
 import com.example.aqs.location.LocationRepository;
 import com.example.aqs.login.Login;
 import com.example.aqs.login.LoginRepository;
 import com.example.aqs.sensor.Sensor;
 import com.example.aqs.sensor.SensorRepository;
+import com.example.aqs.sensorcombination.Sensorcombination;
 import com.example.aqs.sensorcombination.SensorcombinationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -146,4 +150,76 @@ public class AqsService {
         return error;
     }
 
+    //to check if a codeversion already exists
+    public boolean codeVersionExist(String codeversion){
+        Codeversion codeversion1= codeversionRepository.findCodeversionByCodeversion(codeversion);
+        if(codeversion1 != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
+    //to store codeveersion
+    public Codeversion setCodeversion(Codeversion codeversion){
+        codeversionRepository.save(codeversion);
+        return codeversion;
+    }
+
+    public boolean sensorCombinationExist(Sensorcombination sensorcombination)
+    {
+        Long code=sensorcombination.getSensorcombinationcode();
+        Sensorcombination S1=sensorcombinationRepository.findSensorcombinationBySensorcombinationcode(code);
+        if(S1 != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+/*
+    public boolean locationExist(Location location)
+    {
+        Long code=sensorcombination.getSensorcombinationcode();
+        Sensorcombination S1=sensorcombinationRepository.findSensorcombinationBySensorcombinationcode(code);
+        if(S1 != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+*/
+    //to store sensorcombination
+    public Sensorcombination setSensorcombination(Sensorcombination sensorcombination){
+        sensorcombinationRepository.save(sensorcombination);
+        return sensorcombination;
+    }
+
+    //to store datapacket
+    public Datapacket setDatapacket(Datapacket datapacket){
+        datapacketRepository.save(datapacket);
+        return datapacket;
+    }
+
+    //to get Login List
+    public Iterable<Login> getLogin(){
+
+        return loginRepository.findAll();
+    }
+
+    //to store location
+    public Location setLocation(Location location){
+        locationRepository.save(location);
+        return location;
+    }
 }

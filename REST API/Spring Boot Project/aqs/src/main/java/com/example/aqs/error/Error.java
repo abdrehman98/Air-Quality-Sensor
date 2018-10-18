@@ -1,9 +1,8 @@
 package com.example.aqs.error;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.example.aqs.admin.Admin;
+
+import javax.persistence.*;
 import java.sql.Time;
 
 @Entity
@@ -20,6 +19,13 @@ String createdby;
 Time createdat;
 String updatedby;
 Time updatedat;
+
+//Relationships
+// /*********One to Many Relation with Audit************/
+    @ManyToOne(fetch = FetchType.EAGER, cascade= {CascadeType.ALL})
+    @JoinColumn(name="admin_id",referencedColumnName = "id")
+    private Admin admin;
+
 
     public Long getId() {
         return id;

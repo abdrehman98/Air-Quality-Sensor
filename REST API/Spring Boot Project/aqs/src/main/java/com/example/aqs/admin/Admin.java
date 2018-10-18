@@ -9,10 +9,13 @@ import javax.persistence.*;
 public class Admin {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     Long id;
     String email;
     String password;
     Boolean status;
+
+
 
     public Long getId() {
         return id;

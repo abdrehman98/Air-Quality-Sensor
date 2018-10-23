@@ -48,6 +48,8 @@ def null_fill(column, tag):
         if '' == column[n][tag.index(column_tag.AREA)]:
             print 'Critical error area null at line:', n + 1
 
+        if str_is_float(column[n][tag.index(column_tag.TIME_STAMP)]):
+            print 'Error: Invalid Time Stamp:', n + 1
     return column
 
 

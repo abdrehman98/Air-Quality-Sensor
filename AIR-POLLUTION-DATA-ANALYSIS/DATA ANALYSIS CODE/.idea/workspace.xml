@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6346da1-f775-49a8-860b-e52dcca2719d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data_split.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../AIRVISUAL DATA/.~lock.PAQI 11-10-2018.csv#" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../AIRVISUAL DATA/PAQ 11-10-2018.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../AIRVISUAL DATA/PAQI 11-10-2018.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Arduino Code/main/main.ino" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MATLAB code/AIR VISUAL DATA ANALYSIS CODE/read_data.m" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../MATLAB code/SENSOR DATA CHECKING CODE/plot_data.m" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../PYTHON CODE/read-save-serial-data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SENSOR DATA/SEP-24--SEP-27/COM12.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SENSOR DATA/SEP-24--SEP-27/COM13.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SENSOR DATA/SEP-24--SEP-27/COM14.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SENSOR DATA/SEP-27/COM12.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SENSOR DATA/SEP-27/COM13.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../SENSOR DATA/SEP-27/COM14.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_split.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_split.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,17 +15,18 @@
     <session id="2031106626">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.11" value="1" />
-          <entry key="project.open.time.15" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.open.time.13" value="1" />
+          <entry key="project.open.time.15" value="2" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="html" value="1" />
-          <entry key="py" value="3" />
+          <entry key="py" value="4" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
@@ -45,22 +34,22 @@
         <counts>
           <entry key="HTML" value="1" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="3" />
+          <entry key="Python" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Python Console" value="332" />
+          <entry key="Python Console" value="573" />
           <entry key="dummy" value="19" />
           <entry key="html" value="1" />
-          <entry key="py" value="5848" />
+          <entry key="py" value="7900" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="1" />
           <entry key="PLAIN_TEXT" value="19" />
-          <entry key="Python" value="6180" />
+          <entry key="Python" value="8473" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -68,17 +57,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_split.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3168">
-              <caret line="132" column="9" selection-start-line="132" selection-start-column="9" selection-end-line="132" selection-end-column="9" />
+            <state relative-caret-position="192">
+              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
-                <marker date="1540232557212" expanded="true" signature="211:298" ph="..." />
-                <marker date="1540232557212" expanded="true" signature="394:399" ph="..." />
-                <marker date="1540232557212" expanded="true" signature="806:5728" ph="..." />
-                <marker date="1540232557212" expanded="true" signature="3108:5728" ph="..." />
+                <marker date="1540234611080" expanded="true" signature="211:298" ph="..." />
+                <marker date="1540234611080" expanded="true" signature="394:399" ph="..." />
+                <marker date="1540234611080" expanded="true" signature="806:5852" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/data_processing.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="367">
+              <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+                <marker date="1540305837795" expanded="true" signature="478:564" ph="..." />
+                <marker date="1540305837795" expanded="true" signature="603:666" ph="..." />
+                <marker date="1540305837795" expanded="true" signature="761:1198" ph="..." />
+                <marker date="1540305837795" expanded="true" signature="1237:1430" ph="..." />
+                <marker date="1540305837795" expanded="true" signature="1450:1752" ph="..." />
+                <marker date="1540305837795" expanded="true" signature="1450:1982" ph="..." />
               </folding>
             </state>
           </provider>
@@ -87,7 +93,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../DATA/PAQI 11-10-2018/BASIC-RESULT.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="48">
+            <state relative-caret-position="394">
               <caret line="32" column="78" selection-start-line="32" selection-start-column="78" selection-end-line="32" selection-end-column="78" />
             </state>
           </provider>
@@ -96,8 +102,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tags.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="11" lean-forward="true" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+            <state relative-caret-position="192">
+              <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -113,14 +119,15 @@
         <option value="$PROJECT_DIR$/veriables.py" />
         <option value="$USER_HOME$/Downloads/https:_epd.punjab.gov.pk_air_quality_reports.html" />
         <option value="$PROJECT_DIR$/data_split.py" />
+        <option value="$PROJECT_DIR$/data_processing.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="145" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="120" />
     <option name="y" value="27" />
-    <option name="width" value="1221" />
-    <option name="height" value="647" />
+    <option name="width" value="1211" />
+    <option name="height" value="654" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -174,7 +181,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.data_processing">
+    <configuration name="data_processing" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="DATA ANALYSIS CODE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data_processing.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="data_split" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="DATA ANALYSIS CODE" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -196,8 +224,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.data_split" />
+      <item itemvalue="Python.data_processing" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.data_processing" />
         <item itemvalue="Python.data_split" />
       </list>
     </recent_temporary>
@@ -216,15 +249,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="27" width="1366" height="741" extended-state="7" />
+    <frame x="0" y="27" width="1366" height="741" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22610015" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2336874" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.43238732" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.4924875" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -232,7 +265,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32554257" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.43238732" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.21368948" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -273,30 +306,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../DATA/PAQI 11-10-2018/BASIC-RESULT.txt">
+    <entry file="file://$PROJECT_DIR$/tags.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="32" column="78" selection-start-line="32" selection-start-column="78" selection-end-line="32" selection-end-column="78" />
+        <state relative-caret-position="192">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tags.py">
+    <entry file="file://$PROJECT_DIR$/../DATA/PAQI 11-10-2018/BASIC-RESULT.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="11" lean-forward="true" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+        <state relative-caret-position="394">
+          <caret line="32" column="78" selection-start-line="32" selection-start-column="78" selection-end-line="32" selection-end-column="78" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_split.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3168">
-          <caret line="132" column="9" selection-start-line="132" selection-start-column="9" selection-end-line="132" selection-end-column="9" />
+        <state relative-caret-position="192">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
-            <marker date="1540232557212" expanded="true" signature="211:298" ph="..." />
-            <marker date="1540232557212" expanded="true" signature="394:399" ph="..." />
-            <marker date="1540232557212" expanded="true" signature="806:5728" ph="..." />
-            <marker date="1540232557212" expanded="true" signature="3108:5728" ph="..." />
+            <marker date="1540234611080" expanded="true" signature="211:298" ph="..." />
+            <marker date="1540234611080" expanded="true" signature="394:399" ph="..." />
+            <marker date="1540234611080" expanded="true" signature="806:5852" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_processing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1540305837795" expanded="true" signature="478:564" ph="..." />
+            <marker date="1540305837795" expanded="true" signature="603:666" ph="..." />
+            <marker date="1540305837795" expanded="true" signature="761:1198" ph="..." />
+            <marker date="1540305837795" expanded="true" signature="1237:1430" ph="..." />
+            <marker date="1540305837795" expanded="true" signature="1450:1752" ph="..." />
+            <marker date="1540305837795" expanded="true" signature="1450:1982" ph="..." />
           </folding>
         </state>
       </provider>

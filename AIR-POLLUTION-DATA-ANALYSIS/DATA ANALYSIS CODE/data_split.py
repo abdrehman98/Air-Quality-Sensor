@@ -1,10 +1,20 @@
 import tags as column_tag
 import os
+from datetime import datetime
 
 BASIC_PATH = '../DATA/PAQI 11-10-2018'
 path_to_file = BASIC_PATH + '.csv'
 PATH_TO_BASIC_RES = BASIC_PATH + '/BASIC-RESULT.txt'
-SEPERATOR = '<>@<>'
+SEPARATOR = '<>@<>'
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+
+def valid_timestamp(timestamp_string):
+    try:
+        datetime.strptime(timestamp_string, DATE_FORMAT)
+        return True
+    except:
+        return False
 
 
 def str_is_float(string):
@@ -26,13 +36,18 @@ def read_file(file_path):
 
     split_lines = []
     for line in file_content:
-        split_lines.append(line.replace('\n', '').split(','))
+        line = line.replace('\n', '')
+        line = line.replace(', B', ' B')
+        line = line.split(',')
+        split_lines.append(line)
+
     print 'Number of columns in File', len(split_lines[0])
     return split_lines[0], split_lines[1:len(split_lines)]
 
 
 def null_fill(column, tag):
     for n in range(0, len(column)):
+
         if '' == column[n][tag.index(column_tag.OUTDOOR_PM25)]:
             column[n][tag.index(column_tag.OUTDOOR_PM25)] = -1
 
@@ -48,8 +63,9 @@ def null_fill(column, tag):
         if '' == column[n][tag.index(column_tag.AREA)]:
             print 'Critical error area null at line:', n + 1
 
-        if str_is_float(column[n][tag.index(column_tag.TIME_STAMP)]):
-            print 'Error: Invalid Time Stamp:', n + 1
+        if not valid_timestamp(column[n][tag.index(column_tag.TIME_STAMP)]):
+            print 'Error: Invalid Time Stamp:', n + 1, '] ', column[n][tag.index(column_tag.TIME_STAMP)]
+
     return column
 
 
@@ -101,7 +117,7 @@ def save_basic_info(data):
 def save_split_data(list_city_device, data, tag):
 
     basic_res_file = open(PATH_TO_BASIC_RES, "a+")
-    basic_res_file.write(SEPERATOR + '\n')
+    basic_res_file.write(SEPARATOR + '\n')
 
     for city_device_topple in list_city_device:
         city = city_device_topple[0]
@@ -119,10 +135,10 @@ def save_split_data(list_city_device, data, tag):
         current_device_install_time = set(get_column(tag.index(column_tag.SETUP_TIME), current_device_data))
 
         file_name = city + ' | ' + device
-        string_to_write = file_name + SEPERATOR + str(current_device_key) + SEPERATOR
+        string_to_write = file_name + SEPARATOR + str(current_device_key) + SEPARATOR
         string_to_write = string_to_write + '(' + str(current_device_lat) + ',' + str(current_device_lon) + ')'
-        string_to_write = string_to_write + SEPERATOR
-        string_to_write = string_to_write + str(current_device_install_time) + SEPERATOR
+        string_to_write = string_to_write + SEPARATOR
+        string_to_write = string_to_write + str(current_device_install_time) + SEPARATOR
         string_to_write = string_to_write + str(len(current_device_data))
         basic_res_file.write(string_to_write + '\n')
 
@@ -136,15 +152,16 @@ def save_split_data(list_city_device, data, tag):
             co2_index = tag.index(column_tag.CO2)
             index_outdoor_aqi = tag.index(column_tag.OUTDOOR_AQI)
             index_outdoor_pm25 = tag.index(column_tag.OUTDOOR_PM25)
-            column_list = []
-            column_list.append(topple[timestamp_index])
-            column_list.append(topple[temperature_index])
-            column_list.append(topple[humidity_index])
-            column_list.append(topple[aqi_index])
-            column_list.append(topple[pm25_index])
-            column_list.append(topple[co2_index])
-            column_list.append(topple[index_outdoor_aqi])
-            column_list.append(topple[index_outdoor_pm25])
+
+            column_list = [topple[timestamp_index],
+                           topple[temperature_index],
+                           topple[humidity_index],
+                           topple[aqi_index],
+                           topple[pm25_index],
+                           topple[co2_index],
+                           topple[index_outdoor_aqi],
+                           topple[index_outdoor_pm25]]
+
             column_list = [str(element) for element in column_list]
             line_to_save = ','.join(column_list)  # type: str
             current_device_data_file.write(line_to_save + '\n')

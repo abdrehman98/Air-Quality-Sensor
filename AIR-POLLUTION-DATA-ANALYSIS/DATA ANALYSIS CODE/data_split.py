@@ -116,12 +116,16 @@ def save_basic_info(data):
 
 def save_split_data(list_city_device, data, tag):
 
+    # Open a file to Write some basic info
     basic_res_file = open(PATH_TO_BASIC_RES, "a+")
     basic_res_file.write(SEPARATOR + '\n')
 
+    # Choose one device (CITY NAME, DEVICE_FULL_DATA) form total data
     for city_device_topple in list_city_device:
+
+        # Separate city names list and devices list
         city = city_device_topple[0]
-        device = city_device_topple[1]
+        device = city_device_topple[1]  # type: list
 
         current_device_data = []
         for data_topple in data:  # type: list

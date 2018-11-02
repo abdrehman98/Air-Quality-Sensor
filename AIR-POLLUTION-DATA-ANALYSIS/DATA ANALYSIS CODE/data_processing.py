@@ -27,6 +27,83 @@ INDEX_OUTDOOR_AQI = 6
 INDEX_OUTDOOR_PM25 = 7
 
 
+def is_sorted(data_list):
+    for i in range(0, len(data_list) - 1):
+        if data_list[i] < data_list [i + 1]:
+            return False
+    return True
+
+
+def datetime_range(start, end, delta):
+    current = start
+    while current < end:
+        yield current
+        current += delta
+
+
+def plot_data_gap(devices_names_list, devices_data_list):
+
+    ##
+    # We have to find when the first device was deployed
+    # and at what time instance last data was received
+    # Method:
+    # 1) Find min timestamp of every device data
+    # 2) Find maximum timestamp of every device data
+    # 3) find min of resultant min and max of resultant max
+
+    # Lists to store min/max of devices
+    min_time = []
+    max_time = []
+
+    # find min and max of every device
+    # Run loop for every device
+    for device_data in devices_data_list:
+        time = get_column(INDEX_TIMESTAMP, device_data)
+        min_time.append(min(time))
+        max_time.append(max(time))
+
+    # Find when First device was deployed and last data was updated
+    first_device_deploy_time = min(min_time)
+    last_data_update = max(max_time)
+
+    ##
+    # Compute data availability grid
+    # Procedure
+    # 1) find universal vector of time
+    # 1.1) vector will start from max-time and end at min-time
+    # 1.1) Time difference will be one hour. (Device sampling 1 sample/hour)
+    # 2) Compute sparsity vectors:
+    # 2.1) it will contain 0 if data is not there and h if value is present.
+    # 2.2) h is number of device
+
+    # computing universal time vector
+    universal_ts_vector = datetime_range(last_data_update,
+                                         first_device_deploy_time,
+                                         timedelta(hours=-1))
+
+    # computing sparsity grid
+    data_availability_grid = []
+    for k in range(0, len(devices_data_list)):
+        device_data = devices_data_list[k]
+        device_time = get_column(INDEX_TIMESTAMP, device_data)
+        # compute the step size to indicate data availability
+        h = k + 1
+        n = 0
+
+        len_time = len(device_time)
+        current_device_data_availability_vector = []
+        for i in universal_ts_vector:
+            if n >= len_time or device_data[n] != i:
+                current_device_data_availability_vector.append(0)
+            else:
+                n = n + 1
+                current_device_data_availability_vector.append(h)
+        data_availability_grid.append(current_device_data_availability_vector)
+
+    ##
+    # Plotting data:
+
+
 def print_device_time_info(time_column):
 
     # Find minimum and maximum date
@@ -127,22 +204,26 @@ def load_data(path):
 # to avoid making global variables
 
 def main():
+    # Hello Remarks!
     print '\n', '\n'
     print '----------------------------------------------'
     print 'Hello! ', PROGRAM_NAME, ' is here to help you.'
     print '----------------------------------------------'
     print 'Be patient ', PROGRAM_NAME, 'is loading files for you.'
+
+    # Load files
     devices_names_list, devices_data_list = load_data(DATA_FOLDER_PATH)
     print PROGRAM_NAME, ' brought your files, Oooops they are very heavy.'
 
+
+    plot_data_gap(devices_names_list, devices_data_list)
+
     # print_devices_names(devices_names_list)
-    # device_1 = devices_data_list[0]
+    # device_1 = devices_data_list[2]
     # device1_timestamp = get_column(INDEX_TIMESTAMP, device_1)
-    # device1_AQI =
-    # print_device_time_info(device1_timestamp)
-    print_all_devices_time_info((devices_names_list, devices_data_list))
-    # plotter.plot(get_column(INDEX_TIMESTAMP, device_1), get_column(INDEX_TEMPERATURE, device_1))
-    # print (get_column(INDEX_TIMESTAMP, device_1))
+
+    # device1_p = get_column(INDEX_AQI, device_1)
+    # plotter.plot(device1_timestamp, device1_p)
     # plotter.show()
 
 

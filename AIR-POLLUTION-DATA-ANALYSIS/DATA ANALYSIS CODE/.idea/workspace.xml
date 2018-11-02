@@ -16,16 +16,16 @@
     <session id="2031106626">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="10" />
+          <entry key="project.closed" value="12" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.11" value="2" />
-          <entry key="project.open.time.12" value="1" />
-          <entry key="project.open.time.13" value="1" />
+          <entry key="project.open.time.12" value="2" />
+          <entry key="project.open.time.13" value="2" />
           <entry key="project.open.time.14" value="2" />
-          <entry key="project.open.time.15" value="3" />
+          <entry key="project.open.time.15" value="4" />
           <entry key="project.open.time.16" value="1" />
           <entry key="project.open.time.26" value="1" />
-          <entry key="project.opened" value="12" />
+          <entry key="project.opened" value="15" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -44,17 +44,17 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Python Console" value="944" />
+          <entry key="Python Console" value="1119" />
           <entry key="dummy" value="19" />
           <entry key="html" value="1" />
-          <entry key="py" value="10554" />
+          <entry key="py" value="13244" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="1" />
           <entry key="PLAIN_TEXT" value="19" />
-          <entry key="Python" value="11498" />
+          <entry key="Python" value="14363" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -65,13 +65,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_split.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+            <state relative-caret-position="3000">
+              <caret line="127" column="52" selection-start-line="127" selection-start-column="52" selection-end-line="127" selection-end-column="52" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
-                <marker date="1540906930380" expanded="true" signature="435:522" ph="..." />
-                <marker date="1540906930380" expanded="true" signature="618:623" ph="..." />
-                <marker date="1540906930380" expanded="true" signature="1112:6159" ph="..." />
+                <marker date="1541075340673" expanded="true" signature="435:522" ph="..." />
+                <marker date="1541075340673" expanded="true" signature="618:623" ph="..." />
+                <marker date="1541075340673" expanded="true" signature="1112:6339" ph="..." />
               </folding>
             </state>
           </provider>
@@ -80,11 +80,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data_processing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="147" lean-forward="true" selection-start-line="147" selection-end-line="147" />
+            <state relative-caret-position="399">
+              <caret line="104" lean-forward="true" selection-start-line="104" selection-end-line="104" />
               <folding>
                 <element signature="e#2#11#0" expanded="true" />
-                <marker date="1540909589601" expanded="true" signature="3330:3331" ph="..." />
+                <marker date="1541161811742" expanded="true" signature="518:650" ph="..." />
+                <marker date="1541161811742" expanded="true" signature="782:783" ph="..." />
               </folding>
             </state>
           </provider>
@@ -115,10 +116,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="120" />
+    <option name="x" value="94" />
     <option name="y" value="27" />
-    <option name="width" value="1211" />
-    <option name="height" value="654" />
+    <option name="width" value="1201" />
+    <option name="height" value="661" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -250,19 +251,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1366" height="741" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.24886191" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.5442404" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.6460768" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32888147" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Python Console" order="8" weight="0.35225376" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.3505843" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32554257" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32888147" />
@@ -273,21 +275,21 @@
       <window_info anchor="right" id="R Packages" order="4" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24886191" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.24886191" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32888147" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="Find" order="2" />
-      <window_info active="true" anchor="bottom" id="Run" order="3" visible="true" weight="0.36560935" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5442404" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32888147" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.35225376" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32554257" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="11" weight="0.21227197" />
+      <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32888147" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -308,6 +310,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data_split.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3000">
+          <caret line="127" column="52" selection-start-line="127" selection-start-column="52" selection-end-line="127" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <marker date="1541075340673" expanded="true" signature="435:522" ph="..." />
+            <marker date="1541075340673" expanded="true" signature="618:623" ph="..." />
+            <marker date="1541075340673" expanded="true" signature="1112:6339" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tags.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
@@ -315,26 +330,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data_split.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-            <marker date="1540906930380" expanded="true" signature="435:522" ph="..." />
-            <marker date="1540906930380" expanded="true" signature="618:623" ph="..." />
-            <marker date="1540906930380" expanded="true" signature="1112:6159" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data_processing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="147" lean-forward="true" selection-start-line="147" selection-end-line="147" />
+        <state relative-caret-position="399">
+          <caret line="104" lean-forward="true" selection-start-line="104" selection-end-line="104" />
           <folding>
             <element signature="e#2#11#0" expanded="true" />
-            <marker date="1540909589601" expanded="true" signature="3330:3331" ph="..." />
+            <marker date="1541161811742" expanded="true" signature="518:650" ph="..." />
+            <marker date="1541161811742" expanded="true" signature="782:783" ph="..." />
           </folding>
         </state>
       </provider>

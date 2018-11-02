@@ -35,10 +35,12 @@ def is_sorted(data_list):
 
 
 def datetime_range(start, end, delta):
+    time_vector = []
     current = start
-    while current < end:
-        yield current
+    while current >= end:
+        time_vector.append(current)
         current += delta
+    return time_vector
 
 
 def plot_data_gap(devices_names_list, devices_data_list):
@@ -93,7 +95,9 @@ def plot_data_gap(devices_names_list, devices_data_list):
         len_time = len(device_time)
         current_device_data_availability_vector = []
         for i in universal_ts_vector:
-            if n >= len_time or device_data[n] != i:
+            if n >= len_time:
+                current_device_data_availability_vector.append(0)
+            elif device_time[n] != i:
                 current_device_data_availability_vector.append(0)
             else:
                 n = n + 1
@@ -102,6 +106,10 @@ def plot_data_gap(devices_names_list, devices_data_list):
 
     ##
     # Plotting data:
+    for sparsity_vector in data_availability_grid:
+        plotter.clf()
+        plotter.plot(universal_ts_vector, sparsity_vector)
+    plotter.show()
 
 
 def print_device_time_info(time_column):
@@ -215,16 +223,7 @@ def main():
     devices_names_list, devices_data_list = load_data(DATA_FOLDER_PATH)
     print PROGRAM_NAME, ' brought your files, Oooops they are very heavy.'
 
-
     plot_data_gap(devices_names_list, devices_data_list)
-
-    # print_devices_names(devices_names_list)
-    # device_1 = devices_data_list[2]
-    # device1_timestamp = get_column(INDEX_TIMESTAMP, device_1)
-
-    # device1_p = get_column(INDEX_AQI, device_1)
-    # plotter.plot(device1_timestamp, device1_p)
-    # plotter.show()
 
 
 main()

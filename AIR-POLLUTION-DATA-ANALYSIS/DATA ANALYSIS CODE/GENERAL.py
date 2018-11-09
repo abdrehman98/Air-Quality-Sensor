@@ -13,6 +13,7 @@ DATA_FOLDER_PATH = '../DATA/PAQI 11-10-2018'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 ORDER_FORWARD = 0
 ORDER_REVERSE = 1
+MISSING_VALUE = -55555
 
 
 def get_column(index, grid):

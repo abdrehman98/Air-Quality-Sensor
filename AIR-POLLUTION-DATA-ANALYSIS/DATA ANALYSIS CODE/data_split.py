@@ -1,6 +1,8 @@
-import tags as column_tag
+import tags as COLUMN_TAG
 import os
 from datetime import datetime
+import GENERAL as PROGRAM
+
 
 BASIC_PATH = '../DATA/PAQI 11-10-2018'
 path_to_file = BASIC_PATH + '.csv'
@@ -48,37 +50,37 @@ def read_file(file_path):
 def null_fill(column, tag):
     for n in range(0, len(column)):
 
-        if '' == column[n][tag.index(column_tag.OUTDOOR_PM25)]:
-            column[n][tag.index(column_tag.OUTDOOR_PM25)] = -1
+        if '' == column[n][tag.index(COLUMN_TAG.OUTDOOR_PM25)]:
+            column[n][tag.index(COLUMN_TAG.OUTDOOR_PM25)] = PROGRAM.MISSING_VALUE
 
-        if '' == column[n][tag.index(column_tag.OUTDOOR_AQI)]:
-            column[n][tag.index(column_tag.OUTDOOR_AQI)] = -1
+        if '' == column[n][tag.index(COLUMN_TAG.OUTDOOR_AQI)]:
+            column[n][tag.index(COLUMN_TAG.OUTDOOR_AQI)] = PROGRAM.MISSING_VALUE
 
-        if '' == column[n][tag.index(column_tag.KEY)]:
-            column[n][tag.index(column_tag.KEY)] = 'null'
+        if '' == column[n][tag.index(COLUMN_TAG.KEY)]:
+            column[n][tag.index(COLUMN_TAG.KEY)] = 'null'
 
-        if '' == column[n][tag.index(column_tag.CITY)]:
-            print 'Critical error city name null at line:', n +1
+        if '' == column[n][tag.index(COLUMN_TAG.CITY)]:
+            print 'Critical error city name null at line:', n + 1
 
-        if '' == column[n][tag.index(column_tag.AREA)]:
+        if '' == column[n][tag.index(COLUMN_TAG.AREA)]:
             print 'Critical error area null at line:', n + 1
 
-        if not valid_timestamp(column[n][tag.index(column_tag.TIME_STAMP)]):
-            print 'Error: Invalid Time Stamp:', n + 1, '] ', column[n][tag.index(column_tag.TIME_STAMP)]
+        if not valid_timestamp(column[n][tag.index(COLUMN_TAG.TIME_STAMP)]):
+            print 'Error: Invalid Time Stamp:', n + 1, '] ', column[n][tag.index(COLUMN_TAG.TIME_STAMP)]
 
     return column
 
 
 def get_cities_and_their_devices(data, tag):
-    city_index = tag.index(column_tag.CITY)
+    city_index = tag.index(COLUMN_TAG.CITY)
     unique_cities = set([row[city_index] for row in data])
     list_of_cities_and_devices = []
     for selected_city in unique_cities:
         devices_list = []
 
         for topple in data:
-            if topple[tag.index(column_tag.CITY)] == selected_city:
-                devices_list.append(topple[tag.index(column_tag.AREA)])
+            if topple[tag.index(COLUMN_TAG.CITY)] == selected_city:
+                devices_list.append(topple[tag.index(COLUMN_TAG.AREA)])
 
         list_of_cities_and_devices.append((selected_city, set(devices_list)))
 
@@ -129,14 +131,14 @@ def save_split_data(list_city_device, data, tag):
 
         current_device_data = []
         for data_topple in data:  # type: list
-            if city == data_topple[tag.index(column_tag.CITY)] and \
-                    device == data_topple[tag.index(column_tag.AREA)]:
+            if city == data_topple[tag.index(COLUMN_TAG.CITY)] and \
+                    device == data_topple[tag.index(COLUMN_TAG.AREA)]:
                 current_device_data.append(data_topple)
 
-        current_device_key = set(get_column(tag.index(column_tag.KEY), current_device_data))
-        current_device_lat = set(get_column(tag.index(column_tag.LATITUDE), current_device_data))
-        current_device_lon = set(get_column(tag.index(column_tag.LONGITUDE), current_device_data))
-        current_device_install_time = set(get_column(tag.index(column_tag.SETUP_TIME), current_device_data))
+        current_device_key = set(get_column(tag.index(COLUMN_TAG.KEY), current_device_data))
+        current_device_lat = set(get_column(tag.index(COLUMN_TAG.LATITUDE), current_device_data))
+        current_device_lon = set(get_column(tag.index(COLUMN_TAG.LONGITUDE), current_device_data))
+        current_device_install_time = set(get_column(tag.index(COLUMN_TAG.SETUP_TIME), current_device_data))
 
         file_name = city + ' | ' + device
         string_to_write = file_name + SEPARATOR + str(current_device_key) + SEPARATOR
@@ -148,14 +150,14 @@ def save_split_data(list_city_device, data, tag):
 
         current_device_data_file = open(BASIC_PATH + '/' + file_name + '.csv', "w+")
         for topple in current_device_data:
-            timestamp_index = tag.index(column_tag.TIME_STAMP)
-            temperature_index = tag.index(column_tag.TEMPERATURE)
-            humidity_index = tag.index(column_tag.HUMIDITY)
-            aqi_index = tag.index(column_tag.AQI)
-            pm25_index = tag.index(column_tag.PM25)
-            co2_index = tag.index(column_tag.CO2)
-            index_outdoor_aqi = tag.index(column_tag.OUTDOOR_AQI)
-            index_outdoor_pm25 = tag.index(column_tag.OUTDOOR_PM25)
+            timestamp_index = tag.index(COLUMN_TAG.TIME_STAMP)
+            temperature_index = tag.index(COLUMN_TAG.TEMPERATURE)
+            humidity_index = tag.index(COLUMN_TAG.HUMIDITY)
+            aqi_index = tag.index(COLUMN_TAG.AQI)
+            pm25_index = tag.index(COLUMN_TAG.PM25)
+            co2_index = tag.index(COLUMN_TAG.CO2)
+            index_outdoor_aqi = tag.index(COLUMN_TAG.OUTDOOR_AQI)
+            index_outdoor_pm25 = tag.index(COLUMN_TAG.OUTDOOR_PM25)
 
             column_list = [topple[timestamp_index],
                            topple[temperature_index],

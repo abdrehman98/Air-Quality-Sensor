@@ -56,6 +56,17 @@ def compute_sparsity_grid(uts_vector, devices_data_list):
     return sparsity_grid
 
 
+def compute_gap_vector(time_vector):
+    delta = []
+
+    for i in range(0, len(time_vector) - 1):
+        del_time = time_vector[i] - time_vector[i + 1]  # type:timedelta
+        del_time = del_time.total_seconds() / (60 * 60) - 1
+        delta.append(del_time)
+
+    return delta
+
+
 def plot_sparsity_grid(devices_names, sparsity_grid, uts_vector):
     for sparsity_vector in sparsity_grid:
         plotter.plot(uts_vector, sparsity_vector)

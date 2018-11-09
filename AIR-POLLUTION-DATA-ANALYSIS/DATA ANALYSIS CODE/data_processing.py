@@ -14,15 +14,15 @@ def encode_line(raw_line):
     # Be careful: order of resultant list should be same as argument line
     # encode and append time stamp
     string_timestamp = raw_line[INDEX.TIMESTAMP]
-
     encoded_timestamp = PROGRAM.encode_timestamp(string_timestamp)
     encoded_row.append(encoded_timestamp)
+
     # encode remaining entries
     for n in range(1, len(raw_line)):
         try:
             encoded_entry = float(raw_line[n])
         except:
-            encoded_entry = -1
+            encoded_entry = PROGRAM.MISSING_VALUE
 
         encoded_row.append(encoded_entry)
 

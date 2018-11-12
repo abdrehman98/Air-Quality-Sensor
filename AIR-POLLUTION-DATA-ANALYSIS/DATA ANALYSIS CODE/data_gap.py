@@ -6,15 +6,15 @@ import GENERAL as PROGRAM
 import PROCESSED_DATA_INDEX as INDEX
 
 
-#################################################################################
-# Visualization of data gaps by plotting them
-# 1) Computer min/max time vectors
-# 1.1) Compute the time when first device was deployed and last device sent data
-# 1.2) Generate Universal TIMESTAMP vector.
-# 1.3) Compute Sparsity Grid
-# 1.3.1) Compute Sparsity vector for every device
-# 1.3.2) Append them in the same order
-# 1.4) Plot sparsity
+##################################################################################
+# Visualization of data gaps by plotting them                                    #
+# 1) Computer min/max time vectors                                               #
+# 1.1) Compute the time when first device was deployed and last device sent data #
+# 1.2) Generate Universal TIMESTAMP vector.                                      #
+# 1.3) Compute Sparsity Grid                                                     #
+# 1.3.1) Compute Sparsity vector for every device                                #
+# 1.3.2) Append them in the same order                                           #
+# 1.4) Plot sparsity                                                             #
 ##################################################################################
 
 
@@ -62,16 +62,30 @@ def compute_gap_vector(time_vector):
     for i in range(0, len(time_vector) - 1):
         del_time = time_vector[i] - time_vector[i + 1]  # type:timedelta
         del_time = del_time.total_seconds() / (60 * 60) - 1
+        del_time = int(del_time)
         delta.append(del_time)
 
     return delta
 
 
+def compute_gap_distribution(gap_vector):
+    max_gap = max(gap_vector)
+    gap_value = range(1, max_gap + 1)
+    gap_distribution = []
+
+    for i in gap_value:
+        gap_distribution.append(gap_vector.count(i))
+
+    return gap_value, gap_distribution
+
+
 def plot_sparsity_grid(devices_names, sparsity_grid, uts_vector):
+    i = 0
     for sparsity_vector in sparsity_grid:
         plotter.plot(uts_vector, sparsity_vector)
-        plotter.title(devices_names[0])
-    plotter.show()
+        plotter.title(devices_names[i])
+        plotter.show()
+        i = i + 1
 
 
 def plot_data_gap(devices_names_list, devices_data_list):

@@ -1,9 +1,8 @@
 package com.example.aqs.devices;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.example.aqs.codeversion.Codeversion;
+
+import javax.persistence.*;
 import java.sql.Time;
 
 @Entity
@@ -20,6 +19,11 @@ public class Devices {
     Time created_at;
     String updated_by;
     Time updated_at;
+
+    @ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
+    @JoinColumn(name="device_id", referencedColumnName = "id")
+    private Codeversion codeversion;
+
 
     public Long getId() {
         return id;

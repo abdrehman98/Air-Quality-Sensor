@@ -1,9 +1,8 @@
 package com.example.aqs.location;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.example.aqs.devices.Devices;
+
+import javax.persistence.*;
 import java.sql.Time;
 
 @Entity
@@ -13,7 +12,7 @@ public class Location {
 @Id
 @GeneratedValue
 Long id;
-Long deviceid;
+//Long deviceid;
 Time locationtime;
 String longitude;
 String Latitude;
@@ -23,6 +22,21 @@ Time createdat;
 String updatedby;
 Time updatedat;
 
+
+    @ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
+    @JoinColumn(name="device_id", referencedColumnName = "id")
+    private Devices device;
+
+    public Devices getDevice() {
+        return device;
+    }
+
+    public void setDevice(Devices device) {
+        this.device = device;
+    }
+
+
+
     public Long getId() {
         return id;
     }
@@ -31,14 +45,14 @@ Time updatedat;
         this.id = id;
     }
 
-    public Long getDeviceid() {
+  /*  public Long getDeviceid() {
         return deviceid;
     }
 
     public void setDeviceid(Long deviceid) {
         this.deviceid = deviceid;
     }
-
+*/
     public Time getLocationtime() {
         return locationtime;
     }

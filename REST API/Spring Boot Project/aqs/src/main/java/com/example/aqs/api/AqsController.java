@@ -3,6 +3,7 @@ package com.example.aqs.api;
 import com.example.aqs.admin.Admin;
 import com.example.aqs.codeversion.Codeversion;
 import com.example.aqs.datapacket.Datapacket;
+import com.example.aqs.datapacketrecord.Datapacketrecord;
 import com.example.aqs.devices.Devices;
 import com.example.aqs.error.Error;
 import com.example.aqs.error.ErrorRepository;
@@ -11,11 +12,14 @@ import com.example.aqs.location.Location;
 import com.example.aqs.login.Login;
 import com.example.aqs.sensor.Sensor;
 import com.example.aqs.sensorcombination.Sensorcombination;
+import com.example.aqs.sensorparameter.Sensorparameter;
+import com.example.aqs.values.Values;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 @Controller
@@ -58,10 +62,10 @@ public class AqsController {
 
         //Login login1=login;
         String email = admin.getEmail();
-        if (aqsService.adminEmailExist(email)) {
+        /*if (aqsService.adminEmailExist(email)) {
             //do nothing
             return null;
-        } else {
+        } else */{
             //create a new user
             //entry.setLoginAs("user");
             //admin.setId(admin.getId());
@@ -105,30 +109,44 @@ public class AqsController {
     @RequestMapping(value = {"/sensor"}, method = RequestMethod.POST)
     public @ResponseBody
     Sensor SetSensor(@RequestBody Sensor sensor) {
-        //Entry entry = user.getEntry();
 
-
-        //Login login1=login;
         String name = sensor.getName();
         if (aqsService.sensorNameExist(name)) {
             //do nothing
             return null;
         } else {
-            //create a new user
-            //entry.setLoginAs("user");
-            //login.setId(login.getId());
-            //login.setEmail(login.getEmail());
-            //login.setPassword(login.getPassword());
+
             java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
             sensor.setCreatedat(time);
             sensor.setUpdatedat(time);
 
             return aqsService.setSensor(sensor);
-            //return crudService.setUser(user);
         }
     }
 
-    //Add a new sensor
+
+    //Add a new sensor parameter
+    @RequestMapping(value = {"/sensorparameter"}, method = RequestMethod.POST)
+    public @ResponseBody
+    Sensorparameter SetSensorparameter(@RequestBody Sensorparameter sensorparameter) {
+
+        String parametername = sensorparameter.getParameter();
+        String sensorname = sensorparameter.getSensorname();
+        //to check if a combination of sensor name and sensor parameter already exists
+        if (aqsService.sensorParameterNameExist(parametername,sensorname))
+        {
+            //do nothing
+            return null;
+        }
+        else
+        {
+            return aqsService.setSensorparameter(sensorparameter);
+        }
+    }
+
+
+
+    //Add a new error
     @RequestMapping(value = {"/error"}, method = RequestMethod.POST)
     public @ResponseBody
     Error SetError(@RequestBody Error error) {
@@ -149,7 +167,8 @@ public class AqsController {
             java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
             error.setCreatedat(time);
             error.setUpdatedat(time);
-
+            Admin admin=error.getAdmin();
+            error.setAdmin(admin);
             return aqsService.setError(error);
             //return crudService.setUser(user);
         }
@@ -190,11 +209,11 @@ public class AqsController {
 
 
         //Login login1=login;
-        String codeversion1 = codeversion.getCodeversion();
-        if (aqsService.codeVersionExist(codeversion1)) {
+        String version = codeversion.getVersion();
+        /*if (aqsService.codeVersionExist(version)) {
             //do nothing
             return null;
-        } else {
+        } else*/ {
             //create a new user
             //entry.setLoginAs("user");
             //login.setId(login.getId());
@@ -262,32 +281,26 @@ public class AqsController {
     //Add a new datapacket
     @RequestMapping(value = {"/datapacket"}, method = RequestMethod.POST)
     public @ResponseBody
-    Datapacket SetDatapacket(@RequestBody Datapacket datapacket) {
-        //Entry entry = user.getEntry();
-
-
-        //Login login1=login;
-        /*Long*/
-        String value = datapacket.getValue();
-        /*if(aqsService.valueRangeCheck(value))
-        {
-            //do nothing
-            return null;
-        }
-        else
-        {*/
-        //create a new user
-        //entry.setLoginAs("user");
-        //login.setId(login.getId());
-        //login.setEmail(login.getEmail());
-        //login.setPassword(login.getPassword());
-        java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+    void/*ArrayList<Datapacketrecord>*/ SetDatapacket(@RequestBody Datapacket datapacket) {
+                java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
         datapacket.setReceivetime(time);
 
-        return aqsService.setDatapacket(datapacket);
-        //return crudService.setUser(user);
-        //}
-    }
+        Values[] vals=datapacket.getValues();
+        int i=vals.length;  //number of values in data packet.
+        Datapacketrecord[] records=new Datapacketrecord[i];
+        for( int j=0;j<i;j++)
+        {
+            Datapacketrecord record=new Datapacketrecord();
+            record.setDeviceid(datapacket.getDeviceid());
+            record.setSensorname(vals[j].getSensor_name());
+            record.setReceivetime(time);
+            record.setValue(vals[j].getValue());
+            records[j]=record;
+            /*return*/ aqsService.setDatapacketRecord(record);
+
+        }
+
+        }
 
 
     //Get Login

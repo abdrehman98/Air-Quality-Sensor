@@ -20,12 +20,19 @@ Time createdat;
 String updatedby;
 Time updatedat;
 
-//Relationships
+//Relationshipsfetch = FetchType.EAGER,
 // /*********One to Many Relation with Audit************/
-    @ManyToOne(fetch = FetchType.EAGER, cascade= {CascadeType.ALL})
-    @JoinColumn(name="admin_id",referencedColumnName = "id")
+    @ManyToOne( fetch= FetchType.EAGER,cascade= {CascadeType.ALL})
+    @JoinColumn(name="admin_id", referencedColumnName = "id")
     private Admin admin;
 
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
 
     public Long getId() {
         return id;

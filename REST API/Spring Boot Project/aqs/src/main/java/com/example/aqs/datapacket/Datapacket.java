@@ -1,9 +1,9 @@
 package com.example.aqs.datapacket;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.example.aqs.devices.Devices;
+import com.example.aqs.values.Values;
+
+import javax.persistence.*;
 import java.sql.Time;
 
 @Entity
@@ -12,20 +12,22 @@ public class Datapacket {
 
 @Id
 @GeneratedValue
-Long id;
-Long deviceid;
-Long sensorid;
-Time receivetime;
-String value;
-Boolean status;
+     Long id;          // id of packet
+     Long deviceid;    //device id
+     //Long sensorid;
+     Time receivetime; // packet receiving time
+     Values[] values ;
 
-    public Long getId() {
-        return id;
+    public Values[] getValues() {
+        return values;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setValues(Values[] values) {
+        this.values = values;
     }
+
+    Boolean status;   // is this a stored packet or recent packet?
+
 
     public Long getDeviceid() {
         return deviceid;
@@ -35,13 +37,21 @@ Boolean status;
         this.deviceid = deviceid;
     }
 
-    public Long getSensorid() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /*public Long getSensorid() {
         return sensorid;
     }
 
     public void setSensorid(Long sensorid) {
         this.sensorid = sensorid;
-    }
+    }*/
 
     public Time getReceivetime() {
         return receivetime;
@@ -50,7 +60,7 @@ Boolean status;
     public void setReceivetime(Time receivetime) {
         this.receivetime = receivetime;
     }
-
+/*
     public String getValue() {
         return value;
     }
@@ -58,7 +68,7 @@ Boolean status;
     public void setValue(String value) {
         this.value = value;
     }
-
+*/
     public Boolean getStatus() {
         return status;
     }

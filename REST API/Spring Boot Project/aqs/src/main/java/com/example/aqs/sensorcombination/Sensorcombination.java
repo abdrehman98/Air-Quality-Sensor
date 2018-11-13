@@ -1,9 +1,10 @@
 package com.example.aqs.sensorcombination;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.example.aqs.admin.Admin;
+import com.example.aqs.codeversion.Codeversion;
+import com.example.aqs.devices.Devices;
+
+import javax.persistence.*;
 import java.sql.Time;
 
 @Entity
@@ -14,12 +15,40 @@ public class Sensorcombination {
 @GeneratedValue
 Long id;
 Long sensorcombinationcode;
+//String sensorid;
 String description;
 Boolean status;
 String createdby;
 Time createdat;
 String updatedby;
 Time updatedat;
+
+
+
+    @ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
+    @JoinColumn(name="admin_id", referencedColumnName = "id")
+    private Admin admin;
+
+
+
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+
+  /*  public String getSensorid() {
+        return sensorid;
+    }
+
+    public void setSensorid(String sensorid) {
+        this.sensorid = sensorid;
+    }
+*/
 
     public Long getId() {
         return id;

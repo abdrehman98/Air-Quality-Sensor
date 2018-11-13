@@ -1,9 +1,8 @@
 package com.example.aqs.sensor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.example.aqs.admin.Admin;
+
+import javax.persistence.*;
 import java.sql.Time;
 
 @Entity
@@ -17,12 +16,23 @@ String name;
 String functionality;
 String minoptimumvalue;
 String maxoptimumvalue;
-Boolean status;
+Boolean status;        // what is this?
 String ctratedby;
 Time createdat;
 String updatedby;
 Time updatedat;
 
+    @ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
+    @JoinColumn(name="admin_id", referencedColumnName = "id")
+    private Admin admin;
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
     public Long getId() {
         return id;
     }

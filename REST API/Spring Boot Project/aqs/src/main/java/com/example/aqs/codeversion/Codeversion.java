@@ -1,9 +1,8 @@
 package com.example.aqs.codeversion;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.example.aqs.admin.Admin;
+
+import javax.persistence.*;
 import java.sql.Time;
 
 @Entity
@@ -13,7 +12,7 @@ public class Codeversion {
     @Id
     @GeneratedValue
     Long id;
-    String codeversion;
+    String version;
     Long sensorcombinationcode;
     String firmware;
     Boolean status;
@@ -21,6 +20,27 @@ public class Codeversion {
     Time createdat;
     String updatedby;
     Time updatedat;
+
+
+    @ManyToOne( fetch= FetchType.EAGER,cascade= {CascadeType.ALL})
+    @JoinColumn(name="admin_id", referencedColumnName = "id")
+    private Admin admin;
+
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
 
     public Long getId() {
         return id;
@@ -30,13 +50,13 @@ public class Codeversion {
         this.id = id;
     }
 
-    public String getCodeversion() {
+/*    public String getCodeversion() {
         return codeversion;
     }
 
     public void setCodeversion(String codeversion) {
         this.codeversion = codeversion;
-    }
+    }*/
 
     public Long getSensorcombinationcode() {
         return sensorcombinationcode;

@@ -1,0 +1,47 @@
+Number of cities:7
+0] Karachi: contains 2 number of devices.
+1] Peshawar: contains 1 number of devices.
+2] Rawalpindi: contains 1 number of devices.
+3] Islamabad: contains 2 number of devices.
+4] Bahawalpur: contains 1 number of devices.
+5] Faisalabad: contains 1 number of devices.
+6] Lahore: contains 7 number of devices.
+---------------------------------------------------------------
+Karachi:
+0] Korangi.
+1] Defence Housing Authority.
+Peshawar:
+0] Peshawar Node.
+Rawalpindi:
+0] Bahria Town Phase 2.
+Islamabad:
+0] Sector E11.
+1] Kachnar Park.
+Bahawalpur:
+0] Al Farooq School.
+Faisalabad:
+0] Batala Colony.
+Lahore:
+0] "Fida Hussain House Bedian Road".
+1] NETSOL - Ghazi Road Interchange.
+2] Abu Bakar Block.
+3] Lahore Cantt.
+4] d.h.a phase 5.
+5] 1FCC Gulberg Syed Maratib Ali Road.
+6] Lahore (Upper Mall).
+<>@<>
+Karachi | Korangi<>@<>set(['aj9xpaw'])<>@<>(set(['24.8347809']),set(['67.0997614']))<>@<>set(['2016-10-26 13:00:00'])<>@<>3268
+Karachi | Defence Housing Authority<>@<>set(['4ypxth4'])<>@<>(set(['24.81809539']),set(['67.05294147']))<>@<>set(['2016-10-20 18:00:00'])<>@<>15309
+Peshawar | Peshawar Node<>@<>set(['crp4y7m'])<>@<>(set(['33.97869663']),set(['71.45366728']))<>@<>set(['2017-01-29 18:00:00'])<>@<>9861
+Rawalpindi | Bahria Town Phase 2<>@<>set(['null'])<>@<>(set(['33.55402']),set(['73.121466']))<>@<>set(['43340.29167', '2018-08-28 7:00:00'])<>@<>697
+Islamabad | Sector E11<>@<>set(['u7cwkla'])<>@<>(set(['33.697612']),set(['72.971079']))<>@<>set(['42789.83333', '2017-02-23 20:00:00'])<>@<>10807
+Islamabad | Kachnar Park<>@<>set(['null'])<>@<>(set(['33.675511']),set(['73.076654']))<>@<>set(['43206.375'])<>@<>3042
+Bahawalpur | Al Farooq School<>@<>set(['sarpstt'])<>@<>(set(['29.3908709']),set(['71.6552505']))<>@<>set(['43230.5'])<>@<>3678
+Faisalabad | Batala Colony<>@<>set(['null'])<>@<>(set(['31.4007963']),set(['73.1013711']))<>@<>set(['43104.33333'])<>@<>3484
+Lahore | "Fida Hussain House Bedian Road"<>@<>set(['awawxwx'])<>@<>(set(['31.4364']),set(['74.4713']))<>@<>set(['2018-06-03 20:00:00'])<>@<>1592
+Lahore | NETSOL - Ghazi Road Interchange<>@<>set(['null'])<>@<>(set(['31.497171']),set(['74.421947']))<>@<>set(['43111.54167'])<>@<>4082
+Lahore | Abu Bakar Block<>@<>set(['null'])<>@<>(set(['31.51167585']),set(['74.32300279']))<>@<>set(['2018-09-01 8:00:00'])<>@<>683
+Lahore | Lahore Cantt<>@<>set(['kuh6xuc'])<>@<>(set(['31.510631']),set(['74.375955']))<>@<>set(['2017-10-31 14:00:00'])<>@<>7125
+Lahore | d.h.a phase 5<>@<>set(['m9cuxv7'])<>@<>(set(['']),set(['']))<>@<>set([''])<>@<>2942
+Lahore | 1FCC Gulberg Syed Maratib Ali Road<>@<>set(['null'])<>@<>(set(['31.529309']),set(['74.337812']))<>@<>set(['2018-01-11 13:00:00'])<>@<>1166
+Lahore | Lahore (Upper Mall)<>@<>set(['kxvyx76'])<>@<>(set(['31.5476']),set(['74.36144']))<>@<>set(['43040.95833', '2017-11-01 23:00:00'])<>@<>7632

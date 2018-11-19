@@ -10,6 +10,10 @@ import PROCESSED_DATA_INDEX as INDEX
 # --------------[1-3 hour, 3-24 hour, 1-10 days, 10]
 TIME_GAP_HIST = [1, 3, 24, 10 * 24, 3 * 365 * 24]
 PROGRAM_NAME = 'DOME JONG'
+
+AVAILABLE = 'available'
+MISSING = 'missing'
+RESULT = '-RESULT'
 DATA_FOLDER_PATH = '../DATA/PAQI 11-10-2018'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 ORDER_FORWARD = 0

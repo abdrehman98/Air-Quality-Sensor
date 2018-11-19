@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 
 import matplotlib.pyplot as plotter
@@ -28,12 +29,12 @@ def compute_sparsity_vector(uts_vector, device_time, h):
 
     for i in uts_vector:
         if n >= len_time:
-            sparsity_vector.append(0)
+            sparsity_vector.append(PROGRAM.MISSING)
         elif device_time[n] != i:
-            sparsity_vector.append(0)
+            sparsity_vector.append(PROGRAM.MISSING)
         else:
             n = n + 1
-            sparsity_vector.append(h)
+            sparsity_vector.append(PROGRAM.AVAILABLE)
 
     return sparsity_vector
 
@@ -65,6 +66,39 @@ def plot_sparsity_grid(devices_names, sparsity_grid, uts_vector):
         i = i + 1
 
 
+def save_sparsity_grid(devices_names, sparsity_grid, uts_vector):
+    result_folder = PROGRAM.DATA_FOLDER_PATH + PROGRAM.RESULT
+    print 'Saving your files.'
+
+    ##
+    # Create Folder in case it does not exist
+    try:
+        print 'Trying to create a folder'
+        os.mkdir(result_folder)
+    except:
+        print 'Folder already Exists'
+
+    for i in range(0, len(sparsity_grid)):
+        # Separate variables to use
+        sparsity_vector = sparsity_grid[i]
+        device_name = devices_names[i]
+
+        # Plot Figure
+        print 'Saving ', device_name, ' info:'
+        plotter.figure(1, figsize=(18, 6))          # Set Figure Size
+        plotter.plot(uts_vector, sparsity_vector)   # Add data to be plotted
+        plotter.title(device_name)                  # Add Title to plot
+        plotter.ylim(PROGRAM.MISSING,               # For the order on y axis
+                     PROGRAM.AVAILABLE)
+        plotter.ylabel('Data availability ------>')  # X-axis and y-ais ...
+        plotter.xlabel('Time ------->')             # ... label
+        plotter.axis('tight')
+        plotter.savefig(result_folder + '/' +       # Save Result ...
+                        device_name +
+                        '-sparsity' + '.png')       # ... at given location
+        plotter.clf()                               # Clear Frame for next plot
+
+
 def compute_plot_sparsity(devices_names_list, devices_data_list):
 
     # Lists to store min/max of devices
@@ -84,7 +118,7 @@ def compute_plot_sparsity(devices_names_list, devices_data_list):
     sparsity_grid = compute_sparsity_grid(uts_vector, devices_data_list)
 
     # Plotting sparsity grid:
-    plot_sparsity_grid(devices_names_list, sparsity_grid, uts_vector)
+    save_sparsity_grid(devices_names_list, sparsity_grid, uts_vector)
 
     ##
     # Computing gaps
@@ -116,6 +150,7 @@ def compute_gap_grid(devices_data_list):
 
 def compute_plot_gap(devices_name_list, devices_data_list):
     gap_grid = compute_gap_grid(devices_data_list)
+
 
 
 ###############################################################################

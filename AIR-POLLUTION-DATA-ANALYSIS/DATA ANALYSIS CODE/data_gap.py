@@ -56,29 +56,6 @@ def compute_sparsity_grid(uts_vector, devices_data_list):
     return sparsity_grid
 
 
-def compute_gap_vector(time_vector):
-    delta = []
-
-    for i in range(0, len(time_vector) - 1):
-        del_time = time_vector[i] - time_vector[i + 1]  # type:timedelta
-        del_time = del_time.total_seconds() / (60 * 60) - 1
-        del_time = int(del_time)
-        delta.append(del_time)
-
-    return delta
-
-
-def compute_gap_distribution(gap_vector):
-    max_gap = max(gap_vector)
-    gap_value = range(1, max_gap + 1)
-    gap_distribution = []
-
-    for i in gap_value:
-        gap_distribution.append(gap_vector.count(i))
-
-    return gap_value, gap_distribution
-
-
 def plot_sparsity_grid(devices_names, sparsity_grid, uts_vector):
     i = 0
     for sparsity_vector in sparsity_grid:
@@ -88,7 +65,7 @@ def plot_sparsity_grid(devices_names, sparsity_grid, uts_vector):
         i = i + 1
 
 
-def plot_data_gap(devices_names_list, devices_data_list):
+def compute_plot_sparsity(devices_names_list, devices_data_list):
 
     # Lists to store min/max of devices
     min_time = PROGRAM.find_min_vector(devices_data_list)
@@ -109,6 +86,37 @@ def plot_data_gap(devices_names_list, devices_data_list):
     # Plotting sparsity grid:
     plot_sparsity_grid(devices_names_list, sparsity_grid, uts_vector)
 
+    ##
+    # Computing gaps
+    # Distribution and effects
+
+
+def compute_gap_vector(time_vector):
+    delta = []
+
+    for i in range(0, len(time_vector) - 1):
+        del_time = time_vector[i] - time_vector[i + 1]  # type:timedelta
+        del_time = del_time.total_seconds() / (60 * 60) - 1
+        del_time = int(round(del_time))
+        delta.append(del_time)
+
+    return delta
+
+
+def compute_gap_grid(devices_data_list):
+    gap_grid = []
+
+    for device_data in devices_data_list:
+        time_vector = PROGRAM.get_column(INDEX.TIMESTAMP, device_data)
+        gap_vector = compute_gap_vector(time_vector)
+        gap_grid.append(gap_vector)
+
+    return gap_grid
+
+
+def compute_plot_gap(devices_name_list, devices_data_list):
+    gap_grid = compute_gap_grid(devices_data_list)
+
 
 ###############################################################################
 # Printing data gapes                                                         #
@@ -126,22 +134,25 @@ def print_device_time_info(time_column):
     max_time = max(time_column)
 
     # print device starting and Ending time
-    print 'Device starting time: ', min_time
-    print 'Last retrieved Data:  ', max_time
+    # print 'Device starting time: ', min_time
+    # print 'Last retrieved Data:  ', max_time
 
     # Find number of hours passed after starting device
     time_d = max_time - min_time   # type: timedelta
     ideal_points = time_d.total_seconds() / (60 * 60)
-    print 'Estimated pints:              ', ideal_points
+    ideal_points = round(ideal_points)
+    print int(time_d.days / 365), 'Years', ',', int((time_d.days % 365) / 30), 'Months'
+    # print 'Estimated pints:              ', ideal_points
 
     # Find number of available samples and print
     available_points = len(time_column)
-    print 'Total containing data points: ', available_points
+    # print 'Total containing data points: ', available_points
 
     # Find data lose total and percentage
     data_lose = ideal_points - available_points
     percentage_data_loss = (1 - available_points / ideal_points) * 100.0
-    print 'Total data lose:              ', data_lose, '(Data points)'
+    percentage_data_loss = int(round(percentage_data_loss))
+    # print 'Total data lose:              ', data_lose, '(Data points)'
     print 'Percent data lose:              ', percentage_data_loss, '%'
 
 

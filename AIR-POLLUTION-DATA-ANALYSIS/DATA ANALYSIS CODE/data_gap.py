@@ -67,13 +67,13 @@ def plot_sparsity_grid(devices_names, sparsity_grid, uts_vector):
 
 
 def save_sparsity_grid(devices_names, sparsity_grid, uts_vector):
-    result_folder = PROGRAM.DATA_FOLDER_PATH + PROGRAM.RESULT
     print 'Saving your files.'
-
+    result_folder = PROGRAM.RESULT_FOLDER_BASIC_PATH + PROGRAM.RESULT_GAP_FOLDER_RELATIVE
     ##
     # Create Folder in case it does not exist
     try:
         print 'Trying to create a folder'
+        os.mkdir(PROGRAM.RESULT_FOLDER_BASIC_PATH)
         os.mkdir(result_folder)
     except:
         print 'Folder already Exists'
@@ -85,7 +85,7 @@ def save_sparsity_grid(devices_names, sparsity_grid, uts_vector):
 
         # Plot Figure
         print 'Saving ', device_name, ' info:'
-        plotter.figure(1, figsize=(18, 6))          # Set Figure Size
+        plotter.figure(1, figsize=PROGRAM.LANDSCAPE_IMAGE)  # Set Figure Size
         plotter.plot(uts_vector, sparsity_vector)   # Add data to be plotted
         plotter.title(device_name)                  # Add Title to plot
         plotter.ylim(PROGRAM.MISSING,               # For the order on y axis
@@ -93,7 +93,7 @@ def save_sparsity_grid(devices_names, sparsity_grid, uts_vector):
         plotter.ylabel('Data availability ------>')  # X-axis and y-ais ...
         plotter.xlabel('Time ------->')             # ... label
         plotter.axis('tight')
-        plotter.savefig(result_folder + '/' +       # Save Result ...
+        plotter.savefig(result_folder +             # Save Result ...
                         device_name +
                         '-sparsity' + '.png')       # ... at given location
         plotter.clf()                               # Clear Frame for next plot
@@ -125,6 +125,34 @@ def compute_plot_sparsity(devices_names_list, devices_data_list):
     # Distribution and effects
 
 
+def compute_freq_effect(gap_vector):
+    frequencies = []
+    effect_distribution = []
+    for k in range(0, len(PROGRAM.TIME_GAP_HIST) - 1):
+        lower = PROGRAM.TIME_GAP_HIST[k]
+        upper = PROGRAM.TIME_GAP_HIST[k + 1]
+
+        frequency = 0
+        effect = 0
+        for x in gap_vector:
+            if (x < upper) and (x >= lower):
+                frequency = frequency + 1
+                effect = effect + x
+
+        frequencies.append(frequency)
+        effect_distribution.append(effect)
+
+    return frequencies, effect_distribution
+
+
+def compute_freq_effects(gap_grid):
+    freq_effects = []
+    for gap_vector in gap_grid:
+        result = compute_freq_effect(gap_vector)
+        freq_effects.append(result)
+    return freq_effects
+
+
 def compute_gap_vector(time_vector):
     delta = []
 
@@ -148,9 +176,36 @@ def compute_gap_grid(devices_data_list):
     return gap_grid
 
 
+def plot_freq_effects(devices_names, freq_effects):
+    for name, freq_effect in zip(devices_names, freq_effects):
+        frequency, effect = freq_effect
+
+        f = plotter.figure(1, figsize=PROGRAM.LANDSCAPE_IMAGE)
+        f.suptitle(name)
+        plotter.subplot(1, 2, 1)
+        plotter.bar(PROGRAM.TIME_GAP_HIST_CATEGORIES,
+                    frequency, color='b')
+        plotter.title('Data gap frequency (f)')
+        plotter.ylabel('Number of times gap occurred')
+        plotter.xlabel('Gap interval')
+
+        plotter.subplot(1, 2, 2)
+        plotter.bar(PROGRAM.TIME_GAP_HIST_CATEGORIES,
+                    effect, color='r')
+        plotter.title('Data gap impact (i)')
+        plotter.ylabel('Number of values missed due to gap')
+        plotter.xlabel('Gap interval')
+        plotter.savefig(PROGRAM.RESULT_FOLDER_BASIC_PATH +
+                        PROGRAM.RESULT_GAP_FOLDER_RELATIVE +
+                        name + '-gap' + '.png')
+
+    raw_input('>')
+
+
 def compute_plot_gap(devices_name_list, devices_data_list):
     gap_grid = compute_gap_grid(devices_data_list)
-
+    freq_effects = compute_freq_effects(gap_grid)
+    plot_freq_effects(devices_name_list, freq_effects)
 
 
 ###############################################################################

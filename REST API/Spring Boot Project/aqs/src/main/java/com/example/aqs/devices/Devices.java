@@ -25,6 +25,8 @@ public class Devices {
     private Codeversion codeversion;
 
 
+
+
     public Long getId() {
         return id;
     }

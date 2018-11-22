@@ -13,11 +13,14 @@ import com.example.aqs.devices.Devices;
 import com.example.aqs.devices.DevicesRepository;
 import com.example.aqs.error.Error;
 import com.example.aqs.error.ErrorRepository;
+import com.example.aqs.errorlog.Errorlog;
 import com.example.aqs.errorlog.ErrorlogRepository;
 import com.example.aqs.location.Location;
 import com.example.aqs.location.LocationRepository;
 import com.example.aqs.login.Login;
 import com.example.aqs.login.LoginRepository;
+import com.example.aqs.previouslocation.Previouslocation;
+import com.example.aqs.previouslocation.PreviouslocationRepository;
 import com.example.aqs.sensor.Sensor;
 import com.example.aqs.sensor.SensorRepository;
 import com.example.aqs.sensorcombination.Sensorcombination;
@@ -27,6 +30,8 @@ import com.example.aqs.sensorparameter.SensorparameterRepository;
 import com.example.aqs.values.Values;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
 
 @Service
 public class AqsService {
@@ -62,6 +67,10 @@ public class AqsService {
 
     @Autowired
     LocationRepository locationRepository;
+
+    @Autowired
+    PreviouslocationRepository previouslocationRepository;
+
 
     @Autowired
     SensorcombinationRepository sensorcombinationRepository;
@@ -247,6 +256,53 @@ public class AqsService {
             return false;
         }
     }
+
+    public Boolean deviceExistInLocationTable(Location location)
+    {
+     Long deviceid=location.getDeviceid();
+     Location previousLocation = locationRepository.findLocationByDeviceid(deviceid);
+     if(previousLocation!=null)
+     {
+         java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+         Previouslocation P_location=new Previouslocation();
+         P_location.setDeviceid(previousLocation.getDeviceid());
+         P_location.setLocationtime(time);
+         P_location.setLatitude(previousLocation.getLatitude());
+         P_location.setLongitude(previousLocation.getLongitude());
+         previouslocationRepository.save(P_location);
+         locationRepository.delete(previousLocation);
+         //return P_location;
+         return true;
+     }
+     else
+         { return false; }
+
+    }
+
+    public Location updateLocation(Location location)
+    {
+
+        locationRepository.save(location);
+
+        return location;
+    }
+
+//to store error log
+    public Errorlog setErrorlog(Errorlog errorlog)
+    {
+        errorlogRepository.save(errorlog);
+        return errorlog;
+    }
+
+    //to retrieve error log
+    public Iterable<Errorlog> getErrorlog(Long deviceid)
+    {
+        return errorlogRepository.findAllByDeviceid(deviceid);
+    }
+
+
+
+
 /*
     public boolean locationExist(Location location)
     {

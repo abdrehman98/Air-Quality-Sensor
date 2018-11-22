@@ -34,10 +34,6 @@ public class AqsController {
     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
     public @ResponseBody
     Login SetLogin(@RequestBody Login login) {
-        //Entry entry = user.getEntry();
-
-
-        //Login login1=login;
         String email = login.getEmail();
         if (aqsService.loginEmailExist(email)) {
             //do nothing
@@ -232,25 +228,42 @@ public class AqsController {
     @RequestMapping(value = {"/location"}, method = RequestMethod.POST)
     public @ResponseBody
     Location SetLocation(@RequestBody Location location) {
-        //Entry entry = user.getEntry();
+
+        aqsService.deviceExistInLocationTable(location);
+
+        java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+        location.setLocationtime(time);
+
+        aqsService.updateLocation(location);
+        
+        return location;
+    }
+
+    //Add a new Errorlog
+    @RequestMapping(value = {"/errorlog"}, method = RequestMethod.POST)
+    public @ResponseBody
+    Errorlog SetErrorlog(@RequestBody Errorlog errorlog) {
 
 
-        //Login login1=login;
-        //Long sensorCombinationCode= sensorcombination.getSensorcombinationcode();
-        /*if (aqsService.locationExist(location))
-        {
-            //do nothing
-            return null;
-        }
-        else
-        {*/
-            java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-            location.setCreatedat(time);
-            location.setUpdatedat(time);
-            location.setLocationtime(time);
-            return aqsService.setLocation(location);
-        }
+        java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+        errorlog.setOccurtime(time);
 
+        aqsService.setErrorlog(errorlog);
+
+        return errorlog;
+    }
+
+    //Retrieve errorlogs fro a device
+    @RequestMapping(value = {"/errorlog/{deviceid}"}, method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<Errorlog> GetDeviceErrorlogs(@PathVariable("deviceid") Long deviceid) {
+
+
+
+        return aqsService.getErrorlog(deviceid);
+
+
+    }
 
 
     //Add a new sensorcombination

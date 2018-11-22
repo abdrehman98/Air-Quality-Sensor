@@ -13,9 +13,18 @@ public class Errorlog {
     @Id
     @GeneratedValue
     Long id;
+    Long deviceid;
+    public Long getDeviceid() {
+        return deviceid;
+    }
+
+    public void setDeviceid(Long deviceid) {
+        this.deviceid = deviceid;
+    }
+
     Time occurtime;
     Long errorcode;
-    Boolean Status;
+
 
     public Long getId() {
         return id;
@@ -41,11 +50,5 @@ public class Errorlog {
         this.errorcode = errorcode;
     }
 
-    public Boolean getStatus() {
-        return Status;
-    }
 
-    public void setStatus(Boolean status) {
-        Status = status;
-    }
 }

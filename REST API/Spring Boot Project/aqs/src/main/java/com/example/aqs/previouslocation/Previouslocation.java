@@ -1,24 +1,23 @@
-package com.example.aqs.location;
+package com.example.aqs.previouslocation;
 
-import com.example.aqs.devices.Devices;
-
-import javax.persistence.*;
 import java.sql.Time;
+import javax.persistence.*;
 
 @Entity
-@Table(name="location")
-public class Location {
+@Table(name="previouslocation")
 
-@Id
-@GeneratedValue
-Long id;
-Long deviceid;
-Time locationtime;
-String longitude;
-String Latitude;
+public class Previouslocation {
 
 
 
+    @Id
+
+    @GeneratedValue
+    Long id;
+    Long deviceid;
+    Time locationtime;
+    String longitude;
+    String Latitude;
 
 
 
@@ -61,6 +60,5 @@ String Latitude;
     public void setLatitude(String latitude) {
         Latitude = latitude;
     }
-
 
 }

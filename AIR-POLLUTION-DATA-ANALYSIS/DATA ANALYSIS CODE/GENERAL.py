@@ -14,6 +14,9 @@ TIME_GAP_HIST_CATEGORIES = ['1 - 4 hour', '1 Day', '15 Days', 'Very Long interva
 TIME_GAP_HIST = [1, 4, DAY, 15 * DAY, 3 * YEAR]
 PROGRAM_NAME = 'DOME JONG'
 
+DEFAULT_FIG = 1
+SAVE_FIG = 0
+SHOW_FIG = 1
 AVAILABLE = 'available'
 MISSING = 'missing'
 RESULT_FOLDER_BASIC_PATH = '../RESULT/'

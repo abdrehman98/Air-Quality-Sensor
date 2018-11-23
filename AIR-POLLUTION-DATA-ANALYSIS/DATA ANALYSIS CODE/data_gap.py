@@ -20,7 +20,6 @@ import PROCESSED_DATA_INDEX as INDEX
 #################################################################
 
 
-################################
 ##
 # Computing sparsity vector refer to Algorithm 1:
 def compute_sparsity_vector(uts_vector, device_time, h):
@@ -179,28 +178,42 @@ def compute_gap_grid(devices_data_list):
     return gap_grid
 
 
-def plot_freq_effects(devices_names, freq_effects):
+def plot_freq_effects(devices_names, freq_effects,
+                      operation=PROGRAM.SAVE_FIG):
+
     for name, freq_effect in zip(devices_names, freq_effects):
+        # Separating 'Frequencies' and 'Effects' from tuple
         frequency, effect = freq_effect
 
-        f = plotter.figure(1, figsize=PROGRAM.LANDSCAPE_IMAGE)
-        f.suptitle(name)
-        plotter.subplot(1, 2, 1)
-        plotter.bar(PROGRAM.TIME_GAP_HIST_CATEGORIES,
-                    frequency, color='b')
+        plotter.rcParams["figure.figsize"] = PROGRAM.LANDSCAPE_IMAGE
+        plotter.title(name)
+
+        # CREATE: First subplot (Show Frequencies)
+        frequency_plot = plotter.subplot(1, 2, 1)
+
+        frequency_plot.bar(PROGRAM.TIME_GAP_HIST_CATEGORIES,
+                           frequency, color='b')
         plotter.title('Data gap frequency (f)')
         plotter.ylabel('Number of times gap occurred')
         plotter.xlabel('Gap interval')
 
-        plotter.subplot(1, 2, 2)
-        plotter.bar(PROGRAM.TIME_GAP_HIST_CATEGORIES,
-                    effect, color='r')
+        # CREATE: Second subplot (Show relative effects)
+        effect_plot = plotter.subplot(1, 2, 2)
+        effect_plot.bar(PROGRAM.TIME_GAP_HIST_CATEGORIES,
+                        effect, color='r')
         plotter.title('Data gap impact (i)')
         plotter.ylabel('Number of values missed due to gap')
         plotter.xlabel('Gap interval')
-        plotter.savefig(PROGRAM.RESULT_FOLDER_BASIC_PATH +
-                        PROGRAM.RESULT_GAP_FOLDER_RELATIVE +
-                        name + '-gap' + '.png')
+
+        print('hello', name)
+        if operation == PROGRAM.SAVE_FIG:
+            plotter.savefig(PROGRAM.RESULT_FOLDER_BASIC_PATH +
+                            PROGRAM.RESULT_GAP_FOLDER_RELATIVE +
+                            name + '-gap' + '.png')
+        elif operation == PROGRAM.SHOW_FIG:
+            plotter.show()
+
+        plotter.clf()
 
 
 def compute_plot_gap(devices_name_list, devices_data_list):
@@ -209,14 +222,14 @@ def compute_plot_gap(devices_name_list, devices_data_list):
     plot_freq_effects(devices_name_list, freq_effects)
 
 
-###############################################################################
-# Printing data gapes                                                         #
-# 1) when device was set up and what was the last received value              #
-# 2) Ideal number of data points in each device                               #
-# 3) Number of data points received in                                        #
-# 4) Number of data points lost                                               #
-# 5) Percentage of data lost                                                  #
-###############################################################################
+##################################################################
+# Printing data gapes                                            #
+# 1) when device was set up and what was the last received value #
+# 2) Ideal number of data points in each device                  #
+# 3) Number of data points received in                           #
+# 4) Number of data points lost                                  #
+# 5) Percentage of data lost                                     #
+##################################################################
 
 def print_device_time_info(time_column):
 

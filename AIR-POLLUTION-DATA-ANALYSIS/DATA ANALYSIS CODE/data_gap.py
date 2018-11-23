@@ -7,16 +7,17 @@ import GENERAL as PROGRAM
 import PROCESSED_DATA_INDEX as INDEX
 
 
-##################################################################################
-# Visualization of data gaps by plotting them                                    #
-# 1) Computer min/max time vectors                                               #
-# 1.1) Compute the time when first device was deployed and last device sent data #
-# 1.2) Generate Universal TIMESTAMP vector.                                      #
-# 1.3) Compute Sparsity Grid                                                     #
-# 1.3.1) Compute Sparsity vector for every device                                #
-# 1.3.2) Append them in the same order                                           #
-# 1.4) Plot sparsity                                                             #
-##################################################################################
+#################################################################
+# Visualization of data gaps by plotting them                   #
+# 1) Computer min/max time vectors                              #
+# 1.1) Compute the time when first device was deployed and last #
+#      device sent data                                         #
+# 1.2) Generate Universal TIMESTAMP vector.                     #
+# 1.3) Compute Sparsity Grid                                    #
+# 1.3.1) Compute Sparsity vector for every device               #
+# 1.3.2) Append them in the same order                          #
+# 1.4) Plot sparsity                                            #
+#################################################################
 
 
 ################################
@@ -47,11 +48,13 @@ def compute_sparsity_grid(uts_vector, devices_data_list):
     # Compute sparsity vector for each device
     for k in range(0, number_of_devices):
         chosen_device = devices_data_list[k]
-        device_time = PROGRAM.get_column(INDEX.TIMESTAMP, chosen_device)
+        device_time = PROGRAM.get_column(INDEX.TIMESTAMP,
+                                         chosen_device)
         # compute the step size to indicate data availability
         h = k + 1
         # compute and append vectors
-        sparsity_vector = compute_sparsity_vector(uts_vector, device_time, h)
+        sparsity_vector = compute_sparsity_vector(uts_vector,
+                                                  device_time, h)
         sparsity_grid.append(sparsity_vector)
 
     return sparsity_grid
@@ -67,16 +70,16 @@ def plot_sparsity_grid(devices_names, sparsity_grid, uts_vector):
 
 
 def save_sparsity_grid(devices_names, sparsity_grid, uts_vector):
-    print 'Saving your files.'
+    print('Saving your files.')
     result_folder = PROGRAM.RESULT_FOLDER_BASIC_PATH + PROGRAM.RESULT_GAP_FOLDER_RELATIVE
     ##
     # Create Folder in case it does not exist
     try:
-        print 'Trying to create a folder'
+        print('Trying to create a folder')
         os.mkdir(PROGRAM.RESULT_FOLDER_BASIC_PATH)
         os.mkdir(result_folder)
     except:
-        print 'Folder already Exists'
+        print('Folder already Exists')
 
     for i in range(0, len(sparsity_grid)):
         # Separate variables to use
@@ -84,7 +87,7 @@ def save_sparsity_grid(devices_names, sparsity_grid, uts_vector):
         device_name = devices_names[i]
 
         # Plot Figure
-        print 'Saving ', device_name, ' info:'
+        print('Saving ', device_name, ' info:')
         plotter.figure(1, figsize=PROGRAM.LANDSCAPE_IMAGE)  # Set Figure Size
         plotter.plot(uts_vector, sparsity_vector)   # Add data to be plotted
         plotter.title(device_name)                  # Add Title to plot
@@ -199,8 +202,6 @@ def plot_freq_effects(devices_names, freq_effects):
                         PROGRAM.RESULT_GAP_FOLDER_RELATIVE +
                         name + '-gap' + '.png')
 
-    raw_input('>')
-
 
 def compute_plot_gap(devices_name_list, devices_data_list):
     gap_grid = compute_gap_grid(devices_data_list)
@@ -224,30 +225,30 @@ def print_device_time_info(time_column):
     max_time = max(time_column)
 
     # print device starting and Ending time
-    # print 'Device starting time: ', min_time
-    # print 'Last retrieved Data:  ', max_time
+    print('Device starting time: ', min_time)
+    print('Last retrieved Data:  ', max_time)
 
     # Find number of hours passed after starting device
     time_d = max_time - min_time   # type: timedelta
     ideal_points = time_d.total_seconds() / (60 * 60)
     ideal_points = round(ideal_points)
-    print int(time_d.days / 365), 'Years', ',', int((time_d.days % 365) / 30), 'Months'
-    # print 'Estimated pints:              ', ideal_points
+    print(int(time_d.days / 365), 'Years', ',', int((time_d.days % 365) / 30), 'Months')
+    print('Estimated pints:              ', ideal_points)
 
     # Find number of available samples and print
     available_points = len(time_column)
-    # print 'Total containing data points: ', available_points
+    print('Total containing data points: ', available_points)
 
     # Find data lose total and percentage
     data_lose = ideal_points - available_points
     percentage_data_loss = (1 - available_points / ideal_points) * 100.0
     percentage_data_loss = int(round(percentage_data_loss))
-    # print 'Total data lose:              ', data_lose, '(Data points)'
-    print 'Percent data lose:              ', percentage_data_loss, '%'
+    print('Total data lose:              ', data_lose, '(Data points)')
+    print('Percent data lose:              ', percentage_data_loss, '%')
 
 
 def print_all_devices_time_info(device_name, device_data):
     for n in range(len(device_name)):
-        print '----------------------------------------------'
-        print device_name[n]
+        print('----------------------------------------------')
+        print(device_name[n])
         print_device_time_info(PROGRAM.get_column(INDEX.TIMESTAMP, device_data[n]))

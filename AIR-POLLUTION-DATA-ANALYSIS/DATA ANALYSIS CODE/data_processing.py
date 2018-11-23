@@ -12,12 +12,12 @@ import PROCESSED_DATA_INDEX as INDEX
 
 def main():
     # Hello Remarks!
-    print '------>', 'Hello! ', PROGRAM.PROGRAM_NAME, ' is here to help you.'
-    print '----->', 'Be patient ', PROGRAM.PROGRAM_NAME, 'is loading files for you.'
+    print('------>', 'Hello! ', PROGRAM.PROGRAM_NAME, ' is here to help you.')
+    print('----->', 'Be patient ', PROGRAM.PROGRAM_NAME, 'is loading files for you.')
 
     # Load files
     devices_names_list, devices_data_list = loader.load_data(PROGRAM.DATA_FOLDER_PATH)
-    print PROGRAM.PROGRAM_NAME, ' brought your files, Oooops they are very heavy.'
+    print(PROGRAM.PROGRAM_NAME, ' brought your files, Oooops they are very heavy.')
 
     data_gap.compute_plot_sparsity(devices_names_list, devices_data_list)
     # data_gap.print_all_devices_time_info(devices_names_list, devices_data_list)

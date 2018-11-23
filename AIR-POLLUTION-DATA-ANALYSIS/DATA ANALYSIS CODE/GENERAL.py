@@ -32,7 +32,7 @@ def get_column(index, grid):
 
 def print_devices_names(devices_names):
     for n in range(0, len(devices_names)):
-        print n, '] ', devices_names[n]
+        print(n, '] ', devices_names[n])
 
 
 def encode_timestamp(timestamp_string):

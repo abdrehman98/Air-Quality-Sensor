@@ -19,7 +19,7 @@ def main():
     devices_names_list, devices_data_list = loader.load_data(PROGRAM.DATA_FOLDER_PATH)
     print(PROGRAM.PROGRAM_NAME, ' brought your files, Oooops they are very heavy.')
 
-    # data_gap.compute_plot_sparsity(devices_names_list, devices_data_list)
+    data_gap.compute_plot_sparsity(devices_names_list, devices_data_list)
     # data_gap.print_all_devices_time_info(devices_names_list, devices_data_list)
     # data_gap.plot_data_gap(devices_names_list, devices_data_list)
     data_gap.compute_plot_gap(devices_names_list, devices_data_list)

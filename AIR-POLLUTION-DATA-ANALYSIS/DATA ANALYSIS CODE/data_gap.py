@@ -205,7 +205,7 @@ def plot_freq_effects(devices_names, freq_effects,
         plotter.ylabel('Number of values missed due to gap')
         plotter.xlabel('Gap interval')
 
-        print('hello', name)
+        print('Saving: ->>', name)
         if operation == PROGRAM.SAVE_FIG:
             plotter.savefig(PROGRAM.RESULT_FOLDER_BASIC_PATH +
                             PROGRAM.RESULT_GAP_FOLDER_RELATIVE +

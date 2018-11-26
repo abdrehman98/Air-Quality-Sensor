@@ -21,6 +21,8 @@ AVAILABLE = 'available'
 MISSING = 'missing'
 RESULT_FOLDER_BASIC_PATH = '../RESULT/'
 RESULT_GAP_FOLDER_RELATIVE = 'DATA-GAP/'
+RESULT_GAT_EXTENSION = '-gap.png'
+RESULT_SPARSITY_EXTENSION = '-spr.png'
 DATA_FOLDER_PATH = '../DATA/PAQI 11-10-2018'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 ORDER_FORWARD = 0
@@ -91,3 +93,20 @@ def find_max_vector(devices_data_list):
         time = get_column(INDEX.TIMESTAMP, device_data)
         max_time.append(max(time))
     return max_time
+
+
+#####################
+# Show or save plot #
+#####################
+def output_plot(plotter, path, operation, clf=True, title_name=''):
+    if operation == SAVE_FIG:
+        print('Saving: >>', title_name)
+        plotter.savefig(path)
+    elif operation == SHOW_FIG:
+        print('Showing: >>', title_name)
+        plotter.show(block=False)
+        plotter.pause(0.33)
+        input()
+
+    if clf:
+        plotter.clf()

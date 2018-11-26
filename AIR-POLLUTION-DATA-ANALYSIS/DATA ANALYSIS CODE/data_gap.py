@@ -73,12 +73,7 @@ def save_sparsity_grid(devices_names, sparsity_grid, uts_vector):
     result_folder = PROGRAM.RESULT_FOLDER_BASIC_PATH + PROGRAM.RESULT_GAP_FOLDER_RELATIVE
     ##
     # Create Folder in case it does not exist
-    try:
-        print('Trying to create a folder')
-        os.mkdir(PROGRAM.RESULT_FOLDER_BASIC_PATH)
-        os.mkdir(result_folder)
-    except:
-        print('Folder already Exists')
+    os.makedirs(result_folder, exist_ok=True)
 
     for i in range(0, len(sparsity_grid)):
         # Separate variables to use
@@ -125,6 +120,26 @@ def compute_plot_sparsity(devices_names_list, devices_data_list):
     ##
     # Computing gaps
     # Distribution and effects
+
+
+#######################################################
+# Data Gaps                                           #
+# What to compute?                                    #
+# 1) compute a gap grid                               #
+#    is there any gap in two consecutive data points  #
+#    can also be called gradient of time.             #
+# 2) Frequency of different gaps.(GAP distribution)   #
+# 3) Effect of these gaps.                            #
+#######################################################
+# How to do this?                                     #
+# compute_plot_gap()                                  #
+#   compute_gap_grid()                                #
+#       compute_gap_vector()                          #
+#   compute_freq_effects()                            #
+#       compute_freq_effect()                         #
+#   show_freq_effects()                               #
+#                                                     #
+#######################################################
 
 
 def compute_freq_effect(gap_vector):
@@ -178,8 +193,8 @@ def compute_gap_grid(devices_data_list):
     return gap_grid
 
 
-def plot_freq_effects(devices_names, freq_effects,
-                      operation=PROGRAM.SAVE_FIG):
+def show_freq_effects(devices_names, freq_effects,
+                      operation=PROGRAM.SHOW_FIG):
 
     for name, freq_effect in zip(devices_names, freq_effects):
         # Separating 'Frequencies' and 'Effects' from tuple
@@ -205,21 +220,17 @@ def plot_freq_effects(devices_names, freq_effects,
         plotter.ylabel('Number of values missed due to gap')
         plotter.xlabel('Gap interval')
 
-        print('Saving: ->>', name)
-        if operation == PROGRAM.SAVE_FIG:
-            plotter.savefig(PROGRAM.RESULT_FOLDER_BASIC_PATH +
-                            PROGRAM.RESULT_GAP_FOLDER_RELATIVE +
-                            name + '-gap' + '.png')
-        elif operation == PROGRAM.SHOW_FIG:
-            plotter.show()
-
-        plotter.clf()
+        file_path = PROGRAM.RESULT_FOLDER_BASIC_PATH +\
+                    PROGRAM.RESULT_GAP_FOLDER_RELATIVE +\
+                    name + '-gap' + '.png'
+        PROGRAM.output_plot(plotter, file_path,
+                            operation, title_name= name)
 
 
 def compute_plot_gap(devices_name_list, devices_data_list):
     gap_grid = compute_gap_grid(devices_data_list)
     freq_effects = compute_freq_effects(gap_grid)
-    plot_freq_effects(devices_name_list, freq_effects)
+    show_freq_effects(devices_name_list, freq_effects)
 
 
 ##################################################################

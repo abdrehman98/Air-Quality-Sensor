@@ -5,6 +5,7 @@ import data_loader_for_processing as loader
 import GENERAL as PROGRAM
 import PROCESSED_DATA_INDEX as INDEX
 
+
 ##
 # Making main the entry
 # to avoid making global variables
@@ -21,7 +22,6 @@ def main():
 
     data_gap.compute_plot_sparsity(devices_names_list, devices_data_list)
     data_gap.compute_plot_gap(devices_names_list, devices_data_list)
-
 
 
 main()

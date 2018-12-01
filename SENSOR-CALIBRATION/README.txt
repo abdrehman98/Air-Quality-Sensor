@@ -9,6 +9,10 @@ Requirements:
 
 Experiment procedure:
 1) testing serial
+1.1) Write serial communication code.
+1.2) One by one upload on each arduino board.
+1.3) use different cable and Serial port each time.
+1.4) Experiment successful got expected results
 2) testing software serial
 3) Sensor Hookup
 3.1) Read using software serial form PMS3003

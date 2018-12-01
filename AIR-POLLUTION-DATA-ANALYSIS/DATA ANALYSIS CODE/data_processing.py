@@ -21,7 +21,8 @@ def main():
     print(PROGRAM.PROGRAM_NAME, ' brought your files, Oooops they are very heavy.')
 
     data_gap.compute_plot_sparsity(devices_names_list, devices_data_list)
-    data_gap.compute_plot_gap(devices_names_list, devices_data_list)
+    data_gap.compute_plot_gap(devices_names_list,
+                              devices_data_list, PROGRAM.SAVE_FIG)
 
 
 main()

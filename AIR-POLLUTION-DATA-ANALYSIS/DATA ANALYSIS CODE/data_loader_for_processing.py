@@ -49,9 +49,7 @@ def read_device_file(device_file_path):
 
 def load_data(path):
     # Get the list of all devices
-    # -Remove BASIC-RESULT file
     devices_names_list = os.listdir(path)
-    devices_names_list.remove('BASIC-RESULT.txt')
 
     # Read device data
     devices_data = []

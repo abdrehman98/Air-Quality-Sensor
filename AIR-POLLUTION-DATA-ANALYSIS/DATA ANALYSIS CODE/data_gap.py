@@ -224,13 +224,14 @@ def show_freq_effects(devices_names, freq_effects,
                     PROGRAM.RESULT_GAP_FOLDER_RELATIVE +\
                     name + '-gap' + '.png'
         PROGRAM.output_plot(plotter, file_path,
-                            operation, title_name= name)
+                            operation, title_name=name)
 
 
-def compute_plot_gap(devices_name_list, devices_data_list):
+def compute_plot_gap(devices_name_list,
+                     devices_data_list, operation):
     gap_grid = compute_gap_grid(devices_data_list)
     freq_effects = compute_freq_effects(gap_grid)
-    show_freq_effects(devices_name_list, freq_effects)
+    show_freq_effects(devices_name_list, freq_effects, operation)
 
 
 ##################################################################

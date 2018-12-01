@@ -34,7 +34,7 @@ def get_column(index, grid):
 def read_file(file_path):
     excel_file = open(file_path, 'r')
     file_content = excel_file.readlines()
-    print 'Total number of lines read from file: ', len(file_content)
+    print('Total number of lines read from file: ', len(file_content))
 
     split_lines = []
     for line in file_content:
@@ -43,7 +43,7 @@ def read_file(file_path):
         line = line.split(',')
         split_lines.append(line)
 
-    print 'Number of columns in File', len(split_lines[0])
+    print('Number of columns in File', len(split_lines[0]))
     return split_lines[0], split_lines[1:len(split_lines)]
 
 
@@ -60,13 +60,13 @@ def null_fill(column, tag):
             column[n][tag.index(COLUMN_TAG.KEY)] = 'null'
 
         if '' == column[n][tag.index(COLUMN_TAG.CITY)]:
-            print 'Critical error city name null at line:', n + 1
+            print('Critical error city name null at line:', n + 1)
 
         if '' == column[n][tag.index(COLUMN_TAG.AREA)]:
-            print 'Critical error area null at line:', n + 1
+            print('Critical error area null at line:', n + 1)
 
         if not valid_timestamp(column[n][tag.index(COLUMN_TAG.TIME_STAMP)]):
-            print 'Error: Invalid Time Stamp:', n + 1, '] ', column[n][tag.index(COLUMN_TAG.TIME_STAMP)]
+            print('Error: Invalid Time Stamp:', n + 1, '] ', column[n][tag.index(COLUMN_TAG.TIME_STAMP)])
 
     return column
 
@@ -90,11 +90,12 @@ def get_cities_and_their_devices(data, tag):
 def save_basic_info(data):
     try:
         os.makedirs(BASIC_PATH)
-        print 'Creating folder ', BASIC_PATH
+        print('Creating folder ', BASIC_PATH)
     except:
-        print 'Folder already exists', BASIC_PATH
+        print('Folder already exists', BASIC_PATH)
 
-    basic_res_file = open(PATH_TO_BASIC_RES, "w+")
+    basic_res_file = open(PROGRAM.RESULT_FOLDER_BASIC_PATH +
+                          PROGRAM.BASIC_RESULT_FILE, "w+")
     basic_res_file.write('Number of cities:' + str(len(data)) + '\n')
     for i in range(0, len(data)):
         city, devices = data[i]
@@ -119,7 +120,8 @@ def save_basic_info(data):
 def save_split_data(list_city_device, data, tag):
 
     # Open a file to Write some basic info
-    basic_res_file = open(PATH_TO_BASIC_RES, "a+")
+    basic_res_file = open(PROGRAM.RESULT_FOLDER_BASIC_PATH +
+                          PROGRAM.BASIC_RESULT_FILE, "a+")
     basic_res_file.write(SEPARATOR + '\n')
 
     # Choose one device (CITY NAME, DEVICE_FULL_DATA) form total data
@@ -140,7 +142,7 @@ def save_split_data(list_city_device, data, tag):
         current_device_lon = set(get_column(tag.index(COLUMN_TAG.LONGITUDE), current_device_data))
         current_device_install_time = set(get_column(tag.index(COLUMN_TAG.SETUP_TIME), current_device_data))
 
-        file_name = city + ' | ' + device
+        file_name = city + ' - ' + device
         string_to_write = file_name + SEPARATOR + str(current_device_key) + SEPARATOR
         string_to_write = string_to_write + '(' + str(current_device_lat) + ',' + str(current_device_lon) + ')'
         string_to_write = string_to_write + SEPARATOR

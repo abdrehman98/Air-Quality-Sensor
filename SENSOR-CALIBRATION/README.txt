@@ -14,6 +14,8 @@ Experiment procedure:
 1.3) use different cable and Serial port each time.
 1.4) Experiment successful got expected results
 2) testing software serial
+2.1) Creating Dummy sensor by making arduino software serial tramsmitter.
+2.2) 
 3) Sensor Hookup
 3.1) Read using software serial form PMS3003
 3.2) write read data on serial.

@@ -31,20 +31,39 @@ def get_column(index, grid):
     return [row[index] for row in grid]
 
 
-def read_file(file_path):
-    excel_file = open(file_path, 'r')
-    file_content = excel_file.readlines()
-    print('Total number of lines read from file: ', len(file_content))
+def basic_formatting(lines):
+    split_lines = []  # Save the result after
 
-    split_lines = []
-    for line in file_content:
-        line = line.replace('\n', '')
-        line = line.replace(', B', ' B')
-        line = line.split(',')
+    for line in lines:
+        line = line.replace('\n', '')       # Remove end line from every line
+        line = line.replace(', B', ' B')    # Remove comma from 'Fida Hussain House' Device
+        line = line.replace('\"', '')       # Remove inverted commas form device's names
+        line = line.split(',')              # separate entries # type : list
+
+        # append in result
         split_lines.append(line)
 
-    print('Number of columns in File', len(split_lines[0]))
-    return split_lines[0], split_lines[1:len(split_lines)]
+    return split_lines
+
+
+def read_file(file_path):
+    # OPEN/READ: PAQI air quality csv data file
+    excel_file = open(file_path, 'r')
+    file_content = excel_file.readlines()
+
+    # STRUCTURE: read data
+    grid = basic_formatting(file_content)
+
+    # CALCULATE: rows columns and separate name and data
+    column_name = grid[0]                  # column names
+    number_of_rows = len(file_content)      # Number of rows
+    number_of_column = len(column_name)    # Number of Columns
+    data_body = grid[1:number_of_rows]      # Data other than names
+
+    # PRINT/RETURN:
+    print('Total number of lines read from file: ', number_of_rows)
+    print('Number of columns in File', number_of_column)
+    return column_name, data_body
 
 
 def null_fill(column, tag):

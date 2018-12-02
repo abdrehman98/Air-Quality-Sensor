@@ -13,10 +13,12 @@ void setup() {
 }
 
 void loop() {
+  int bufferCount = pmsSerial.available();
+  Serial.println(bufferCount);
   // put your main code here, to run repeatedly:
-  String str = "";
-  while( pmsSerial.available() > 0)
-    str += (char) pmsSerial.read();
-  Serial.print(str);
-  delay(15);
+  //String str = "";
+  //while( pmsSerial.available() > 0)
+  //  str += (char) pmsSerial.read();
+  //Serial.print(str);
+  delay(250);
 }

@@ -15,10 +15,9 @@ Experiment procedure:
 1.4) Experiment successful got expected results
 2) testing software serial
 2.1) Creating Dummy sensor by making arduino software serial tramsmitter.
-2.2) 
 3) Sensor Hookup
-3.1) Read using software serial form PMS3003
-3.2) write read data on serial.
+3.1) Read number of  bytes available at SoftwareSerial
+
 4) Write python script to read data from USB and print on console
 5) Improve script to save in files
 6) read files and compare error

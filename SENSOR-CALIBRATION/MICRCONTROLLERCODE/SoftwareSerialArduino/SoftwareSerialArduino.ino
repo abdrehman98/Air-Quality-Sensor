@@ -1,55 +1,30 @@
+#include "PMS.h"
 #include <SoftwareSerial.h>
 #define RX 10
 #define TX 11
 
 SoftwareSerial pmsSerial(RX, TX);
-const int FIRST_BYTE = 0x42;
-const int SECOND_BYTE = 0x4d;
-const int PACKET_SIZE = 24;
-const int NUMBER_OF_START_BYTES =2;
-const int BUFFER_SIZE = PACKET_SIZE - NUMBER_OF_START_BYTES;
-short buffer[BUFFER_SIZE];
 
-void readPMS33(){
-  unsigned long enter = millis();
-  Serial.println("Going to read data");
-  pmsSerial.flush();
-  bool readData = false;
-  while(! readData){
-    if (pmsSerial.available())
-      if (pmsSerial.read() == FIRST_BYTE)
-        if (pmsSerial.available())
-          if (pmsSerial.read() == SECOND_BYTE)
-            readData = true;
-  }
-  unsigned long available = millis();
-  for (int i = 0; i < BUFFER_SIZE; i++){
-    while(! pmsSerial.available());
-    buffer[i] = pmsSerial.read(); 
-  }
-  unsigned long end = millis();
-  Serial.println("Mission complete");
-  Serial.println(end - enter);
-  Serial.println(end - available);
+PMS pms(pmsSerial);
+PMS::DATA data;
+
+void setup()
+{
+  pmsSerial.begin(9600);   // GPIO1, GPIO3 (TX/RX pin on ESP-12E Development Board)
+  Serial.begin(9600);  // GPIO2 (D4 pin on ESP-12E Development Board)
 }
 
-void setup() {
-  // put your setup code here, to run once:
-  pmsSerial.begin(9600);
-  pmsSerial.listen();
-  Serial.begin(9600);
-  delay(1000);
-}
+void loop()
+{
+  if (pms.read(data))
+  {
+    String encoded = (String) data.PM_SP_UG_1_0 + "," +
+                              data.PM_SP_UG_2_5 + "," +
+                              data.PM_SP_UG_10_0 + "," +
+                              data.PM_AE_UG_1_0 + "," +
+                              data.PM_AE_UG_2_5 + "," +
+                              data.PM_AE_UG_10_0;
 
-void loop() {
-  readPMS33();
-  delay(3000);
-  //int bufferCount = pmsSerial.available();
-  //Serial.println(bufferCount);
-  // put your main code here, to run repeatedly:
-  //String str = "";
-  //while( pmsSerial.available() > 0)
-  //  str += (char) pmsSerial.read();
-  //Serial.print(str);
-  // delay(250);
+    Serial.println(encoded);
+  }
 }

@@ -30,5 +30,9 @@ Experiment procedure:
 https://github.com/fu-hsi/PMS
 3.6) Structure Serial data
 4) Write python script to read data from USB and print on console
+4.1) Write python Script to read data
+4.2) test in one sensor
+4.3) Attach all sensors and run experiment
+4.4) Save data for a day
 5) Improve script to save in files
 6) read files and compare error

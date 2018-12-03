@@ -28,7 +28,7 @@ Experiment procedure:
 3.4) PMS Library installed
 3.5) Read data using SoftwareSerial and PMS library
 https://github.com/fu-hsi/PMS
-3.7) Structure Serial data
+3.6) Structure Serial data
 4) Write python script to read data from USB and print on console
 5) Improve script to save in files
 6) read files and compare error

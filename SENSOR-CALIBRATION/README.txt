@@ -9,6 +9,7 @@ Requirements:
 5) male to male jumbers
 6) Python 3.6 installed on laptop
 7) CMD and python added to path veriable
+8) MATLAB: 2017a
 
 Assumption:
 used library works properly
@@ -34,5 +35,8 @@ https://github.com/fu-hsi/PMS
 4.2) test in one sensor
 4.3) Attach all sensors and run experiment
 4.4) Save data for a day
-5) Improve script to save in files
-6) read files and compare error
+5) MATLAB: error checking.
+5.1) Read csv file
+5.2) Encode timestamp
+5.4) create basic line plot of pm2.5 SP of all devices
+5.5) Save Figure in save /RESULT Diresctory

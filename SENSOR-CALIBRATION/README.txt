@@ -40,3 +40,6 @@ https://github.com/fu-hsi/PMS
 5.2) Encode timestamp
 5.4) create basic line plot of pm2.5 SP of all devices
 5.5) Save Figure in save /RESULT Diresctory
+5.6) seperate common data
+5.7) Gussian filter of data
+5.8) averaging and brining on common time stamp

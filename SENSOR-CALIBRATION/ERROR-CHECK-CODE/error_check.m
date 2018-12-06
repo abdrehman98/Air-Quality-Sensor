@@ -25,7 +25,7 @@ ts3 = datetime(ts3, 'ConvertFrom', 'posixtime');
 
 start_ts = max([min(ts1) min(ts2) min(ts3)]);
 end_ts = min([max(ts1) max(ts2) max(ts3)]);
-uts = start_ts:minutes(15):end_ts;
+uts = start_ts:minutes(60):end_ts;
 
 to_pm25_sp_1 = zeros(size(uts));
 to_pm25_sp_2 = zeros(size(uts));
@@ -46,8 +46,13 @@ for index = 1:length(uts) - 1
 end
 
 % plot(ts1, pm25_sp_1, 'r', ts2, pm25_sp_2, 'b', ts3, pm25_sp_3, 'g')
-% pause(5)
-plot(uts, to_pm25_sp_1, 'r' , uts, to_pm25_sp_2, 'b', uts, to_pm25_sp_3, 'g');
-% plot(uts, abs(to_pm25_sp_1 - to_pm25_sp_2), 'r', uts, abs(to_pm25_sp_2 - to_pm25_sp_3), 'b', uts, abs(to_pm25_sp_1 - to_pm25_sp_3), 'g');
+% plot(uts, to_pm25_sp_1, 'r' , uts, to_pm25_sp_2, 'b', uts, to_pm25_sp_3, 'g');
+plot(uts, abs(to_pm25_sp_1 - to_pm25_sp_2), 'r', uts, abs(to_pm25_sp_2 - to_pm25_sp_3), 'b', uts, abs(to_pm25_sp_1 - to_pm25_sp_3), 'g');
+
+title('PM2.5 ug/m3 two day data: Indoor testing (Absolute error vector: sampled at 1 hour)');
+xlabel('Time: 2 Days');
+ylabel('PM2.5: measured in ug/m3');
+% legend({'S1', 'S2', 'S3'},'Location','northwest')
+legend({'|S1 - s2|', '|S2 - s3|', '|S3 - s1|'}, 'Location', 'northwest');
 
 clear

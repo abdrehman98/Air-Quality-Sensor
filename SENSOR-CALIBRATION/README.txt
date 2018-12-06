@@ -39,7 +39,19 @@ https://github.com/fu-hsi/PMS
 5.1) Read csv file
 5.2) Encode timestamp
 5.4) create basic line plot of pm2.5 SP of all devices
-5.5) Save Figure in save /RESULT Diresctory
+5.5) Save Figure in save /RESULT Diresctory 
 5.6) seperate common data
 5.7) Gussian filter of data
 5.8) averaging and brining on common time stamp
+6) Error check: Result compilation
+6.1) Basic plot -> fig1.jpg --Too much noisy
+6.3) Considering comman | averaging 1 minute -> fig2.jpg --Less noisy --Local trends
+6.4) averaging 5 minute -> fig3.jpg --Less noisy --Local trends
+6.5) averaging 10 minute -> fig4.jpg --Less noisy --Local trends
+6.6) averaging 1 hour -> fig5.jpg --Local Trend loss
+6.7) computing error using ecludian distance
+6.7.1) 1 min sampling error -> fig6
+6.7.2) 5 min sampling error -> fig7
+6.7.3) 15 min sampling error -> fig8
+6.7.3) 1 hour sampling error -> fig9
+6.8) ERROR and SMOOTHNESS result compiled. 

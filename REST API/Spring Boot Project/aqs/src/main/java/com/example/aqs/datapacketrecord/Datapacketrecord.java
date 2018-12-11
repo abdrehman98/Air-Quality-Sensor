@@ -5,6 +5,7 @@ import com.example.aqs.values.Values;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="datapacketrecord")
@@ -14,18 +15,34 @@ public class Datapacketrecord {
 
     @Id
     @GeneratedValue
-    Long id;          // id of packet
+    Long packetrecordid;          // id of packet
     Long deviceid;    //device id
     String sensorname;
-    Time receivetime; // packet receiving time
-    Long value ;
+    Timestamp receivetime; // packet receiving time
+    Long parametervalue ;
 
-    public Long getId() {
-        return id;
+    public Long getPacketrecordid() {
+        return packetrecordid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPacketrecordid(Long packetrecordid) {
+        this.packetrecordid = packetrecordid;
+    }
+
+    public Timestamp getReceivetime() {
+        return receivetime;
+    }
+
+    public void setReceivetime(Timestamp receivetime) {
+        this.receivetime = receivetime;
+    }
+
+    public Long getParametervalue() {
+        return parametervalue;
+    }
+
+    public void setParametervalue(Long parametervalue) {
+        this.parametervalue = parametervalue;
     }
 
     public Long getDeviceid() {
@@ -44,19 +61,6 @@ public class Datapacketrecord {
         this.sensorname = sensorname;
     }
 
-    public Time getReceivetime() {
-        return receivetime;
-    }
 
-    public void setReceivetime(Time receivetime) {
-        this.receivetime = receivetime;
-    }
 
-    public Long getValue() {
-        return value;
-    }
-
-    public void setValue(Long value) {
-        this.value = value;
-    }
 }

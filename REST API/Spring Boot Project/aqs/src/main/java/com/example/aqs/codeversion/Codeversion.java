@@ -4,6 +4,7 @@ import com.example.aqs.admin.Admin;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="codeversion")
@@ -11,52 +12,57 @@ public class Codeversion {
 
     @Id
     @GeneratedValue
-    Long id;
-    String version;
+    Long recordid;
+
+
+    Long versionid;
+    String description;
     Long sensorcombinationcode;
-    String firmware;
+    String firmware_url;
     Boolean status;
-    String createdby;
-    Time createdat;
-    String updatedby;
-    Time updatedat;
+    Long created_by_admin_id;
+    Timestamp createdat;
+    Long updated_by_admin_id;
+    Timestamp updatedat;
 
-
+    //Long version_precedence;
+/*
     @ManyToOne( fetch= FetchType.EAGER,cascade= {CascadeType.ALL})
     @JoinColumn(name="admin_id", referencedColumnName = "id")
     private Admin admin;
-
-
-    public String getVersion() {
-        return version;
+*/
+    public Long getRecordid() {
+        return recordid;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
-    public Admin getAdmin() {
-        return admin;
+    public void setRecordid(Long recordid) {
+        this.recordid = recordid;
     }
 
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
+    public Long getVersionid() {
+        return versionid;
     }
 
-    public Long getId() {
-        return id;
+    public void setVersionid(Long versionid) {
+        this.versionid = versionid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getFirmware_url() {
+        return firmware_url;
     }
 
-/*    public String getCodeversion() {
-        return codeversion;
+    public void setFirmware_url(String firmware_url) {
+        this.firmware_url = firmware_url;
     }
 
-    public void setCodeversion(String codeversion) {
-        this.codeversion = codeversion;
-    }*/
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public Long getSensorcombinationcode() {
         return sensorcombinationcode;
@@ -64,14 +70,6 @@ public class Codeversion {
 
     public void setSensorcombinationcode(Long sensorcombinationcode) {
         this.sensorcombinationcode = sensorcombinationcode;
-    }
-
-    public String getFirmware() {
-        return firmware;
-    }
-
-    public void setFirmware(String firmware) {
-        this.firmware = firmware;
     }
 
     public Boolean getStatus() {
@@ -82,37 +80,36 @@ public class Codeversion {
         this.status = status;
     }
 
-    public String getCreatedby() {
-        return createdby;
+
+    public Long getCreated_by_admin_id() {
+        return created_by_admin_id;
     }
 
-    public void setCreatedby(String createdby) {
-        this.createdby = createdby;
+    public void setCreated_by_admin_id(Long created_by_admin_id) {
+        this.created_by_admin_id = created_by_admin_id;
     }
 
-    public Time getCreatedat() {
+    public Timestamp getCreatedat() {
         return createdat;
     }
 
-    public void setCreatedat(Time createdat) {
+    public void setCreatedat(Timestamp createdat) {
         this.createdat = createdat;
     }
 
-    public String getUpdatedby() {
-        return updatedby;
+    public Long getUpdated_by_admin_id() {
+        return updated_by_admin_id;
     }
 
-    public void setUpdatedby(String updatedby) {
-        this.updatedby = updatedby;
+    public void setUpdated_by_admin_id(Long updated_by_admin_id) {
+        this.updated_by_admin_id = updated_by_admin_id;
     }
 
-    public Time getUpdatedat() {
+    public Timestamp getUpdatedat() {
         return updatedat;
     }
 
-    public void setUpdatedat(Time updatedat) {
+    public void setUpdatedat(Timestamp updatedat) {
         this.updatedat = updatedat;
     }
-
-
 }

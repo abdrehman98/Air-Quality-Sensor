@@ -8,16 +8,18 @@ public class Login {
 
     @Id
     @GeneratedValue
-    Long id;
+    Long recordid;
+
+
     String email;
     String password;
 
-    public Long getId() {
-        return id;
+    public Long getRecordid() {
+        return recordid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecordid(Long recordid) {
+        this.recordid = recordid;
     }
 
     public String getEmail() {

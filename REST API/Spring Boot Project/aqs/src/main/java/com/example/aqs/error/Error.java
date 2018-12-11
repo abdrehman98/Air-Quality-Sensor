@@ -4,6 +4,7 @@ import com.example.aqs.admin.Admin;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="error")
@@ -11,20 +12,31 @@ public class Error {
 
 @Id
 @GeneratedValue
-Long id;
-Long errorcode;
-String description;
-Boolean status;
-String createdby;
-Time createdat;
-String updatedby;
-Time updatedat;
+Long recordid;
 
-//Relationshipsfetch = FetchType.EAGER,
+Long errorcode; //represents errorcode
+String  description;
+Boolean status;
+Long  created_by_admin_id;
+Timestamp createdat;
+Long  updated_by_admin_id;
+Timestamp updatedat;
+
+
+    //Relationshipsfetch = FetchType.EAGER,
 // /*********One to Many Relation with Audit************/
     @ManyToOne( fetch= FetchType.EAGER,cascade= {CascadeType.ALL})
     @JoinColumn(name="admin_id", referencedColumnName = "id")
     private Admin admin;
+
+
+    public Long getErrorcode() {
+        return errorcode;
+    }
+
+    public void setErrorcode(Long errorcode) {
+        this.errorcode = errorcode;
+    }
 
     public Admin getAdmin() {
         return admin;
@@ -34,21 +46,14 @@ Time updatedat;
         this.admin = admin;
     }
 
-    public Long getId() {
-        return id;
+    public Long getRecordid() {
+        return recordid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecordid(Long recordid) {
+        this.recordid = recordid;
     }
 
-    public Long getErrorcode() {
-        return errorcode;
-    }
-
-    public void setErrorcode(Long errorcode) {
-        this.errorcode = errorcode;
-    }
 
     public String getDescription() {
         return description;
@@ -66,35 +71,35 @@ Time updatedat;
         this.status = status;
     }
 
-    public String getCreatedby() {
-        return createdby;
+    public Long getCreated_by_admin_id() {
+        return created_by_admin_id;
     }
 
-    public void setCreatedby(String createdby) {
-        this.createdby = createdby;
+    public void setCreated_by_admin_id(Long created_by_admin_id) {
+        this.created_by_admin_id = created_by_admin_id;
     }
 
-    public Time getCreatedat() {
+    public Long getUpdated_by_admin_id() {
+        return updated_by_admin_id;
+    }
+
+    public void setUpdated_by_admin_id(Long updated_by_admin_id) {
+        this.updated_by_admin_id = updated_by_admin_id;
+    }
+
+    public Timestamp getCreatedat() {
         return createdat;
     }
 
-    public void setCreatedat(Time createdat) {
+    public void setCreatedat(Timestamp createdat) {
         this.createdat = createdat;
     }
 
-    public String getUpdatedby() {
-        return updatedby;
-    }
-
-    public void setUpdatedby(String updatedby) {
-        this.updatedby = updatedby;
-    }
-
-    public Time getUpdatedat() {
+    public Timestamp getUpdatedat() {
         return updatedat;
     }
 
-    public void setUpdatedat(Time updatedat) {
+    public void setUpdatedat(Timestamp updatedat) {
         this.updatedat = updatedat;
     }
 }

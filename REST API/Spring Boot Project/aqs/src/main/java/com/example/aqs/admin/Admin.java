@@ -10,19 +10,27 @@ public class Admin {
     @Id
     @GeneratedValue
     Long id;
+
+    Long adminId;
     String email;
     String password;
     Boolean status;
-
-
 
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long Id) {
         this.id = id;
+    }
+
+    public Long getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Long adminId) {
+        this.adminId = adminId;
     }
 
     public String getEmail() {

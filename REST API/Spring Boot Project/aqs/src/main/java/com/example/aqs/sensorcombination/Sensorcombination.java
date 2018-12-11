@@ -6,6 +6,7 @@ import com.example.aqs.devices.Devices;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="sensorcombination")
@@ -14,14 +15,14 @@ public class Sensorcombination {
 @Id
 @GeneratedValue
 Long id;
+
 Long sensorcombinationcode;
-//String sensorid;
 String description;
-Boolean status;
-String createdby;
-Time createdat;
-String updatedby;
-Time updatedat;
+Boolean status;  // what???
+Long created_by_admin_id;
+Timestamp createdat;
+Long updated_by_admin_id;
+Timestamp updatedat;
 
 
 
@@ -40,15 +41,6 @@ Time updatedat;
         this.admin = admin;
     }
 
-
-  /*  public String getSensorid() {
-        return sensorid;
-    }
-
-    public void setSensorid(String sensorid) {
-        this.sensorid = sensorid;
-    }
-*/
 
     public Long getId() {
         return id;
@@ -82,35 +74,35 @@ Time updatedat;
         this.status = status;
     }
 
-    public String getCreatedby() {
-        return createdby;
+    public Long getCreated_by_admin_id() {
+        return created_by_admin_id;
     }
 
-    public void setCreatedby(String createdby) {
-        this.createdby = createdby;
+    public void setCreated_by_admin_id(Long created_by_admin_id) {
+        this.created_by_admin_id = created_by_admin_id;
     }
 
-    public Time getCreatedat() {
+    public Timestamp getCreatedat() {
         return createdat;
     }
 
-    public void setCreatedat(Time createdat) {
+    public void setCreatedat(Timestamp createdat) {
         this.createdat = createdat;
     }
 
-    public String getUpdatedby() {
-        return updatedby;
+    public Long getUpdated_by_admin_id() {
+        return updated_by_admin_id;
     }
 
-    public void setUpdatedby(String updatedby) {
-        this.updatedby = updatedby;
+    public void setUpdated_by_admin_id(Long updated_by_admin_id) {
+        this.updated_by_admin_id = updated_by_admin_id;
     }
 
-    public Time getUpdatedat() {
+    public Timestamp getUpdatedat() {
         return updatedat;
     }
 
-    public void setUpdatedat(Time updatedat) {
+    public void setUpdatedat(Timestamp updatedat) {
         this.updatedat = updatedat;
     }
 }

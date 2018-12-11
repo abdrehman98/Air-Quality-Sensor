@@ -10,16 +10,25 @@ import javax.persistence.Table;
 public class Sensorparameter {
     @Id
     @GeneratedValue
-    Long id;
+    Long recordid;
+
     String sensorname;
     String parameter;
 
-    public Long getId() {
-        return id;
+    /*relation with sensor*/
+    /*relation with sensor*/
+    /*relation with sensor*/
+    /*relation with sensor*/
+    /*relation with sensor*/
+    /*relation with sensor*/
+
+
+    public Long getRecordid() {
+        return recordid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecordid(Long recordid) {
+        this.recordid = recordid;
     }
 
     public String getSensorname() {

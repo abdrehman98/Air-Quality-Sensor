@@ -4,6 +4,7 @@ import com.example.aqs.admin.Admin;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="sensor")
@@ -11,18 +12,19 @@ public class Sensor {
 
 @Id
 @GeneratedValue
-Long id;
+Long recordId;
+
 String name;
 String functionality;
 String minoptimumvalue;
 String maxoptimumvalue;
 Boolean status;        // what is this?
-String ctratedby;
-Time createdat;
-String updatedby;
-Time updatedat;
+Long ctrated_by_admin_id;
+Timestamp createdat;
+String updated_by_admin_id;
+Timestamp updatedat;
 
-    @ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
+/*@ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
     @JoinColumn(name="admin_id", referencedColumnName = "id")
     private Admin admin;
 
@@ -32,13 +34,47 @@ Time updatedat;
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
-    }
-    public Long getId() {
-        return id;
+    }*/
+
+    public Long getRecordId() {
+        return recordId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecordId(Long recordId) {
+        this.recordId = recordId;
+    }
+
+    public Timestamp getCreatedat() {
+        return createdat;
+    }
+
+    public Timestamp getUpdatedat() {
+        return updatedat;
+    }
+
+
+    public Long getCtrated_by_admin_id() {
+        return ctrated_by_admin_id;
+    }
+
+    public void setCtrated_by_admin_id(Long ctrated_by_admin_id) {
+        this.ctrated_by_admin_id = ctrated_by_admin_id;
+    }
+
+    public void setCreatedat(Timestamp createdat) {
+        this.createdat = createdat;
+    }
+
+    public String getUpdated_by_admin_id() {
+        return updated_by_admin_id;
+    }
+
+    public void setUpdated_by_admin_id(String updated_by_admin_id) {
+        this.updated_by_admin_id = updated_by_admin_id;
+    }
+
+    public void setUpdatedat(Timestamp updatedat) {
+        this.updatedat = updatedat;
     }
 
     public String getName() {
@@ -81,35 +117,6 @@ Time updatedat;
         this.status = status;
     }
 
-    public String getCtratedby() {
-        return ctratedby;
-    }
 
-    public void setCtratedby(String ctratedby) {
-        this.ctratedby = ctratedby;
-    }
 
-    public Time getCreatedat() {
-        return createdat;
-    }
-
-    public void setCreatedat(Time createdat) {
-        this.createdat = createdat;
-    }
-
-    public String getUpdatedby() {
-        return updatedby;
-    }
-
-    public void setUpdatedby(String updatedby) {
-        this.updatedby = updatedby;
-    }
-
-    public Time getUpdatedat() {
-        return updatedat;
-    }
-
-    public void setUpdatedat(Time updatedat) {
-        this.updatedat = updatedat;
-    }
 }

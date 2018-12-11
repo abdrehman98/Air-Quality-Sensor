@@ -3,7 +3,9 @@ package com.example.aqs.devices;
 import com.example.aqs.codeversion.Codeversion;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="devices")
@@ -11,29 +13,85 @@ public class Devices {
 
     @Id
     @GeneratedValue
-    Long id;
+    Long recordid;
+    Long deviceid;
     Long sensor_combination_code;
-    String code_version;
+    Long code_version;
     Boolean status;
-    String created_by;
-    Time created_at;
-    String updated_by;
-    Time updated_at;
-
-    @ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
-    @JoinColumn(name="device_id", referencedColumnName = "id")
-    private Codeversion codeversion;
+    Long created_by_admin_id;
+    Timestamp created_at;
+    Long updated_by_admin_id;
+    Timestamp updated_at;
 
 
+/*@ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.ALL})
+        @JoinColumn(name="device_id", referencedColumnName = "id")
+        private Codeversion codeversion;
 
+    */
 
-    public Long getId() {
-        return id;
+    public Long getRecordid() {
+        return recordid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecordid(Long recordid) {
+        this.recordid = recordid;
     }
+
+    public Long getDeviceid() {
+        return deviceid;
+    }
+
+    public void setDeviceid(Long deviceid) {
+        this.deviceid = deviceid;
+    }
+
+
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public Long getCreated_by_admin_id() {
+        return created_by_admin_id;
+    }
+
+    public void setCreated_by_admin_id(Long created_by_admin_id) {
+        this.created_by_admin_id = created_by_admin_id;
+    }
+
+    public Long getUpdated_by_admin_id() {
+        return updated_by_admin_id;
+    }
+
+    public void setUpdated_by_admin_id(Long updated_by_admin_id) {
+        this.updated_by_admin_id = updated_by_admin_id;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
+
+
+    public void setCode_version(Long code_version) {
+        this.code_version = code_version;
+    }
+
+    public Long getCode_version() {
+        return code_version;
+    }
+
+
+
 
     public Long getSensor_combination_code() {
         return sensor_combination_code;
@@ -41,14 +99,6 @@ public class Devices {
 
     public void setSensor_combination_code(Long sensor_combination_code) {
         this.sensor_combination_code = sensor_combination_code;
-    }
-
-    public String getCode_version() {
-        return code_version;
-    }
-
-    public void setCode_version(String code_version) {
-        this.code_version = code_version;
     }
 
     public Boolean getStatus() {
@@ -59,37 +109,6 @@ public class Devices {
         this.status = status;
     }
 
-    public String getCreated_by() {
-        return created_by;
-    }
-
-    public void setCreated_by(String created_by) {
-        this.created_by = created_by;
-    }
-
-    public Time getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Time created_at) {
-        this.created_at = created_at;
-    }
-
-    public String getUpdated_by() {
-        return updated_by;
-    }
-
-    public void setUpdated_by(String updated_by) {
-        this.updated_by = updated_by;
-    }
-
-    public Time getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(Time updated_at) {
-        this.updated_at = updated_at;
-    }
 
 
 

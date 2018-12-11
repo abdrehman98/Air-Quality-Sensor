@@ -1,6 +1,7 @@
 package com.example.aqs.previouslocation;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import javax.persistence.*;
 
 @Entity
@@ -13,21 +14,14 @@ public class Previouslocation {
     @Id
 
     @GeneratedValue
-    Long id;
+    Long recordid;
+
     Long deviceid;
-    Time locationtime;
-    String longitude;
-    String Latitude;
+    Timestamp locationtime;
+    Long longitude;
+    Long Latitude;
 
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getDeviceid() {
         return deviceid;
@@ -37,28 +31,36 @@ public class Previouslocation {
         this.deviceid = deviceid;
     }
 
-    public Time getLocationtime() {
+
+    public Long getRecordid() {
+        return recordid;
+    }
+
+    public void setRecordid(Long recordid) {
+        this.recordid = recordid;
+    }
+
+    public Timestamp getLocationtime() {
         return locationtime;
     }
 
-    public void setLocationtime(Time locationtime) {
+    public void setLocationtime(Timestamp locationtime) {
         this.locationtime = locationtime;
     }
 
-    public String getLongitude() {
+    public Long getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Long longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public Long getLatitude() {
         return Latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Long latitude) {
         Latitude = latitude;
     }
-
 }

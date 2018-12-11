@@ -17,8 +17,9 @@ import com.example.aqs.values.Values;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
+import java.sql.Timestamp;
 import java.sql.Time;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -61,7 +62,8 @@ public class AqsController {
         /*if (aqsService.adminEmailExist(email)) {
             //do nothing
             return null;
-        } else */{
+        } else */
+        {
             //create a new user
             //entry.setLoginAs("user");
             //admin.setId(admin.getId());
@@ -82,8 +84,8 @@ public class AqsController {
 
 
         //Login login1=login;
-        Long id1 = device.getId();
-        if (aqsService.deviceIdExist(id1)) {
+        Long deviceid = device.getDeviceid();
+        if (aqsService.deviceIdExist(deviceid)) {
             //do nothing
             return null;
         } else {
@@ -92,9 +94,14 @@ public class AqsController {
             //login.setId(login.getId());
             //login.setEmail(login.getEmail());
             //login.setPassword(login.getPassword());
-            java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-            device.setCreated_at(time);
-            device.setUpdated_at(time);
+
+
+            //timestamp = date.getTime();
+            //java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+            Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
+
+            device.setUpdated_at(timestamp);
+            device.setCreated_at(timestamp);
 
             return aqsService.setDevice(device);
             //return crudService.setUser(user);
@@ -112,9 +119,11 @@ public class AqsController {
             return null;
         } else {
 
-            java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-            sensor.setCreatedat(time);
-            sensor.setUpdatedat(time);
+            //java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+            Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
+
+            sensor.setCreatedat(timestamp);
+            sensor.setUpdatedat(timestamp);
 
             return aqsService.setSensor(sensor);
         }
@@ -129,17 +138,13 @@ public class AqsController {
         String parametername = sensorparameter.getParameter();
         String sensorname = sensorparameter.getSensorname();
         //to check if a combination of sensor name and sensor parameter already exists
-        if (aqsService.sensorParameterNameExist(parametername,sensorname))
-        {
+        /*if (aqsService.sensorParameterNameExist(parametername, sensorname)) {
             //do nothing
             return null;
-        }
-        else
-        {
+        } else {*/
             return aqsService.setSensorparameter(sensorparameter);
-        }
+        //}
     }
-
 
 
     //Add a new error
@@ -160,43 +165,47 @@ public class AqsController {
             //login.setId(login.getId());
             //login.setEmail(login.getEmail());
             //login.setPassword(login.getPassword());
-            java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-            error.setCreatedat(time);
-            error.setUpdatedat(time);
-            Admin admin=error.getAdmin();
+            //java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+
+            Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
+
+            error.setCreatedat(timestamp);
+            error.setUpdatedat(timestamp);
+            Admin admin = error.getAdmin();
             error.setAdmin(admin);
             return aqsService.setError(error);
             //return crudService.setUser(user);
         }
     }
-/*
-    //Add a new errorlog
-    @RequestMapping(value = {"/errorlog"}, method = RequestMethod.POST)
-    public @ResponseBody
-    Errorlog SetErrorlog(@RequestBody Errorlog errorlog) {
-        //Entry entry = user.getEntry();
+
+    /*
+        //Add a new errorlog
+        @RequestMapping(value = {"/errorlog"}, method = RequestMethod.POST)
+        public @ResponseBody
+        Errorlog SetErrorlog(@RequestBody Errorlog errorlog) {
+            //Entry entry = user.getEntry();
 
 
-        //Login login1=login;
-        Long errorcode = error.getErrorcode();
-        if (aqsService.errorCodeExist(errorcode)) {
-            //do nothing
-            return null;
-        } else {
-            //create a new user
-            //entry.setLoginAs("user");
-            //login.setId(login.getId());
-            //login.setEmail(login.getEmail());
-            //login.setPassword(login.getPassword());
-            java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-            error.setCreatedat(time);
-            error.setUpdatedat(time);
+            //Login login1=login;
+            Long errorcode = error.getErrorcode();
+            if (aqsService.errorCodeExist(errorcode)) {
+                //do nothing
+                return null;
+            } else {
+                //create a new user
+                //entry.setLoginAs("user");
+                //login.setId(login.getId());
+                //login.setEmail(login.getEmail());
+                //login.setPassword(login.getPassword());
+                java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+                error.setCreatedat(time);
+                error.setUpdatedat(time);
 
-            return aqsService.setError(error);
-            //return crudService.setUser(user);
+                return aqsService.setError(error);
+                //return crudService.setUser(user);
+            }
         }
-    }
-*/
+    */
     //Add a new codeversion
     @RequestMapping(value = {"/codeversion"}, method = RequestMethod.POST)
     public @ResponseBody
@@ -205,24 +214,28 @@ public class AqsController {
 
 
         //Login login1=login;
-        String version = codeversion.getVersion();
+        //String version = codeversion.getVersion();
         /*if (aqsService.codeVersionExist(version)) {
             //do nothing
             return null;
-        } else*/ {
+        } else*/
+        //{
             //create a new user
             //entry.setLoginAs("user");
             //login.setId(login.getId());
             //login.setEmail(login.getEmail());
             //login.setPassword(login.getPassword());
-            java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-            codeversion.setCreatedat(time);
-            codeversion.setUpdatedat(time);
+            //java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+
+            Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
+
+            codeversion.setCreatedat(timestamp);
+            codeversion.setUpdatedat(timestamp);
 
             return aqsService.setCodeversion(codeversion);
             //return crudService.setUser(user);
         }
-    }
+    //}
 
     //Add a new Location
     @RequestMapping(value = {"/location"}, method = RequestMethod.POST)
@@ -231,11 +244,14 @@ public class AqsController {
 
         aqsService.deviceExistInLocationTable(location);
 
-        java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-        location.setLocationtime(time);
+        //java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+
+        Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
+
+        location.setLocationtime(timestamp);
 
         aqsService.updateLocation(location);
-        
+
         return location;
     }
 
@@ -245,23 +261,35 @@ public class AqsController {
     Errorlog SetErrorlog(@RequestBody Errorlog errorlog) {
 
 
-        java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-        errorlog.setOccurtime(time);
+        //java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+        Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
+
+        errorlog.setErroroccurtime(timestamp);
 
         aqsService.setErrorlog(errorlog);
 
         return errorlog;
     }
 
-    //Retrieve errorlogs fro a device
+    //Retrieve errorlogs for a device
     @RequestMapping(value = {"/errorlog/{deviceid}"}, method = RequestMethod.GET)
     public @ResponseBody
     Iterable<Errorlog> GetDeviceErrorlogs(@PathVariable("deviceid") Long deviceid) {
 
 
-
         return aqsService.getErrorlog(deviceid);
 
+
+    }
+
+
+    //Retrieve locations of all device
+    @RequestMapping(value = {"/location"}, method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<Location> GetLocations() {
+
+
+        return aqsService.getlocations();
 
     }
 
@@ -275,16 +303,16 @@ public class AqsController {
 
         //Login login1=login;
         //Long sensorCombinationCode= sensorcombination.getSensorcombinationcode();
-        if (aqsService.sensorCombinationExist(sensorcombination))
-        {
+        if (aqsService.sensorCombinationExist(sensorcombination)) {
             //do nothing
             return null;
-        }
-        else
-        {
-            java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-            sensorcombination.setCreatedat(time);
-            sensorcombination.setUpdatedat(time);
+        } else {
+            //java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+
+            Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
+
+            sensorcombination.setCreatedat(timestamp);
+            sensorcombination.setUpdatedat(timestamp);
             return aqsService.setSensorcombination(sensorcombination);
 
         }
@@ -295,25 +323,28 @@ public class AqsController {
     @RequestMapping(value = {"/datapacket"}, method = RequestMethod.POST)
     public @ResponseBody
     void/*ArrayList<Datapacketrecord>*/ SetDatapacket(@RequestBody Datapacket datapacket) {
-                java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
-        datapacket.setReceivetime(time);
+        //java.sql.Time time = new java.sql.Time(Calendar.getInstance().getTime().getTime());
+        Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
 
-        Values[] vals=datapacket.getValues();
-        int i=vals.length;  //number of values in data packet.
-        Datapacketrecord[] records=new Datapacketrecord[i];
-        for( int j=0;j<i;j++)
-        {
-            Datapacketrecord record=new Datapacketrecord();
+
+        datapacket.setReceivetime(timestamp);
+
+        Values[] vals = datapacket.getValues();
+        int i = vals.length;  //number of values in data packet.
+        Datapacketrecord[] records = new Datapacketrecord[i];
+        for (int j = 0; j < i; j++) {
+            Datapacketrecord record = new Datapacketrecord();
             record.setDeviceid(datapacket.getDeviceid());
             record.setSensorname(vals[j].getSensor_name());
-            record.setReceivetime(time);
-            record.setValue(vals[j].getValue());
-            records[j]=record;
-            /*return*/ aqsService.setDatapacketRecord(record);
+            record.setReceivetime(timestamp);
+            record.setParametervalue(vals[j].getValue());
+            records[j] = record;
+            /*return*/
+            aqsService.setDatapacketRecord(record);
 
         }
 
-        }
+    }
 
 
     //Get Login
@@ -326,5 +357,46 @@ public class AqsController {
     }
 
 
-}
+    //Check for firmware upgrade
+    @RequestMapping(value = {"/devices/{id}/{sensor_combination_code}/{code_version}"}, method = RequestMethod.GET)
+    public @ResponseBody
+    String CheckCodeVersionUpgradeAvailabilty(@PathVariable("id") Long id, @PathVariable("sensor_combination_code") Long sensor_combination_code, @PathVariable("code_version") Long code_version)
 
+    {
+
+        return aqsService.CheckForUpgrade(id, sensor_combination_code, code_version);
+    }
+
+
+    //firmware upgrade Confirmation Acknowledgement
+    @RequestMapping(value = {"/devices/{id}/{sensor_combination_code}/{code_version}"}, method = RequestMethod.PUT)
+    public @ResponseBody
+    Devices VersionUpgradeRecord(@PathVariable("id") Long id,  @PathVariable("sensor_combination_code") Long sensor_combination_code,  @PathVariable("code_version") Long code_version)
+
+    {
+        return aqsService.UpgradeDeviceRecord(id, sensor_combination_code ,code_version);
+    }
+
+
+    //Delete Device
+    @RequestMapping(value = {"/admin/{id}"}, method = RequestMethod.DELETE)
+    public @ResponseBody
+    Boolean DeleteDevice(@PathVariable("id") Long id)
+
+    {
+        return aqsService.FIND_DELETE_DEVICE(id);
+    }
+
+
+    //Find list of Devices
+    @RequestMapping(value = {"/admin"}, method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<Devices> FindListOfDevices()
+
+    {
+
+        return aqsService.FIND_DEVICES_LIST();
+
+    }
+
+}

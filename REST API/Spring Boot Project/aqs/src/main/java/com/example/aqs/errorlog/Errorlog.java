@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="errorlog")
@@ -12,8 +13,19 @@ public class Errorlog {
 
     @Id
     @GeneratedValue
-    Long id;
+    Long recordid;
+
     Long deviceid;
+    Timestamp erroroccurtime;
+    Long errorcode;
+
+    /* how to implement its relation */
+    /* how to implement its relation */
+    /* how to implement its relation */
+    /* how to implement its relation */
+    /* how to implement its relation */
+
+
     public Long getDeviceid() {
         return deviceid;
     }
@@ -22,24 +34,20 @@ public class Errorlog {
         this.deviceid = deviceid;
     }
 
-    Time occurtime;
-    Long errorcode;
-
-
-    public Long getId() {
-        return id;
+    public Long getRecordid() {
+        return recordid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecordid(Long recordid) {
+        this.recordid = recordid;
     }
 
-    public Time getOccurtime() {
-        return occurtime;
+    public Timestamp getErroroccurtime() {
+        return erroroccurtime;
     }
 
-    public void setOccurtime(Time occurtime) {
-        this.occurtime = occurtime;
+    public void setErroroccurtime(Timestamp erroroccurtime) {
+        this.erroroccurtime = erroroccurtime;
     }
 
     public Long getErrorcode() {

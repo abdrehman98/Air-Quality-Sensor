@@ -5,18 +5,44 @@ import com.example.aqs.values.Values;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="datapacket")
 public class Datapacket {
 
-@Id
-@GeneratedValue
-     Long id;          // id of packet
-     Long deviceid;    //device id
-     //Long sensorid;
-     Time receivetime; // packet receiving time
-     Values[] values ;
+     @Id
+     @GeneratedValue
+     Long Packetid;         // id of packet
+
+     Long deviceid;         // device id
+     Timestamp receivetime; // packet receiving time
+     Values[] values ;      //
+     Boolean status;        // is this a stored packet or recent packet?
+
+
+    /* device and datapacket relation */
+    /* device and datapacket relation */
+    /* device and datapacket relation */
+    /* device and datapacket relation */
+    /* device and datapacket relation */
+    /* device and datapacket relation */
+
+    public Long getPacketid() {
+        return Packetid;
+    }
+
+    public void setPacketid(Long packetid) {
+        Packetid = packetid;
+    }
+
+    public Timestamp getReceivetime() {
+        return receivetime;
+    }
+
+    public void setReceivetime(Timestamp receivetime) {
+        this.receivetime = receivetime;
+    }
 
     public Values[] getValues() {
         return values;
@@ -26,9 +52,6 @@ public class Datapacket {
         this.values = values;
     }
 
-    Boolean status;   // is this a stored packet or recent packet?
-
-
     public Long getDeviceid() {
         return deviceid;
     }
@@ -37,38 +60,6 @@ public class Datapacket {
         this.deviceid = deviceid;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /*public Long getSensorid() {
-        return sensorid;
-    }
-
-    public void setSensorid(Long sensorid) {
-        this.sensorid = sensorid;
-    }*/
-
-    public Time getReceivetime() {
-        return receivetime;
-    }
-
-    public void setReceivetime(Time receivetime) {
-        this.receivetime = receivetime;
-    }
-/*
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-*/
     public Boolean getStatus() {
         return status;
     }

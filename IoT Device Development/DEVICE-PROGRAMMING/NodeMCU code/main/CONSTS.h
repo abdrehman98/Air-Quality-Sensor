@@ -3,12 +3,11 @@
 
 # define BLUETOOTH_BAUD 38400
 
-# define BLUETOOTH_TX D0
-# define BLUETOOTH_RX D1
+# define BLUETOOTH_RX D0
+# define BLUETOOTH_TX D1
 # define SENSOR_RX    D2
 # define SENSOR_TX    D3
-# define BLUETOOTH_BUTTON_PIN D4d
+# define BLUETOOTH_BUTTON_PIN D4
 # define BLUETOOTH_POWER_PIN  D5
 # define WIFI_LED_PIN      D6
-# define BLUETOOTH_LED_PIN D7
-# define SERVER_LED_PIN    D8
+# define SERVER_LED_PIN    D7

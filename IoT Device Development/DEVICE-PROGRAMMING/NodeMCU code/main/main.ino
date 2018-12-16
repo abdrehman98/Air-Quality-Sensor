@@ -1,14 +1,14 @@
 
-// -------------------------// Internal/ External Import
-#include <ESP8266WiFi.h>    // Wifi Liberary (Node MCU Core)
+// ------------------------------// Internal/ External Import
+#include <ESP8266WiFi.h>         // Wifi Liberary (Node MCU Core)
 #include <ESP8266httpUpdate.h>
 #include <ESP8266HTTPClient.h>     
 #include <WiFiClient.h>
 #include <string.h> 
-#include <WiFiServer.h>     // TCP/Server    (Node MCU Core)
-#include <EEPROM.h>         // Accessing EEPROM (Arduino)
+#include <WiFiServer.h>          // TCP/Server    (Node MCU Core)
+#include <EEPROM.h>              // Accessing EEPROM (Arduino)
 #include <ArduinoJson.h>
-#include <StorageIO.h>      // To save SSID/Password/Latitude/Longitude https://github.com/Zeeshan-itu/StorageIO
+#include <StorageIO.h>           // To save SSID/Password/Latitude/Longitude https://github.com/Zeeshan-itu/StorageIO
 #include <Indicator.h>
 #include <SoftwareSerial.h>
 
@@ -25,22 +25,24 @@ Indicator indicateDataSending(SERVER_LED_PIN);
 String deviceID;
 
 void setup() {
-  //---------------------------------- Initializa Serial communication
+  //------------------ Initializa Serial communication
   Serial.begin(9600);
   Serial.println("Starting...");
+
+  pinMode(WIFI_LED_PIN, OUTPUT);
+  pinMode(SERVER_LED_PIN, OUTPUT);
+
+  mobileConnectionInit();
   WiFi.softAPdisconnect(true);
   WiFi.disconnect(true);
-  mobileConnectionInit();
-
   StorageIO rom = StorageIO();
   char * id = rom.readNextString();
-  Serial.println("DEVICE ID: " + (String) id);
   char * ssid = rom.readNextString();
   char * password = rom.readNextString();
-
-  WiFi.begin(ssid, password);
+  Serial.println("DEVICE ID: " + (String) id);
   Serial.println("Connection Request:" + (String) ssid);
   Serial.println("Password:" + (String) password);
+  WiFi.begin(ssid, password);
 
   deviceID = String(id);
   // Release memory
@@ -51,12 +53,16 @@ void setup() {
 }
 
 void loop() {
-  connectToMobile();
+  if (connectToMobileFlag){
+    connectToMobileFlag = false;
+    connectToMobile();
+  }
   indicateWifiStatus();
 }
+
 void indicateWifiStatus(){
   if ( WiFi.status() == WL_CONNECTED )
-    Serial.println("WIFI CONNECTED");
+    digitalWrite(WIFI_LED_PIN, HIGH);
   else
-    Serial.println("WIFI DIS-CONNECTED");
+    digitalWrite(WIFI_LED_PIN, LOW);
 }

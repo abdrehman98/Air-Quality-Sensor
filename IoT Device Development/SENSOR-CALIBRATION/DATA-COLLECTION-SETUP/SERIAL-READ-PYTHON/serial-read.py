@@ -10,15 +10,13 @@ print('*      Display on Screen and Same on File as named         *')
 print('*            as Sensor id                                  *')
 print('************************************************************')
 
-BASIC_DATA_FOLDER_PATH = '..\\EXTRECTED-DATA\\'
-DATA_VERSION = 'DEC-2\\'
+BASIC_DATA_FOLDER_PATH = '../EXTRECTED-DATA/'
+DATA_VERSION = 'DEC-6/'
 serial_port = input('ENTER Serial-Porrt:')
 sensor_id = input('Enter Sensor-ID')
 
 
-f = open(BASIC_DATA_FOLDER_PATH +
-         DATA_VERSION +
-         sensor_id + ".csv", "a+")
+f = open(sensor_id + ".csv", "a+")
 
 ser = serial.Serial()
 ser.baudrate = 9600

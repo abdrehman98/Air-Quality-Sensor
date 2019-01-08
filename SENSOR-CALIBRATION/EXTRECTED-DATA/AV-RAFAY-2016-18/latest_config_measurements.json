@@ -1,0 +1,66 @@
+{
+    "date_and_time": {
+        "date": "2019/01/07",
+        "time": "20:46:37",
+        "timestamp": "1546893997"
+    },
+    "measurements": {
+        "co2_ppm": "482",
+        "humidity_RH": "74",
+        "pm25_AQICN": "250",
+        "pm25_AQIUS": "249",
+        "pm25_ugm3": "199.3",
+        "temperature_C": "14.7",
+        "temperature_F": "58.5",
+        "voc_ppb": "-1"
+    },
+    "serial_number": "KXVYX76",
+    "settings": {
+        "followed_station": "16306",
+        "is_aqi_usa": true,
+        "is_concentration_showed": false,
+        "is_indoor": false,
+        "is_lcd_on": true,
+        "is_network_time": true,
+        "is_temperature_celsius": true,
+        "language": "en-GB",
+        "lcd_brightness": 60,
+        "node_name": "upper mall",
+        "power_saving": {
+            "2slots": [
+                {
+                    "hour_off": 9,
+                    "hour_on": 7
+                },
+                {
+                    "hour_off": 22,
+                    "hour_on": 18
+                }
+            ],
+            "mode": "yes",
+            "yes": [
+                {
+                    "hour": 8,
+                    "minute": 0
+                },
+                {
+                    "hour": 21,
+                    "minute": 0
+                }
+            ]
+        },
+        "speed_unit": "km/h",
+        "timezone": "Asia/Karachi"
+    },
+    "status": {
+        "app_version": "1.1531",
+        "battery": 100,
+        "datetime": 1546893997,
+        "model": "10",
+        "sensor_pm25_serial": "00000110030909010443",
+        "sync_time": 60000,
+        "system_version": "KBG55F69",
+        "used_memory": 0,
+        "wifi_strength": 5
+    }
+}

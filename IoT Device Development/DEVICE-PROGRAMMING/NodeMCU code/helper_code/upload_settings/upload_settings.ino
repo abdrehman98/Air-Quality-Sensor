@@ -1,5 +1,6 @@
 # include <EEPROM.h>
 # include <StorageIO.h>
+#include "ESP8266WiFi.h"
 
 # define DEVICE_ID "1"
 # define WIFI_SSID "DIR Makeistan"
@@ -8,7 +9,8 @@
 
 StorageIO rom = StorageIO();
 
-void setup(){}
+void setup(){
+}
 
 void loop(){
     rom.writeNextString(DEVICE_ID);

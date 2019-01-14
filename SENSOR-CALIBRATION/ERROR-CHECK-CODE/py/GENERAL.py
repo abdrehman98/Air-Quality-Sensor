@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 
 ###########################################
@@ -110,3 +111,16 @@ def output_plot(plotter, path, operation, clf=True, title_name=''):
 
     if clf:
         plotter.clf()
+
+
+def get_data_between(data, min_ts, max_ts, index=0):
+    required_data = []
+
+    for row in data:
+        ts = row[index]
+        if min_ts <= ts <= max_ts:
+            required_data.append(row)
+
+    return required_data
+
+

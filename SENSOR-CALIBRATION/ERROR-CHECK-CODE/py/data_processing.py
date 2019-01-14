@@ -18,7 +18,7 @@ def load_air_visual_data(file_path):
 
     for line in data:
         # Remove Separator from the end of line
-        line = line.replace(line[len(line) - 1], "")
+
         # Split entries on token
         line = line.split(C.PAQI_FILE_SEPARATOR)
 
@@ -61,12 +61,13 @@ def load_pms_data(file_path):
     return structured_data
 
 
-def save_air_visual_data(folder_path, file_path, data):
-
-
 def main():
-    paqi_data = load_air_visual_data(C.PAQI_DATA_FILE_PATH)
+    # paqi_data = load_air_visual_data(C.PAQI_DATA_FILE_PATH)
     pms_data = load_pms_data(C.PMS_DATA_FILE_PATH)
+
+    for
+
+    """
     ts = [line[I.PMS_TIMESTAMP] for line in pms_data]
     min_pms_ts = min(ts)
     max_pms_ts = max(ts)
@@ -74,8 +75,6 @@ def main():
     print("MAX=", max_pms_ts)
 
     paqi_considered_data = GENERAL.get_data_between(paqi_data, min_pms_ts, max_pms_ts, I.E_TIMESTAMP)
-
-    """
     folder_path = C.BASE_PATH + C.SPLIT + C.PMS_FOLDER_PATH
     file_path = folder_path + "AV.csv"
     print(folder_path)

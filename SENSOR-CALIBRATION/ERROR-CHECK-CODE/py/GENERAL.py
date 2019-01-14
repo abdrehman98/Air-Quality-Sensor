@@ -123,4 +123,3 @@ def get_data_between(data, min_ts, max_ts, index=0):
 
     return required_data
 
-

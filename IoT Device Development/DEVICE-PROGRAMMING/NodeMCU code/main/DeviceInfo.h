@@ -7,7 +7,7 @@ public:
   const char * CODE_VERSION = "1";
   const int BLUETOOTH_BAUD = 38400;
   const int BLUETOOTH_RX = D0;
-  const int BLUETOOTH_TX = D1;
+  const int BLUETOOTH_TX = D4;
   const int PMS_RX = D2;
   const int PMS_TX = D8;
   const int BLUETOOTH_BUTTON_PIN = D7;

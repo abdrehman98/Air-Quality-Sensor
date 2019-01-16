@@ -53,6 +53,7 @@ String readBluetooth(SoftwareSerial & btSerial, String tag){
     st = btSerial.readString();
     st.replace("\n", "");
     st.replace("\r", "");
+    Serial.println(st);
   } while(st != "START_" + tag);
 
   String res_val = "";

@@ -10,8 +10,8 @@ public:
   const int BLUETOOTH_TX = D1;
   const int PMS_RX = D2;
   const int PMS_TX = D8;
-  const int BLUETOOTH_BUTTON_PIN = D4;
-  const int BLUETOOTH_POWER_PIN = D5;
+  const int BLUETOOTH_BUTTON_PIN = D7;
+  const int BLUETOOTH_POWER_PIN = D8;
   const int WIFI_LED_PIN = D6;
   const int SERVER_LED_PIN = D7;
 

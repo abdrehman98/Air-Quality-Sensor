@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 struct DataPacket{
-  PMS::DATA pmsData;
+  PMS::DATA2 pmsData;
   float temperature;
   float humidity;
 };
@@ -16,7 +16,7 @@ DataPacket readData(){
   delay(1000);
 
   DataPacket readData;
-  PMS::DATA data;
+  PMS::DATA2 data;
   if (pms.read(data)){
     Serial.println(String(DEBUG_TAG) + "PM 1.0 (ug/m3): " + data.PM_AE_UG_1_0);
     Serial.println(String(DEBUG_TAG) + "PM 2.5 (ug/m3): " + data.PM_AE_UG_2_5);

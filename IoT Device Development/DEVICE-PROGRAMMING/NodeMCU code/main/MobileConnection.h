@@ -2,9 +2,6 @@ volatile bool connectToMobileFlag = false;         // variable for reading the p
 void setMobileFlag() {  connectToMobileFlag = true;  }
 
 void mobileConnectionInit(){
-    //--------------- Settings: Bluetooth  pin
-    pinMode(BLUETOOTH_POWER_PIN, OUTPUT);   // -- intialize pin
-    digitalWrite(BLUETOOTH_POWER_PIN, LOW); // -- Turn off bluetooth
     
     //--------------- Settings: Bluetooth turnon pin
     pinMode(BLUETOOTH_BUTTON_PIN, INPUT_PULLUP);
@@ -13,12 +10,25 @@ void mobileConnectionInit(){
 }
 
 void connectToMobile(){
-    digitalWrite(BLUETOOTH_POWER_PIN, HIGH);
     SoftwareSerial blueTooth = SoftwareSerial(BLUETOOTH_TX, BLUETOOTH_RX);
     blueTooth.begin(BLUETOOTH_BAUD);
     blueTooth.println("Hello world");
-    delay(1000); 
-    while(! blueTooth.available()) delay(20);
-    Serial.println("Hello" + blueTooth.readString());
-    digitalWrite(BLUETOOTH_POWER_PIN, LOW);
+    delay(1000);
 }
+
+String readBluetooth(SoftwareSerial & btSerial, String tag){
+  do {
+    while(! btSerial.available()) delay(20);
+  } while(btSerial.readString() != "START_" + tag);
+
+  String res_val = "";
+  String read_avlue = "";
+  while(read_val != "END_" + tag){
+    res_val += read_val;
+    while(! btSerial.available()) delay(20);
+    String read_avlue = btSerial.readString();
+  }
+  
+  return res_val;
+}
+

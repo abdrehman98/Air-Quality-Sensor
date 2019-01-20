@@ -1,0 +1,15 @@
+import consts as C
+import indicies as I
+import load_data
+import GENERAL
+
+load_data.air_visual_node_split(C.AV_SPLIT_FOLDER_PATH +
+                                C.SPLIT_AV_FILE_NAME)
+pms_data = load_data.pms3003(C.PMS_DATA_FILE_PATH)
+
+air_visual_ts = [line[I.E_TIMESTAMP] for line in pms_data]
+
+for i in range(len(air_visual_ts)):
+    upper = air_visual_ts[i]
+    lower = air_visual_ts[i + 1]
+    GENERAL.get

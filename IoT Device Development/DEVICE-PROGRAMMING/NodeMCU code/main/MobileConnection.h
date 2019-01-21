@@ -25,24 +25,36 @@ bool checkMobileConnectionRequest(){
 }
 
 void connectToMobile(){
+  connectPhone();
   digitalWrite(DeviceInfo.BLUETOOTH_POWER_PIN, HIGH);
   SoftwareSerial blueTooth = SoftwareSerial(DeviceInfo.BLUETOOTH_TX, DeviceInfo.BLUETOOTH_RX);
   blueTooth.begin(DeviceInfo.BLUETOOTH_BAUD);
   delay(1000);
 
-  String id = readBluetooth(blueTooth, "ID");
-  blueTooth.println("ID");
-  Serial.println(id);
 
-  String ssid = readBluetooth(blueTooth, "SSID");
   blueTooth.println("SSID");
+  String ssid = readBluetooth(blueTooth, "SSID");
   Serial.println(ssid);
 
-  String password = readBluetooth(blueTooth, "PASSWORD");
   blueTooth.println("PASSWORD");
+  String password = readBluetooth(blueTooth, "PASSWORD");
   Serial.println(password);
 
+  blueTooth.println("LOCATION");
+  String location = readBluetooth(blueTooth, "LOCATION");
+  Serial.println(location);
+
   digitalWrite(DeviceInfo.BLUETOOTH_POWER_PIN, LOW);
+
+  StorageIO rom;
+  rom.reposition();
+
+  rom.writeNextString(ssid);
+  rom.writeNextString(password);
+
+  rom.reposition();
+  rom.readNextString();
+  wifiBegin(rom);
 }
 
 String readBluetooth(SoftwareSerial & btSerial, String tag){

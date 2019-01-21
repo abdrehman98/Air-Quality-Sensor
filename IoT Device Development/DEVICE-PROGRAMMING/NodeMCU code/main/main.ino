@@ -7,54 +7,86 @@
 #include <WiFiServer.h>          // TCP/Server    (Node MCU Core)
 #include <EEPROM.h>              // Accessing EEPROM (Arduino)
 #include <ArduinoJson.h>
-#include <SoftwareSerial.h>
 #include <StorageIO.h>
-#include "DeviceInfo.h"
+#include <SoftwareSerial.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#include <PMS.h>
+#include <DHT.h>
 
+void connectPhone();
+
+#include "DeviceInfo.h"
+#include "MyWIFI.h"
 #include "DeviceSensors.h"
 #include "MobileConnection.h"
-//#include "ServerConnection.h"
-void indicateWifiStatus();
+#include "ServerConnection.h"
+LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
+
+void lcdBegin();
+void printLcdNormal(DataPacket data);
+void connectPhone();
 
 
 void setup() {
   Serial.begin(9600);
-  delay(1000);
-  Serial.println("Hello");
+//  delay(1000);
 
-  //------------------ Initializa Serial communication
-  /*
 
-  Serial.println("Starting...");
-
-  StorageIO rom;
-  DeviceInfo.begin(rom.readNextString());
-  pinMode(DeviceInfo.WIFI_LED_PIN, OUTPUT);
-  //pinMode(SERVER_LED_PIN, OUTPUT);
-  */
+//  debug("MAIN", "Device Starting");
+//  sensorBegin();
+//  StorageIO rom;
+//  DeviceInfo.begin(rom);
   mobileConnectionInit();
-  /*
-  WiFi.softAPdisconnect(true);
-  WiFi.disconnect(true);
-  delay(300);
-  WiFi.begin(rom.readNextString(), rom.readNextString());
-  Serial.printf("SSID: %s\n", WiFi.SSID().c_str());
-  */
+
+//  wifiBegin(rom);
+//  lcdBegin();
 }
 
 void loop() {
-  checkMobileConnectionRequest();
-  //readData();
-  //indicateWifiStatus();
+  connectToMobile();
+  //checkMobileConnectionRequest();
+  //printLcdNormal(readData());
   //delay(5 * 1000);
 }
 
-void indicateWifiStatus(){
+
+
+void lcdBegin() {
+  lcd.begin(16,4);
+  lcd.backlight();
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Device Starting");
+  lcd.setCursor(0,1);
+  lcd.print(String("ID:") + DeviceInfo.getDeviceId());
+  delay(5000);
+}
+void connectPhone() {
+  lcd.clear();
+  lcd.setCursor(5,0);
+  lcd.print("Connect ");
+  lcd.setCursor(1,1);
+  lcd.print("your phone");
+  lcd.setCursor(1,2);
+  lcd.print("with love");
+}
+
+void printLcdNormal(DataPacket data){
+  lcd.clear();
+  lcd.setCursor(0,0);
   if ( WiFi.status() == WL_CONNECTED ){
-    digitalWrite(DeviceInfo.WIFI_LED_PIN, HIGH);
-    Serial.println("connected");
+    lcd.print("WIFI Connected");
   }else{
-    digitalWrite(DeviceInfo.WIFI_LED_PIN, LOW);
-    Serial.println("dis");
+    lcd.print("Dis Connected");
   }
+  lcd.setCursor(0,1);
+  lcd.print("PM2.5: ");
+  lcd.print((int) data.pmsData.PM_AE_UG_2_5);
+  lcd.setCursor(0,2);
+  lcd.print("Temperature: ");
+  lcd.print(data.temperature);
+  lcd.setCursor(0,3);
+  lcd.print("Humidity: ");
+  lcd.print(data.humidity);
 }

@@ -71,10 +71,12 @@ def air_visual_node_split(file_path):
         line = line.replace("\n", "")
         line = line.split(",")
 
-        if len(line) == :
+        if len(line) == 6:
             # convert all column into float
             line = [float(val) for val in line]
-            line[I.E_TIMESTAMP] = datetime.utcfromtimestamp(line[I.E_TIMESTAMP])
+            ts = line[I.E_TIMESTAMP]
+            ts = datetime.utcfromtimestamp(ts)
+            line[I.E_TIMESTAMP] = ts
             structured_data.append(line)
 
     print("Done loading!!")

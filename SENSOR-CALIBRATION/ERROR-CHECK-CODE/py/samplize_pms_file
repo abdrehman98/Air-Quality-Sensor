@@ -1,15 +1,16 @@
 import consts as C
-import indicies as I
+import indices as I
 import load_data
 import GENERAL
 
-load_data.air_visual_node_split(C.AV_SPLIT_FOLDER_PATH +
+av_split_data = load_data.air_visual_node_split(C.AV_SPLIT_FOLDER_PATH +
                                 C.SPLIT_AV_FILE_NAME)
 pms_data = load_data.pms3003(C.PMS_DATA_FILE_PATH)
 
-air_visual_ts = [line[I.E_TIMESTAMP] for line in pms_data]
+air_visual_ts = [line[I.E_TIMESTAMP] for line in av_split_data]
 
-for i in range(len(air_visual_ts)):
-    upper = air_visual_ts[i]
-    lower = air_visual_ts[i + 1]
-    GENERAL.get
+# for i in range(len(air_visual_ts)):
+lower = air_visual_ts[1]
+upper = air_visual_ts[2]
+data_grid = GENERAL.get_data_between(pms_data, lower, upper, index=I.PMS_TIMESTAMP)
+print(len(data_grid))

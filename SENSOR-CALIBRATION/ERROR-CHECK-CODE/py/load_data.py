@@ -22,9 +22,9 @@ def air_visual_node(file_path):
 
         if len(line) == 14:
             eline = [None] * I.NUMBER_OF_ENCODED_COLUMNS
-
-            eline[I.E_TIMESTAMP] = datetime.utcfromtimestamp(float(line[I.TIMESTAMP])) -\
-                                   timedelta(hours=5)
+            fts = float(line[I.TIMESTAMP]) - 18000
+            ts = datetime.fromtimestamp(fts)
+            eline[I.E_TIMESTAMP] = ts
             eline[I.E_AQI] = float(line[I.AQI_US])
             eline[I.E_PM25] = float(line[I.PM2_5])
             eline[I.E_PM10] = float(line[I.PM10])
@@ -52,7 +52,9 @@ def pms3003(file_path):
         if len(line) == I.PMS_NUMBER_DATA_COLUMNS:
             for i in range(len(line)):
                 line[i] = float(line[i])
-            line[I.PMS_TIMESTAMP] = datetime.utcfromtimestamp(line[I.PMS_TIMESTAMP])
+            fts = line[I.PMS_TIMESTAMP]
+            ts = datetime.fromtimestamp(fts)
+            line[I.PMS_TIMESTAMP] = ts
             structured_data.append(line)
 
     print("Done loading !!")
@@ -75,7 +77,7 @@ def air_visual_node_split(file_path):
             # convert all column into float
             line = [float(val) for val in line]
             ts = line[I.E_TIMESTAMP]
-            ts = datetime.utcfromtimestamp(ts)
+            ts = datetime.fromtimestamp(ts)
             line[I.E_TIMESTAMP] = ts
             structured_data.append(line)
 

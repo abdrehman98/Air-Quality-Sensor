@@ -17,16 +17,19 @@ def main():
     max_pms_ts = max(ts)
     print("MIN=", min_pms_ts)
     print("MAX=", max_pms_ts)
-    plotter.plot(GENERAL.get_column(I.PMS_TIMESTAMP, pms_data),
-                 GENERAL.get_column(I.PMS_AE_2_5, pms_data))
-    plotter.plot(GENERAL.get_column(I.E_TIMESTAMP, paqi_data),
-                 GENERAL.get_column(I.E_PM25, paqi_data))
-    plotter.show()
+
     paqi_considered_data = GENERAL.get_data_between(paqi_data, min_pms_ts, max_pms_ts, I.E_TIMESTAMP)
     save_data.air_visual_node_split(paqi_considered_data,
                                     C.SPLIT_AV_FILE_NAME,
                                     C.AV_SPLIT_FOLDER_PATH)
 
+    plotter.plot(GENERAL.get_column(I.PMS_TIMESTAMP, pms_data),
+                 GENERAL.get_column(I.PMS_AE_2_5, pms_data))
+    plotter.plot(GENERAL.get_column(I.E_TIMESTAMP, paqi_data),
+                 GENERAL.get_column(I.E_PM25, paqi_data))
+    plotter.plot(GENERAL.get_column(I.E_TIMESTAMP, paqi_considered_data),
+                 GENERAL.get_column(I.E_PM25, paqi_considered_data))
+    plotter.show()
 
 
 main()

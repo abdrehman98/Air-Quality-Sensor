@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3efdeac8-1588-4e4b-96da-482d382e0d71" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../DATA+RESULTS/SPLIT-DEC-24/AV.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../DATA+RESULTS/SPLIT-DEC-24/AV.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/py/analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/analysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/py/load_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/py/load_data.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/py/analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+            <state relative-caret-position="476">
+              <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -305,7 +302,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="Run" order="3" sideWeight="0.4993395" visible="true" weight="0.4492161" />
+      <window_info anchor="right" id="Run" order="3" sideWeight="0.4993395" weight="0.26925698" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.60567826" weight="0.24949832" />
@@ -486,8 +483,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/py/analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        <state relative-caret-position="476">
+          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

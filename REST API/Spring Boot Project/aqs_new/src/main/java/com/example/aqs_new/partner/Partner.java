@@ -4,7 +4,7 @@ package com.example.aqs_new.partner;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name="partner")
 public class Partner {
 
     @Id

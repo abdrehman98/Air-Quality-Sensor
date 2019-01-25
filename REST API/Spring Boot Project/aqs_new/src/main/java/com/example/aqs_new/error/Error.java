@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table
+@Table(name="error")
 public class Error {
 
     @Id

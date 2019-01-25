@@ -10,9 +10,14 @@ public class Location {
     @Id
     @GeneratedValue
     Long id;
+    @GeneratedValue
     Timestamp locationtime;
+    @Column(nullable = false)
     double longitude;
-    double Latitude;
+    @Column(nullable = false)
+    double latitude;
+    @Column(nullable = false)
+    String locationName;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     private Device device;
@@ -42,11 +47,19 @@ public class Location {
     }
 
     public double getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(double latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     public Device getDevice() {

@@ -1,10 +1,7 @@
 package com.example.aqs_new.partnerpreviouspm25;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,9 +11,12 @@ public class Partnerpreviouspm25 {
     @Id
     @GeneratedValue
     Long id;
+    @Column(nullable = false)
     Long deviceid;
+    @GeneratedValue
     Timestamp timestamp;
-    Long PM25;
+    @Column(nullable = false)
+    double PM25;
 
     public Long getId() {
         return id;
@@ -42,11 +42,11 @@ public class Partnerpreviouspm25 {
         this.timestamp = timestamp;
     }
 
-    public Long getPM25() {
+    public double getPM25() {
         return PM25;
     }
 
-    public void setPM25(Long PM25) {
+    public void setPM25(double PM25) {
         this.PM25 = PM25;
     }
 }

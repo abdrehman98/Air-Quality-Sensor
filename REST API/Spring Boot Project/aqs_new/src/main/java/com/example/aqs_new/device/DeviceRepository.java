@@ -3,5 +3,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DeviceRepository extends JpaRepository<Device, Long>
 {
-    public Device findDeviceByDeviceid(Long deviceid);
+    public Device findDeviceById(Long deviceid);
 }

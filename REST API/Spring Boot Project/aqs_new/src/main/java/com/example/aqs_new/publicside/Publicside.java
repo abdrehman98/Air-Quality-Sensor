@@ -1,6 +1,7 @@
 package com.example.aqs_new.publicside;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,9 +12,22 @@ import javax.persistence.Table;
 public class Publicside {
     @Id
     Long deviceid;
+    @Column(nullable = false)
     double longitude;
+    @Column(nullable = false)
     double latitude;
+    @Column(nullable = false)
+    String locationName;
+    @Column(nullable = false)
     Long aqi;
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
 
     public Long getDeviceid() {
         return deviceid;

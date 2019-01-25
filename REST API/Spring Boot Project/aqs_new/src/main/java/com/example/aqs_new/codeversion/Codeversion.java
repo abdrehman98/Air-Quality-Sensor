@@ -6,13 +6,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name="codeversion")
 public class Codeversion
 {
     @Id
     Long id;
     @Column(nullable = false)
-    String firmware_url;
+    String firmwareUrl;
 
     public Long getId() {
         return id;
@@ -22,11 +22,11 @@ public class Codeversion
         this.id = id;
     }
 
-    public String getFirmware_url() {
-        return firmware_url;
+    public String getFirmwareUrl() {
+        return firmwareUrl;
     }
 
-    public void setFirmware_url(String firmware_url) {
-        this.firmware_url = firmware_url;
+    public void setFirmwareUrl(String firmwareUrl) {
+        this.firmwareUrl = firmwareUrl;
     }
 }

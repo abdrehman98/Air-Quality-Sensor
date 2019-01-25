@@ -2,21 +2,35 @@ package com.example.aqs_new.datarecord;
 
 import com.example.aqs_new.device.Device;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table
+@Table(name="datarecord")
 public class DataRecord {
+    @Id
+    @GeneratedValue
     Long id;
+
+    @GeneratedValue
     Timestamp createdAt;
+
+    @Column(nullable=false)
     Double Temperature;
+
+    @Column(nullable=false)
     Double Humidity;
+
+    @Column(nullable=false)
     Double PM1;
+
+    @Column(nullable=false)
     Double PM25;
+
+    @Column(nullable=false)
     Double PM10;
+
+    @Column(nullable=false)
     Long AQI;
 
     @ManyToOne

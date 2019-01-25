@@ -1,21 +1,22 @@
 package com.example.aqs_new.device;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import com.example.aqs_new.codeversion.Codeversion;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@Table(name="device")
 public class Device {
 
-    @Id
-    @GeneratedValue
-    private Long id;
 
-    @NotNull
+    @Id
+    Long id;
     @GeneratedValue
-    private Timestamp createdAt;
+    Timestamp createdAt;
+    @ManyToOne
+    private Codeversion codeversion;
+
 
     public Long getId() {
         return id;
@@ -33,10 +34,18 @@ public class Device {
         this.createdAt = createdAt;
     }
 
-    // Created by
-    // not null
-    // FK
-    // Relation Ship
+    public Codeversion getCodeversion() {
+        return codeversion;
+    }
 
+    public void setCodeversion(Codeversion codeversion) {
+        this.codeversion = codeversion;
+    }
 
+    
 }
+
+
+
+
+

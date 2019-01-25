@@ -2,21 +2,19 @@ package com.example.aqs_new.api;
 
 import com.example.aqs_new.Response.Response;
 import com.example.aqs_new.codeversion.Codeversion;
-import com.example.aqs_new.datapacketrecord.Packetrecord;
-import com.example.aqs_new.devices.Devices;
+import com.example.aqs_new.datarecord.DataRecord;
+import com.example.aqs_new.device.Device;
 import com.example.aqs_new.error.Error;
-import com.example.aqs_new.error.errorlog.Errorlog;
+import com.example.aqs_new.errorlog.Errorlog;
 import com.example.aqs_new.location.Location;
 import com.example.aqs_new.partner.Partner;
 import com.example.aqs_new.partnerpreviousaqi.Partnerpreviousaqi;
 import com.example.aqs_new.partnerpreviouspm25.Partnerpreviouspm25;
-import com.example.aqs_new.partner.partnersignin.Partnersignin;
+import com.example.aqs_new.partnersignin.Partnersignin;
 import com.example.aqs_new.publicside.Publicside;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.sql.Timestamp;
-import java.util.Calendar;
 
 @Controller
 @RequestMapping(value = {"/", "aqs"})
@@ -42,20 +40,13 @@ public class AqsController {
     public @ResponseBody
     Response SetPartner(@RequestBody Partner partner) {
         Response response = new Response();
-        Long deviceid = partner.getDeviceid();
-        Devices device = aqsService.FindDevice(deviceid);
-        if (device == null) {
-            response.setResponse("INVALID DEVICE ID");
-        }
-        else if (aqsService.partnerEmailExist(partner.getEmail())) {
+
+        if (aqsService.partnerEmailExist(partner.getEmail()))
+        {
             response.setResponse("ENTER OTHER EMAIL");
-        }
-        else if (aqsService.partner_Deviceid_Already_Exist(partner.getDeviceid())) {
-            response.setResponse("DEVICE ID IS ALREADY REGISTERED");
         }
 
         else {
-            partner.setDevice(device);
             aqsService.setPartner(partner);
             response.setResponse("Partner Registered");
         }
@@ -68,18 +59,11 @@ public class AqsController {
     public @ResponseBody
     Response SetPartnersignin(@RequestBody Partnersignin partnersignin) {
         Response response = new Response();
-        Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
-        partnersignin.setTimestamp(timestamp);
-        Partner partner = aqsService.FINDPARTNER(partnersignin.getDeviceid());
-        if (partner == null) {
-            response.setResponse("YOU ARE NOT REGISTERED.");
-        } else if (aqsService.partnerPasswordEmailMatchCorrectly(partnersignin)) {
-
-            partnersignin.setPartner(partner);
-            aqsService.setPartnersignin(partnersignin);
+        if (aqsService.partnerPasswordEmailMatchCorrectly(partnersignin))
+        {
+            aqsService.setPartnerSignin(partnersignin);
             response.setResponse("LOGGED IN");
         } else {
-
             response.setResponse("INVALID EMAIL OR PASSWORD");
         }
         return response;
@@ -90,33 +74,17 @@ public class AqsController {
 
 
     //Register a new device
-    @RequestMapping(value = {"/admin/devices/{id}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/device"}, method = RequestMethod.POST)
     public @ResponseBody
-    Response SetDevice(@RequestBody Devices device, @PathVariable Long id) {
+    Response SetDevice(@RequestBody Device device) {
 
-        Admin admin = aqsService.FIND_ADMIN(id);
         Response response = new Response();
-        Long deviceid = device.getDeviceid();
-        Sensorcombination sensorcombinationObject = aqsService.FIND_DEVICE_SENSOR_COMBINATION_EXIST(device.getSensor_combination_code());
-        Codeversion codeversion = aqsService.FIND_DEVICE_CODE_VERSION_EXIST(device.getCode_version());
-
-        if (admin == null) {
-            response.setResponse("YOU ARE NOT ADMIN");
-        } else if (aqsService.deviceIdExist(deviceid)) {
+        Long deviceid = device.getId();
+        if (aqsService.deviceIdExist(deviceid)) {
             response.setResponse("DEVICE ID ALREADY EXIST");
-            //do nothing
-        } else if (sensorcombinationObject == null) {
-            response.setResponse("UNKNOWN SENSORCOMBINATION");
 
-        } else if (codeversion == null) {
-            response.setResponse("UNKNOWN CODE VERSION");
-        } else {
-            Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
-            device.setCreated_at(timestamp);
-            device.setCreated_by_admin_id(admin.getId());
-            device.setAdmin(admin);
-            device.setSensorcombination(sensorcombinationObject);
-            device.setCodeversion(codeversion);
+        }
+        else {
             aqsService.setDevice(device);
             response.setResponse("DEVICE REGISTERED");
         }
@@ -125,151 +93,62 @@ public class AqsController {
 
 
 
-
-
-
-
     //Add a new error
-    @RequestMapping(value = {"/admin/error/{id}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/error"}, method = RequestMethod.POST)
     public @ResponseBody
-    Response SetError(@RequestBody Error error, @PathVariable Long id) {
+    Response SetError(@RequestBody Error error) {
         Response response = new Response();
-        Admin admin = aqsService.FIND_ADMIN(id);
-        Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
-        if (admin == null) {
-            response.setResponse("YOU ARE NOT ADMIN");
-        } else {
-
-
-            error.setCreatedat(timestamp);
-            //error.setUpdatedat(timestamp);
-            //Admin admin = error.getAdmin();
-            error.setCreated_by_admin_id(admin.getId());
-            error.setAdmin(admin);
-            aqsService.setError(error);
-            response.setResponse("ERROR REGISTERED");
-        }
-
+        aqsService.setError(error);
+        response.setResponse("ERROR REGISTERED");
         return response;
     }
 
 
     //Add a new codeversion
-    @RequestMapping(value = {"/admin/codeversion/{id}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/codeversion"}, method = RequestMethod.POST)
     public @ResponseBody
-    Response SetCodeversion(@RequestBody Codeversion codeversion, @PathVariable Long id) {
-        Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
+    Response SetCodeversion(@RequestBody Codeversion codeversion) {
         Response response = new Response();
-        Long sensorcombinationcode = codeversion.getSensorcombinationcode();
-        Sensorcombination sensorcombination = aqsService.FIND_SENSOR_COMBINATION(sensorcombinationcode);
-        Admin admin = aqsService.FIND_ADMIN(id);
-        if (admin == null) {
-            response.setResponse("YOU ARE NOT ADMIN");
-        } else if (sensorcombination == null) {
-            response.setResponse("INVALID SENSOR COMBINATION");
-        } else {
-            codeversion.setCreated_by_admin_id(admin.getId());
-            codeversion.setCreatedat(timestamp);
-            codeversion.setAdmin(admin);
+
             response.setResponse("CODE VERSION REGISTERED");
             aqsService.setCodeversion(codeversion);
-        }
-        return response;
+            return response;
     }
 
 
     //Add a new Location
-    @RequestMapping(value = {"/devices/location/{deviceid}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/device/location"}, method = RequestMethod.POST)
     public @ResponseBody
     Response SetLocation(@RequestBody Location location, @PathVariable Long deviceid) {
         Response response = new Response();
-        Devices device = aqsService.FindDevice(deviceid);
 
-        if (device == null) {
-            response.setResponse("DEVICE NOT EXIST");
-        } else {
-            aqsService.deviceExistInLocationTable(deviceid); //to check if the request is made by a brand new device or an old device
-            aqsService.deviceExistInPublicside(location, deviceid); // to update location of device in public side table
-
-            Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
-            location.setLocationtime(timestamp);
-            location.setDeviceid(deviceid);
-            location.setDevice(device);
-            aqsService.updateLocation(location); // add or update location of device location in location table
-            response.setResponse("DEVICE LOCATION UPDATED");
-        }
-        return response;
+            //aqsService.deviceExistInPublicside(location); // to update location of device in public side table
+            aqsService.setLocation(location); // add or update location of device location in location table
+            aqsService.setPublicSideLocation(location);
+            response.setResponse("DEVICE LOCATION STORED");
+            return response;
     }
 
 
     //Add a new Errorlog
-    @RequestMapping(value = {"devices/errorlog/{deviceid}/{errorcode}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"device/errorlog"}, method = RequestMethod.POST)
     public @ResponseBody
-    Response SetErrorlog(@RequestBody Errorlog errorlog, @PathVariable Long deviceid, @PathVariable Long errorcode) {
-        Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
-        Error error = aqsService.FindError(errorcode);
-        Devices device = aqsService.FindDevice(deviceid);
-
+    Response SetErrorlog(@RequestBody Errorlog errorlog) {
         Response response = new Response();
-        if (device == null) {
-            response.setResponse("DEVICE NOT EXIST");
-            return response;
-        } else if (error == null) {
-            response.setResponse("UNKNOWN ERROR OCCURRED");
-            return response;
-        } else {
-            errorlog.setErroroccurtime(timestamp);
-            errorlog.setDeviceid(device.getDeviceid());
-            errorlog.setErrorcode(error.getErrorcode());
-            errorlog.setError(error);
-            errorlog.setDevice(device);
-            response = aqsService.setErrorlog(errorlog);
-        }
+        aqsService.setErrorlog(errorlog);
+        response.setResponse("ERRORLOG RECORDED");
         return response;
     }
 
 
     //Add new packet records
-    @RequestMapping(value = {"devices/packetrecord/{deviceid}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"device/datarecord"}, method = RequestMethod.POST)
     public @ResponseBody
-    Response SetDatapacket(@RequestBody Datapacket datapacket, @PathVariable Long deviceid) {
-        Timestamp timestamp = new Timestamp((Calendar.getInstance().getTime().getTime()));
-        Boolean status = datapacket.getStatus();
-        Values[] vals = datapacket.getValues();
-        int No_Of_Values = vals.length;  //number of different parameter values in data packet.
-        int count = 0;
-        Long PmValue = deviceid;
+    Response SetDatarecord(@RequestBody DataRecord datarecord) {
         Response response = new Response();
-        Devices device = aqsService.FindDevice(deviceid);
-        if (device == null) {
-            response.setResponse("DEVICE NOT EXIST");
-        } else {
-
-            for (int j = 0; j < No_Of_Values; j++) {
-
-                Packetrecord record = new Packetrecord();
-                record.setDeviceid(device.getDeviceid());
-                record.setReceivetime(timestamp);
-                record.setDevice(device);
-                record.setSensorname(vals[j].getSensor_name());
-                record.setParametername(vals[j].getParameter_name());
-                record.setParametervalue(vals[j].getValue());
-                record.setStatus(status);
-                if ((vals[j].getParameter_name()).equals("PM2.5")) {
-                    PmValue = vals[j].getValue();
-                }
-
-                aqsService.setDatapacketRecord(record);
-                count++;
-            }
-        }
-        aqsService.UPDATE_PUBLICSIDE_PARTNERPREVIOUS_PM25_AQI(PmValue, deviceid);
-
-        if (count > 0) {
-            response.setResponse("DATA SAVED");
-        } else if (count == 0) {
-            response.setResponse("PACKET WAS EMPTY");
-        }
+        aqsService.setDataRecord(datarecord);
+        aqsService.updatePublicsiePartnerPreviousPm25Aqi(datarecord);
+        response.setResponse("DATA SAVED");
         return response;
     }
 
@@ -284,17 +163,14 @@ public class AqsController {
     /////////////////////////////////////////////////////////////////
 
 
-    //Retrieve errorlogs for a device
-    @RequestMapping(value = {"/admin/errorlog/{deviceid}"}, method = RequestMethod.GET)
+/*    //Retrieve errorlogs for a device
+    @RequestMapping(value = {"device/errorlog/{deviceid}"}, method = RequestMethod.GET)
     public @ResponseBody
-    Iterable<Errorlog> GetDeviceErrorlogs(@PathVariable("deviceid") Long deviceid) {
-
-
+    Iterable<Errorlog> GetDeviceErrorlogs(@PathVariable("deviceid") Long deviceid)
+    {
         return aqsService.getErrorlog(deviceid);
-
     }
-
-
+*/
     //Retrieve all Publicside records
     @RequestMapping(value = {"/publicside"}, method = RequestMethod.GET)
     public @ResponseBody
@@ -304,24 +180,21 @@ public class AqsController {
 
     }
 
-
     //Retrieve all prvious AQI values of a device
-    @RequestMapping(value = {"/devices/partnerpreviousaqi/{deviceid}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/device/partnerpreviousaqi/{deviceid}"}, method = RequestMethod.GET)
     public @ResponseBody
-    Iterable<Partnerpreviousaqi> GetPartnerpreviousaqi(@PathVariable("deviceid") Long deviceid) {
-
-        return aqsService.FIND_ALL_PARTNER_PREVIOUS_AQI(deviceid);
-
+    Iterable<Partnerpreviousaqi> GetPartnerpreviousaqi(@PathVariable("deviceid") Long deviceid)
+    {
+        return aqsService.findAllPartnerPreviousAqi(deviceid);
     }
 
     //Retrieve all prvious PM2.5 values of a device
-    @RequestMapping(value = {"/devices/partnerpreviouspm25/{deviceid}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/device/partnerpreviouspm25/{deviceid}"}, method = RequestMethod.GET)
     public @ResponseBody
     Iterable<Partnerpreviouspm25> GetPartnerpreviouspm25(@PathVariable("deviceid") Long deviceid)
     {
-        return aqsService.FIND_ALL_PARTNER_PREVIOUS_PM25(deviceid);
+        return aqsService.findAllPartnerPreviousPm25(deviceid);
     }
-
 
     //Retrieve locations of all devices
     @RequestMapping(value = {"/location"}, method = RequestMethod.GET)
@@ -330,23 +203,22 @@ public class AqsController {
     {
         return aqsService.getlocations();
     }
-
-
+    /*
     //Check for firmware upgrade
-    @RequestMapping(value = {"/devices/{id}/{sensor_combination_code}/{code_version}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/device/{id}/{sensor_combination_code}/{code_version}"}, method = RequestMethod.GET)
     public @ResponseBody
     Response CheckCodeVersionUpgradeAvailabilty(@PathVariable("id") Long id, @PathVariable("sensor_combination_code") Long sensor_combination_code, @PathVariable("code_version") Long code_version)
     {
         return aqsService.CheckForUpgrade(id, sensor_combination_code, code_version);
     }
 
-
+    */
     //Find list of Devices
-    @RequestMapping(value = {"/admin/devices"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/device"}, method = RequestMethod.GET)
     public @ResponseBody
-    Iterable<Devices> FindListOfDevices()
+    Iterable<Device> FindListOfDevices()
     {
-        return aqsService.FIND_DEVICES_LIST();
+        return aqsService.findDeviceList();
     }
 
 
@@ -359,9 +231,9 @@ public class AqsController {
     /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
 
-
+/*
     //firmware upgrade Confirmation Acknowledgement
-    @RequestMapping(value = {"/devices/{id}/{sensor_combination_code}/{code_version}"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/device/{id}/{sensor_combination_code}/{code_version}"}, method = RequestMethod.PUT)
     public @ResponseBody
     Response VersionUpgradeRecord(@PathVariable("id") Long id, @PathVariable("sensor_combination_code") Long sensor_combination_code, @PathVariable("code_version") Long code_version)
 
@@ -369,7 +241,7 @@ public class AqsController {
         return aqsService.UpgradeDeviceRecord(id, sensor_combination_code, code_version);
     }
 
-
+*/
     /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
@@ -381,12 +253,11 @@ public class AqsController {
 
 
     //Delete Device
-    @RequestMapping(value = {"/admin/{deviceid}"}, method = RequestMethod.DELETE)
+    @RequestMapping(value = {"device/{deviceid}"}, method = RequestMethod.DELETE)
     public @ResponseBody
     Response DeleteDevice(@PathVariable("deviceid") Long deviceid)
-
     {
-        Response response = aqsService.FIND_DELETE_DEVICE(deviceid);
+        Response response = aqsService.deleteDevice(deviceid);
         return response;
     }
 

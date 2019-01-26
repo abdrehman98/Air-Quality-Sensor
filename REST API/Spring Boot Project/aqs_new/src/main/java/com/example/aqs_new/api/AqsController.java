@@ -285,7 +285,7 @@ public class AqsController {
     /////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
 
-
+/*
     //Delete Device
     @RequestMapping(value = {"device/{deviceid}"}, method = RequestMethod.DELETE)
     public @ResponseBody
@@ -294,6 +294,6 @@ public class AqsController {
         Response response = aqsService.deleteDevice(deviceid);
         return response;
     }
-
+*/
 
 }

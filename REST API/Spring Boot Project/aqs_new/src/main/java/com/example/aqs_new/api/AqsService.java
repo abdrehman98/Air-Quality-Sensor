@@ -128,6 +128,44 @@ public class AqsService {
     }
 
 
+
+    //to check if device exists already
+    public boolean deviceIdNotExist(Long deviceid) {
+        Device device1 = deviceRepository.findDeviceById(deviceid);
+        if (device1 == null)
+            return true;
+
+        return false;
+    }
+
+    //to check if device exists already
+    public boolean errorIdNotExist(Long errorid) {
+        Error error = errorRepository.findErrorById(errorid);
+        if (error== null)
+            return true;
+
+        return false;
+    }
+
+
+    //to check if device exists already
+    public boolean versionIdExist(Long versionid) {
+        Codeversion codeversion = codeversionRepository.findCodeversionById(versionid);
+        if (codeversion!= null)
+            return true;
+
+        return false;
+    }
+
+    //to check if device exists already
+    public boolean codeVersionNotExist(Long versionid) {
+        Codeversion codeversion = codeversionRepository.findCodeversionById(versionid);
+        if (codeversion== null)
+            return true;
+
+        return false;
+    }
+
     /*
     // To check if device is registered...if yes then update its location...if not exist then store in public side...
     public void deviceExistInPublicside(Location location) {
@@ -153,10 +191,10 @@ public class AqsService {
     */
 
     // To check if Password and email are entered correctly while partner signin
-    public boolean partnerPasswordEmailMatchCorrectly(Partnersignin partnersignin) {
-        Partner partner = partnerRepository.findByEmail(partnersignin.getEmail());
+    public boolean partnerPasswordEmailMatchCorrectly(Partner partner) {
+        Partner partner1 = partnerRepository.findByEmail(partner.getEmail());
 
-        if (partnersignin.getPassword().equals(partner.getPassword()))
+        if (partner1.getPassword().equals(partner.getPassword()))
 
             return true;
 
@@ -221,15 +259,16 @@ public class AqsService {
     }
 
     // Update PM2.5 AND AQI in (partner previous PM2.5) AND (partner previous AQI)
-    public void updatePublicsiePartnerPreviousPm25Aqi(DataRecord datarecord) {
+    public void updatePublicsiePartnerPreviousPm25Aqi(DataRecord datarecord)
+    {
 
         Partnerpreviousaqi partnerpreviousaqi = new Partnerpreviousaqi();
         Partnerpreviouspm25 partnerpreviouspm25 = new Partnerpreviouspm25();
-        partnerpreviousaqi.setDeviceid(datarecord.getDevice().getId());
-        partnerpreviousaqi.setAqi(datarecord.getAQI());
+        partnerpreviousaqi.setDeviceid(datarecord.getDeviceId());
+        partnerpreviousaqi.setAqi(datarecord.getAqi());
         partnerpreviousaqiRepository.save(partnerpreviousaqi);
-        partnerpreviouspm25.setDeviceid(datarecord.getDevice().getId());
-        partnerpreviouspm25.setPM25(datarecord.getAQI());
+        partnerpreviouspm25.setDeviceid(datarecord.getDeviceId());
+        partnerpreviouspm25.setPM25(datarecord.getAqi());
         partnerpreviouspm25Repository.save(partnerpreviouspm25);
         Publicside publicside = publicsideRepository.findPublicsideByDeviceid(datarecord.getId());
         Publicside publicside1 = new Publicside();
@@ -245,16 +284,16 @@ public class AqsService {
 
     public void setPublicSideLocation(Location location)
     {
-        Publicside publicside=publicsideRepository.findPublicsideByDeviceid(location.getDevice().getId());
+        Publicside publicside=publicsideRepository.findPublicsideByDeviceid(location.getDeviceId());
         Publicside publicside1=new Publicside();
 
         if(publicside!=null)
             publicside1.setAqi(publicside.getAqi());
 
-        publicside1.setDeviceid(location.getDevice().getId());
+        publicside1.setDeviceid(location.getDeviceId());
         publicside1.setLongitude(location.getLongitude());
         publicside1.setLatitude(location.getLatitude());
-        publicside1.setLocationName(location.getLocationName());
+        //publicside1.setLocationName(location.getLocationName());
 
         publicsideRepository.delete(publicside);
         publicsideRepository.save(publicside1);

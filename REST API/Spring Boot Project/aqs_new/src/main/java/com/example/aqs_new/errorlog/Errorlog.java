@@ -1,8 +1,5 @@
 package com.example.aqs_new.errorlog;
 
-import com.example.aqs_new.device.Device;
-import com.example.aqs_new.error.Error;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -14,29 +11,30 @@ public class Errorlog {
     @GeneratedValue
     Long id; //Note: record id is used to identify records uniquely because device id can be redundant...
 
-    @ManyToOne
-    Device device;
+    @Column(nullable = false)
+    Long deviceId;
 
-    @GeneratedValue
+    @Column(nullable = false)
+    Long errorId;
+
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
     Timestamp occuredAt;
 
-    @ManyToOne
-    Error error;
-
-    public Long getId() {
-        return id;
+    public Long getDeviceId() {
+        return deviceId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
     }
 
-    public Device getDevice() {
-        return device;
+    public Long getErrorId() {
+        return errorId;
     }
 
-    public void setDevice(Device device) {
-        this.device = device;
+    public void setErrorId(Long errorId) {
+        this.errorId = errorId;
     }
 
     public Timestamp getOccuredAt() {
@@ -47,11 +45,12 @@ public class Errorlog {
         this.occuredAt = occuredAt;
     }
 
-    public Error getError() {
-        return error;
+    public Long getId() {
+        return id;
     }
 
-    public void setError(Error error) {
-        this.error = error;
+    public void setId(Long id) {
+        this.id = id;
     }
+
 }

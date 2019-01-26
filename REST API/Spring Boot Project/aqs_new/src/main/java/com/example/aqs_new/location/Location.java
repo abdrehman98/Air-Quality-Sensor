@@ -1,5 +1,5 @@
 package com.example.aqs_new.location;
-import com.example.aqs_new.device.Device;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -10,24 +10,21 @@ public class Location {
     @Id
     @GeneratedValue
     Long id;
-    @GeneratedValue
-    Timestamp locationtime;
     @Column(nullable = false)
     double longitude;
     @Column(nullable = false)
     double latitude;
     @Column(nullable = false)
-    String locationName;
+    Long  deviceId;
+    @Column( columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    Timestamp locationtime;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    private Device device;
-
-    public Long getId() {
-        return id;
+    public Long getDeviceId() {
+        return deviceId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
     }
 
     public Timestamp getLocationtime() {
@@ -37,6 +34,15 @@ public class Location {
     public void setLocationtime(Timestamp locationtime) {
         this.locationtime = locationtime;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
     public double getLongitude() {
         return longitude;
@@ -54,19 +60,5 @@ public class Location {
         this.latitude = latitude;
     }
 
-    public String getLocationName() {
-        return locationName;
-    }
 
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-
-    public Device getDevice() {
-        return device;
-    }
-
-    public void setDevice(Device device) {
-        this.device = device;
-    }
 }

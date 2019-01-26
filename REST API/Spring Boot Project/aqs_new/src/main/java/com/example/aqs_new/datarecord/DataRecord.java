@@ -1,9 +1,6 @@
 package com.example.aqs_new.datarecord;
 
-import com.example.aqs_new.device.Device;
-
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name="datarecord")
@@ -12,29 +9,37 @@ public class DataRecord {
     @GeneratedValue
     Long id;
 
-    @GeneratedValue
-    Timestamp createdAt;
+    @Column(nullable = false)
+    Long deviceId;
 
     @Column(nullable=false)
-    Double Temperature;
+    Double temperature;
 
     @Column(nullable=false)
-    Double Humidity;
+    Double humidity;
 
     @Column(nullable=false)
-    Double PM1;
+    Double pm1;
 
     @Column(nullable=false)
-    Double PM25;
+    Double pm25;
 
     @Column(nullable=false)
-    Double PM10;
+    Double pm10;
 
     @Column(nullable=false)
-    Long AQI;
+    Long aqi;
 
-    @ManyToOne
-    private Device device;
+    public Long getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    @Column(name="createdAt", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
 
     public Long getId() {
         return id;
@@ -44,67 +49,52 @@ public class DataRecord {
         this.id = id;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Double getTemperature() {
-        return Temperature;
+        return temperature;
     }
 
     public void setTemperature(Double temperature) {
-        Temperature = temperature;
+        this.temperature = temperature;
     }
 
     public Double getHumidity() {
-        return Humidity;
+        return humidity;
     }
 
     public void setHumidity(Double humidity) {
-        Humidity = humidity;
+        this.humidity = humidity;
     }
 
-    public Double getPM1() {
-        return PM1;
+    public Double getPm1() {
+        return pm1;
     }
 
-    public void setPM1(Double PM1) {
-        this.PM1 = PM1;
+    public void setPm1(Double pm1) {
+        this.pm1 = pm1;
     }
 
-    public Double getPM25() {
-        return PM25;
+    public Double getPm25() {
+        return pm25;
     }
 
-    public void setPM25(Double PM25) {
-        this.PM25 = PM25;
+    public void setPm25(Double pm25) {
+        this.pm25 = pm25;
     }
 
-    public Double getPM10() {
-        return PM10;
+    public Double getPm10() {
+        return pm10;
     }
 
-    public void setPM10(Double PM10) {
-        this.PM10 = PM10;
+    public void setPm10(Double pm10) {
+        this.pm10 = pm10;
     }
 
-    public Long getAQI() {
-        return AQI;
+    public Long getAqi() {
+        return aqi;
     }
 
-    public void setAQI(Long AQI) {
-        this.AQI = AQI;
+    public void setAqi(Long aqi) {
+        this.aqi = aqi;
     }
 
-    public Device getDevice() {
-        return device;
-    }
-
-    public void setDevice(Device device) {
-        this.device = device;
-    }
 }

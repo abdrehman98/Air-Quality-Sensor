@@ -1,7 +1,6 @@
 package com.example.aqs_new.error;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name="error")
@@ -14,10 +13,7 @@ public class Error {
     @Column(nullable = false)
     String description;
 
-    @GeneratedValue
-    Timestamp creationTime;
-
-
+    @Column(name="creationTime", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     public Long getId() {
         return id;
     }
@@ -32,14 +28,6 @@ public class Error {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Timestamp getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(Timestamp creationTime) {
-        this.creationTime = creationTime;
     }
 
 }

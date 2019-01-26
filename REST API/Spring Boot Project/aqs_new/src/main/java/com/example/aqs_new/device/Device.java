@@ -1,29 +1,31 @@
 package com.example.aqs_new.device;
 
-import com.example.aqs_new.codeversion.Codeversion;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name="device")
 public class Device {
-
+/*192.168.1.15*/
 
     @Id
     Long id;
-    @GeneratedValue
+
+    @Column( columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     Timestamp createdAt;
-    @ManyToOne
-    private Codeversion codeversion;
 
+    @Column(nullable = false)
+    Long codeVersionId;
 
-    public Long getId() {
-        return id;
+    public Long getCodeVersionId() {
+        return codeVersionId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCodeVersionId(Long codeVersionId) {
+        this.codeVersionId = codeVersionId;
     }
 
     public Timestamp getCreatedAt() {
@@ -34,15 +36,16 @@ public class Device {
         this.createdAt = createdAt;
     }
 
-    public Codeversion getCodeversion() {
-        return codeversion;
+    public Long getId() {
+        return id;
     }
 
-    public void setCodeversion(Codeversion codeversion) {
-        this.codeversion = codeversion;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    
+
+
 }
 
 

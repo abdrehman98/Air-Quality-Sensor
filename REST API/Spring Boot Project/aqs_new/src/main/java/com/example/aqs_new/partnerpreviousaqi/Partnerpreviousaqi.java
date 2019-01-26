@@ -12,10 +12,18 @@ public class Partnerpreviousaqi {
     Long id;
     @Column(nullable = false)
     Long deviceid;
-    @GeneratedValue
-    Timestamp timestamp;
     @Column(nullable = false)
     Long aqi;
+    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    Timestamp timestamp;
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public Long getId() {
         return id;
@@ -31,14 +39,6 @@ public class Partnerpreviousaqi {
 
     public void setDeviceid(Long deviceid) {
         this.deviceid = deviceid;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
     }
 
     public Long getAqi() {

@@ -1,6 +1,5 @@
 package com.example.aqs_new.partnersignin;
 
-import com.example.aqs_new.partner.Partner;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -13,39 +12,19 @@ public class Partnersignin {
     @Id
     @GeneratedValue
     Long id;
-    @Column(nullable = false)
-    String email;
-    @Column(nullable = false)
-    String password;
-    @GeneratedValue
+    @Column( columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     Timestamp start;
     @Nullable
     Timestamp end;
-    @ManyToOne
-    Partner partner;
+    @Column(nullable = false)
+    Long partnerId;
 
-    public Long getId() {
-        return id;
+    public Long getPartnerId() {
+        return partnerId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPartnerId(Long partnerId) {
+        this.partnerId = partnerId;
     }
 
     public Timestamp getStart() {
@@ -56,6 +35,15 @@ public class Partnersignin {
         this.start = start;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
     public Timestamp getEnd() {
         return end;
     }
@@ -64,11 +52,4 @@ public class Partnersignin {
         this.end = end;
     }
 
-    public Partner getPartner() {
-        return partner;
-    }
-
-    public void setPartner(Partner partner) {
-        this.partner = partner;
-    }
 }

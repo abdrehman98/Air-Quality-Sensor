@@ -57,10 +57,12 @@ public class AqsController {
     //Signin Partner
     @RequestMapping(value = {"/partnersignin"}, method = RequestMethod.POST)
     public @ResponseBody
-    Response SetPartnersignin(@RequestBody Partnersignin partnersignin) {
+    Response SetPartnersignin(@RequestBody Partner partner) {
         Response response = new Response();
-        if (aqsService.partnerPasswordEmailMatchCorrectly(partnersignin))
+        if (aqsService.partnerPasswordEmailMatchCorrectly(partner))
         {
+            Partnersignin partnersignin=new Partnersignin();
+
             aqsService.setPartnerSignin(partnersignin);
             response.setResponse("LOGGED IN");
         } else {
@@ -69,22 +71,23 @@ public class AqsController {
         return response;
     }
 
-
-
-
-
     //Register a new device
     @RequestMapping(value = {"/device"}, method = RequestMethod.POST)
     public @ResponseBody
     Response SetDevice(@RequestBody Device device) {
 
         Response response = new Response();
-        Long deviceid = device.getId();
-        if (aqsService.deviceIdExist(deviceid)) {
-            response.setResponse("DEVICE ID ALREADY EXIST");
 
+        if (aqsService.deviceIdExist(device.getId()))
+        {
+            response.setResponse("DEVICE ID ALREADY EXIST");
         }
-        else {
+        else if (aqsService.codeVersionNotExist(device.getCodeVersionId()))
+        {
+            response.setResponse("INVALID CODE VERSION");
+        }
+        else
+        {
             aqsService.setDevice(device);
             response.setResponse("DEVICE REGISTERED");
         }
@@ -96,7 +99,8 @@ public class AqsController {
     //Add a new error
     @RequestMapping(value = {"/error"}, method = RequestMethod.POST)
     public @ResponseBody
-    Response SetError(@RequestBody Error error) {
+    Response SetError(@RequestBody Error error)
+    {
         Response response = new Response();
         aqsService.setError(error);
         response.setResponse("ERROR REGISTERED");
@@ -110,33 +114,59 @@ public class AqsController {
     Response SetCodeversion(@RequestBody Codeversion codeversion) {
         Response response = new Response();
 
+        if (aqsService.versionIdExist(codeversion.getId()))
+        {
+            response.setResponse("VERSION ID ALREADY EXIST");
+        }
+        else
+        {
             response.setResponse("CODE VERSION REGISTERED");
             aqsService.setCodeversion(codeversion);
-            return response;
+        }
+        return response;
     }
 
 
     //Add a new Location
     @RequestMapping(value = {"/device/location"}, method = RequestMethod.POST)
     public @ResponseBody
-    Response SetLocation(@RequestBody Location location, @PathVariable Long deviceid) {
+    Response SetLocation(@RequestBody Location location) {
         Response response = new Response();
 
+        if (aqsService.deviceIdNotExist(location.getDeviceId()))
+        {
+            response.setResponse("DEVICE ID NOT EXIST");
+        }
+        else
+        {
             //aqsService.deviceExistInPublicside(location); // to update location of device in public side table
             aqsService.setLocation(location); // add or update location of device location in location table
             aqsService.setPublicSideLocation(location);
             response.setResponse("DEVICE LOCATION STORED");
-            return response;
-    }
 
+        }
+        return response;
+    }
 
     //Add a new Errorlog
     @RequestMapping(value = {"device/errorlog"}, method = RequestMethod.POST)
     public @ResponseBody
     Response SetErrorlog(@RequestBody Errorlog errorlog) {
         Response response = new Response();
+
+        if (aqsService.deviceIdNotExist(errorlog.getDeviceId()))
+        {
+            response.setResponse("DEVICE ID NOT EXIST");
+        }
+        else if (aqsService.errorIdNotExist(errorlog.getDeviceId()))
+        {
+            response.setResponse("ERROR ID NOT EXIST");
+        }
+        else
+        {
         aqsService.setErrorlog(errorlog);
         response.setResponse("ERRORLOG RECORDED");
+        }
         return response;
     }
 
@@ -146,8 +176,12 @@ public class AqsController {
     public @ResponseBody
     Response SetDatarecord(@RequestBody DataRecord datarecord) {
         Response response = new Response();
+        if (aqsService.deviceIdNotExist(datarecord.getDeviceId())) {
+            response.setResponse("DEVICE ID NOT EXIST");
+        }
+
         aqsService.setDataRecord(datarecord);
-        aqsService.updatePublicsiePartnerPreviousPm25Aqi(datarecord);
+//        aqsService.updatePublicsiePartnerPreviousPm25Aqi(datarecord);
         response.setResponse("DATA SAVED");
         return response;
     }

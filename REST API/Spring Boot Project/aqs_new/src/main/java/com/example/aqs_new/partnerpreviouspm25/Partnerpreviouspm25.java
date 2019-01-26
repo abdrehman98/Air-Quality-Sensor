@@ -13,10 +13,18 @@ public class Partnerpreviouspm25 {
     Long id;
     @Column(nullable = false)
     Long deviceid;
-    @GeneratedValue
-    Timestamp timestamp;
     @Column(nullable = false)
     double PM25;
+    @Column( columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    Timestamp timestamp;
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public Long getId() {
         return id;
@@ -32,14 +40,6 @@ public class Partnerpreviouspm25 {
 
     public void setDeviceid(Long deviceid) {
         this.deviceid = deviceid;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
     }
 
     public double getPM25() {

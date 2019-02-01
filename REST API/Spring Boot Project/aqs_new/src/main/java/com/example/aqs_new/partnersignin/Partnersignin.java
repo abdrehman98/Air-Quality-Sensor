@@ -16,7 +16,7 @@ public class Partnersignin {
     Timestamp start;
     @Nullable
     Timestamp end;
-    @Column(nullable = false)
+
     Long partnerId;
 
     public Long getPartnerId() {

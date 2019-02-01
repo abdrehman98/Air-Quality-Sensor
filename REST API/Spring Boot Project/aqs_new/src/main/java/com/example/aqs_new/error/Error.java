@@ -7,7 +7,6 @@ import javax.persistence.*;
 public class Error {
 
     @Id
-    @GeneratedValue
     Long id; //represents errorcode
 
     @Column(nullable = false)

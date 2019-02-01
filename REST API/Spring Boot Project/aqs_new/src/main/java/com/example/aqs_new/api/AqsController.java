@@ -57,15 +57,19 @@ public class AqsController {
     //Signin Partner
     @RequestMapping(value = {"/partnersignin"}, method = RequestMethod.POST)
     public @ResponseBody
-    Response SetPartnersignin(@RequestBody Partner partner) {
+    Response SetPartnersignin(@RequestBody Partner partner)
+    {
         Response response = new Response();
         if (aqsService.partnerPasswordEmailMatchCorrectly(partner))
         {
             Partnersignin partnersignin=new Partnersignin();
-
+            Long partnerId=aqsService.partnetIdFinder(partner);
+            partnersignin.setId(partnerId);
             aqsService.setPartnerSignin(partnersignin);
             response.setResponse("LOGGED IN");
-        } else {
+        }
+        else
+        {
             response.setResponse("INVALID EMAIL OR PASSWORD");
         }
         return response;
@@ -158,7 +162,7 @@ public class AqsController {
         {
             response.setResponse("DEVICE ID NOT EXIST");
         }
-        else if (aqsService.errorIdNotExist(errorlog.getDeviceId()))
+        else if (aqsService.errorIdNotExist(errorlog.getErrorId()))
         {
             response.setResponse("ERROR ID NOT EXIST");
         }
@@ -176,13 +180,16 @@ public class AqsController {
     public @ResponseBody
     Response SetDatarecord(@RequestBody DataRecord datarecord) {
         Response response = new Response();
-        if (aqsService.deviceIdNotExist(datarecord.getDeviceId())) {
+        if (aqsService.deviceIdNotExist(datarecord.getDeviceId()))
+        {
             response.setResponse("DEVICE ID NOT EXIST");
         }
-
-        aqsService.setDataRecord(datarecord);
-//        aqsService.updatePublicsiePartnerPreviousPm25Aqi(datarecord);
-        response.setResponse("DATA SAVED");
+        else
+        {
+            aqsService.setDataRecord(datarecord);
+            aqsService.updatePublicsiePartnerPreviousPm25Aqi(datarecord);
+            response.setResponse("DATA SAVED");
+        }
         return response;
     }
 

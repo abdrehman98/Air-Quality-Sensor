@@ -194,6 +194,10 @@ public class AqsService {
     public boolean partnerPasswordEmailMatchCorrectly(Partner partner) {
         Partner partner1 = partnerRepository.findByEmail(partner.getEmail());
 
+        if(partner1==null)
+        {
+            return false;
+        }
         if (partner1.getPassword().equals(partner.getPassword()))
 
             return true;
@@ -201,6 +205,19 @@ public class AqsService {
         else
             return false;
     }
+
+
+    // To check if Password and email are entered correctly while partner signin
+    public Long partnetIdFinder(Partner partner) {
+        Partner partner1 = partnerRepository.findByEmail(partner.getEmail());
+
+        Long ID=partner1.getId();
+        return ID;
+    }
+
+
+
+
 
 
     /////////////////////////////////////////////////////////////////////
@@ -270,14 +287,18 @@ public class AqsService {
         partnerpreviouspm25.setDeviceid(datarecord.getDeviceId());
         partnerpreviouspm25.setPM25(datarecord.getAqi());
         partnerpreviouspm25Repository.save(partnerpreviouspm25);
-        Publicside publicside = publicsideRepository.findPublicsideByDeviceid(datarecord.getId());
+        Publicside publicside = publicsideRepository.findPublicsideByDeviceid(datarecord.getDeviceId());
         Publicside publicside1 = new Publicside();
-        publicside1.setDeviceid(datarecord.getId());
-        publicside1.setLatitude(publicside.getLatitude());
-        publicside1.setLongitude(publicside.getLongitude());
-        publicside1.setLocationName(publicside.getLocationName());
-        publicside1.setAqi(publicside.getAqi());
-        publicsideRepository.delete(publicside);
+        if(publicside!=null)
+        {
+            publicside1.setLatitude(publicside.getLatitude());
+            publicside1.setLongitude(publicside.getLongitude());
+            publicside1.setLocationName(publicside.getLocationName());
+            publicsideRepository.delete(publicside);
+        }
+
+        publicside1.setDeviceid(datarecord.getDeviceId());
+        publicside1.setAqi(datarecord.getAqi());
         publicsideRepository.save(publicside1);
     }
 
@@ -288,14 +309,16 @@ public class AqsService {
         Publicside publicside1=new Publicside();
 
         if(publicside!=null)
+        {
             publicside1.setAqi(publicside.getAqi());
-
+            publicsideRepository.delete(publicside);
+        }
         publicside1.setDeviceid(location.getDeviceId());
         publicside1.setLongitude(location.getLongitude());
         publicside1.setLatitude(location.getLatitude());
         //publicside1.setLocationName(location.getLocationName());
 
-        publicsideRepository.delete(publicside);
+
         publicsideRepository.save(publicside1);
     }
     //to retrieve error log

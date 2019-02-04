@@ -1,0 +1,93 @@
+
+.about-padding{
+	padding: 30px 0;
+}
+
+
+.col-custom{
+	float: left;
+	width: 20%;
+	padding: 40px 15px;
+}
+
+.img_size:hover{
+	box-shadow: 0 0 30px 10px rgba(0,0,0,0.2);
+}
+
+.img_size{
+	position: relative;
+	margin: 10px 0;
+    background-position: 50% 50%;
+    background-repeat:   no-repeat;
+    background-size:     cover;
+    border: 8px double #eee;
+    display: flex;
+    justify-content: center;
+    transition: all 0.5s ease 0s;
+}
+
+.img_size h5{
+	text-align: center;
+	font-weight: bold;
+}
+
+.uni_logo{
+	height: 70px;
+    margin: 50px;
+    width: 125px;
+    vertical-align: middle;
+    display: block;
+
+}
+
+@media (max-width: 992px){
+	.display_none{
+		display:none;
+	}
+	.contact-info .fl-left {
+    	float:none ;
+	}
+	.contact-info .fl-right {
+    	float:none ;
+	}
+}
+
+@media (max-width: 1200px){
+	#mainmenu{
+		margin-right: 	10px;
+	}
+	#mainmenu li a{
+		font-size: 12px;
+	}
+}
+
+
+@media (max-width: 767px){
+	.col-custom{
+		width: 33.33%;
+	}
+	#mainmenu{
+		margin-right: 	10px;
+	}
+	.about-content {
+    margin: 10px 30px;
+	}
+	.about-content_c{
+		margin: 10px 30px !important;
+	}
+	.about-content_cc{
+		margin: 10px 30px !important;
+	}
+}
+
+@media (max-width: 425px){
+	.col-custom{
+		width: 50%;
+	}
+	#mainmenu{
+		margin-right: 	10px;
+	}
+	.about-content span {
+		font-size: 17px;
+	}	
+}

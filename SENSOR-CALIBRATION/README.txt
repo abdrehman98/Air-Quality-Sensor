@@ -9,7 +9,8 @@ Requirements:
 5) male to male jumbers
 6) Python 3.6 installed on laptop
 7) CMD and python added to path veriable
-8) MATLAB: 2017a
+8) pip (python package manager installed)
+9) py-serial python library installed on laptop
 
 Assumption:
 used library works properly

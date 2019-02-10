@@ -1,13 +1,9 @@
-import GENERAL
-import consts as C
-import indices as I
-import load_data
-import statistics
-from collections import Counter
-from ind import *
+from matplotlib import pyplot as pyplot
 
-from matplotlib import pyplot as plotter
+import consts as C
+from ind import *
 from load_data import Load
+
 doc = """
 All processing is applied on PM2.5
 FROM PMS3003: AE values are considered
@@ -18,6 +14,7 @@ Fine sampling was (0.3 - 2) s based upon air quality gradient
 ______________________________________________________________
 For all the Measurements "Air Visual" is used as ground truth
 """
+TITLE = "PM2.5: PMS3003 and Air visual"
 
 
 def fit(x):
@@ -55,13 +52,23 @@ def main():
     x = data2[PMS.AE25]
 
     x1 = [fit(k) for k in x]
-    plotter.plot(uts, x)
-    plotter.plot(uts, x1)
-    plotter.plot(uts, y)
-    plotter.show()
+
+    ###############################################
+    ###############################################
+    ########### Custom plotting starts here #######
+    ###############################################
+    ###############################################
+
+    pyplot.title(TITLE)
+    pyplot.plot(uts, x)
+    pyplot.plot(uts, x1)
+    pyplot.plot(uts, y)
+    pyplot.show()
 
 
 main()
+
+
 """
 # PLOT: data
 plotter.plot(uts, av_PM25, label="AIR-VISUAL Node pro data")

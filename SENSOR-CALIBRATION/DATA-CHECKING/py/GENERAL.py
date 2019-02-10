@@ -113,13 +113,41 @@ def output_plot(plotter, path, operation, clf=True, title_name=''):
         plotter.clf()
 
 
-def get_data_between(data, min_ts, max_ts, index=0):
+def get_data_between(data, mints, maxts, index=0):
     required_data = []
 
-    for row in data:
-        ts = row[index]
-        if min_ts <= ts <= max_ts:
-            required_data.append(row)
+    num_col = len(data)
+    num_row = len(data[0])
+
+    for i in range(num_col):
+        required_data.append([])
+
+    for r in range(num_row):
+        ts = data[index][r]
+        if mints <= ts <= maxts:
+            for c in range(num_col):
+                required_data[c].append(data[c][r])
 
     return required_data
 
+
+# Print iterations progress
+def progress(itr, total, pre='', suf='', decimals=2, length=100, fill='█'):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        length      - Optional  : character length of bar (Int)
+        fill        - Optional  : bar fill character (Str)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (itr / float(total)))
+    filledLength = int(length * itr // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print('\r%s |%s| %s%% %s' % (pre, bar, percent, suf), end ='\r')
+    # Print New Line on Complete
+    if itr == total:
+        print()

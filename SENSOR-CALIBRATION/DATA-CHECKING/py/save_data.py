@@ -22,4 +22,5 @@ def air_visual_node_split(data, file_name, folder_path=""):
         eline[I.E_HUMIDITY] = str(line[I.E_HUMIDITY])
         eline = ",".join(eline)
         f.write(eline + "\n")
+
     f.close()

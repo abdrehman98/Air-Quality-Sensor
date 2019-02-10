@@ -1,7 +1,9 @@
 import indices as I
 from datetime import datetime, timedelta
 import consts as C
-from ind import RAV
+from ind import RAV, AV, PMS
+from tqdm import tqdm
+import os
 
 
 class Load:
@@ -13,22 +15,28 @@ class Load:
         return g
 
     @staticmethod
-    def load(path, obj):
+    def _parse_name(obj):
+        name = str(obj)
+        name = name.split("'")
+        name = name[1]
+        return name
 
-        # Read all data from file
-        # It is in row major format
-        data = open(path).readlines()
+    @staticmethod
+    def _format(row, sep=','):
+        el = row[len(row) - 1]
+        row = row.replace(el, "")
+        row = row.split(sep)
+        return row
 
-        # create column major grid
+    @staticmethod
+    def _enc_gen(grid, obj):
+
         res = Load._grid(obj.LENGTH)
+        for row in tqdm(grid):
 
-        for row in data:
-
-            # Remove end-line character and
-            # split data on the basis of sep
-            el = row[len(row) - 1]
-            row = row.replace(el, "")
-            row = row.split(",")
+            row = Load._format(row)
+            if obj.LENGTH != len(row):
+                continue
 
             # Encode every value of line and append
             for i in range(len(row)):
@@ -40,29 +48,19 @@ class Load:
         return res
 
     @staticmethod
-    def av(path):
-        data = open(path).readlines()
-
-        # Remove First line
-        # It is columns Tags(names)
-        data.remove(data[0])
-
-        # Create Column major : Grid
+    def _enc_av(grid, obj):
         res = Load._grid(AV.LENGTH)
+        grid.remove(grid[0])
 
-        for row in data:
-            # Remove end-line character
-            # split data on the basis of sep
-            el = row[len(row) - 1]
-            row = row.replace(el, "")
-            row = row.split(",")
-
+        for row in tqdm(grid):
+            row = Load._format(row, ';')
             # Skip the corrupt value
-            if len(row) != RAV.LENGTH:
+            if len(row) != obj.LENGTH:
                 continue
 
             # ENCODE: TIMESTAMP
-            fts = eval(row[RAV.TIMESTAMP])
+            rts = row[obj.TIMESTAMP]
+            fts = eval(rts) - 18000
             dts = datetime.fromtimestamp(fts)
             res[AV.TIMESTAMP].append(dts)
 
@@ -74,90 +72,61 @@ class Load:
                 eval(row[RAV.TEMPERATURE_C]))
             res[AV.HUMIDITY].append(
                 eval(row[RAV.HUMIDITY_RH]))
+        return res
 
+    @staticmethod
+    def load(path, obj):
+
+        print("Loading:>>", "------------------------")
+        print("Loading:>>", "loading", Load._parse_name(obj), "Data")
+
+        # Read all data from file
+        # It is in row major format
+        print("Loading:>>", "Reading file.")
+        print("Loading:>>", "FILE-PATH =", path)
+        data = open(path).readlines()
+        print("Loading:>>", "Done reading.")
+
+        enc = Load._enc_gen
+        if obj == RAV:
+            enc = Load._enc_av
+
+        res = enc(data, obj)
+        print("Loading:>>", "Done encoding")
+        print("Loading:>>", "------------------------")
         return res
 
 
-def air_visual_node(file_path):
+class Save:
 
-    # open file for reading data
-    data = open(file_path).readlines()
-    # Remove Tags
-    data.remove(data[0])
-    print("Loading Air visuals data . . .")
-    structured_data = []
+    @staticmethod
+    def _open_file(base, file_name):
+        file_path = base + file_name
+        if base != "":
+            print("Creating Directory:", base)
+            os.makedirs(base, exist_ok=True)
+        print("Saving file to", file_path)
+        file = open(file_path, "w+")
+        return file
 
-    for line in data:
-        # Remove Separator from the end of line
-        end_line_char = line[len(line) - 1]
-        line = line.replace(end_line_char, "")
+    @staticmethod
+    def _get_line(data, r, obj):
+        row = []
+        # decode all Entries
+        for c in range(obj.LENGTH):
+            entry = data[c][r]
+            if c == obj.TIMESTAMP:
+                entry = entry.timestamp()
+            entry = str(entry)
+            row.append(entry)
+        row = ','.join(row)
+        row += '\n'
+        return row
 
-        # Split entries on token
-        line = line.split(C.PAQI_FILE_SEPARATOR)
-
-        if len(line) == 14:
-            eline = [None] * I.NUMBER_OF_ENCODED_COLUMNS
-            fts = float(line[I.TIMESTAMP]) - 18000
-
-            ts = datetime.fromtimestamp(fts)
-            eline[I.E_TIMESTAMP] = ts
-            eline[I.E_AQI] = float(line[I.AQI_US])
-            eline[I.E_PM25] = float(line[I.PM2_5])
-            eline[I.E_PM10] = float(line[I.PM10])
-            eline[I.E_TEMPERATURE] = float(line[I.TEMPERATURE_C])
-            eline[I.E_HUMIDITY] = float(line[I.HUMIDITY_RH])
-            structured_data.append(eline)
-
-    print("Done loading!!")
-    return structured_data
-
-
-def pms3003(file_path):
-
-    # open file for reading data
-    data = open(file_path).readlines()
-    print("Loading PMS3003 data . . .")
-    structured_data = []
-
-    for line in data:
-        # Remove Separator from the end of line
-        line = line.replace(line[len(line) - 1], "")
-        # Split entries on token
-        line = line.split(C.PMS_FILE_SEPARATOR)
-
-        if len(line) == I.PMS_NUMBER_DATA_COLUMNS:
-            for i in range(len(line)):
-                line[i] = float(line[i])
-            fts = line[I.PMS_TIMESTAMP]
-            ts = datetime.fromtimestamp(fts)
-            line[I.PMS_TIMESTAMP] = ts
-            structured_data.append(line)
-
-    print("Done loading !!")
-    return structured_data
-
-
-def air_visual_node_split(file_path):
-
-    # open file for reading data
-    data = open(file_path).readlines()
-
-    print("Loading Air visual split data data . . .")
-    structured_data = []
-
-    for line in data:
-        line = line.replace("\n", "")
-        line = line.split(",")
-
-        if len(line) == 6:
-            # convert all column into float
-            line = [float(val) for val in line]
-            ts = line[I.E_TIMESTAMP]
-            ts = datetime.fromtimestamp(ts)
-            line[I.E_TIMESTAMP] = ts
-            structured_data.append(line)
-
-    print("Done loading!!")
-    return structured_data
-
-
+    @staticmethod
+    def save(base, file_name, data, obj):
+        file = Save._open_file(base, file_name)
+        for r in tqdm(range(len(data[0]))):
+            row = Save._get_line(data, r, obj)
+            file.write(row)
+        file.close()

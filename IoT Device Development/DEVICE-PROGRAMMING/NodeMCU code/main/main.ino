@@ -30,24 +30,24 @@ void connectPhone();
 
 void setup() {
   Serial.begin(9600);
-//  delay(1000);
+  delay(1000);
 
 
-//  debug("MAIN", "Device Starting");
-//  sensorBegin();
-//  StorageIO rom;
-//  DeviceInfo.begin(rom);
+  debug("MAIN", "Device Starting");
+  sensorBegin();
+  StorageIO rom;
+  DeviceInfo.begin(rom);
   mobileConnectionInit();
 
-//  wifiBegin(rom);
-//  lcdBegin();
+  wifiBegin(rom);
+  lcdBegin();
 }
 
 void loop() {
   connectToMobile();
-  //checkMobileConnectionRequest();
-  //printLcdNormal(readData());
-  //delay(5 * 1000);
+  checkMobileConnectionRequest();
+  printLcdNormal(readData());
+  delay(5 * 1000);
 }
 
 

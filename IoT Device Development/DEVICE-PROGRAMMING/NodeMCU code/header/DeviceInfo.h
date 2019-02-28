@@ -4,6 +4,7 @@ void debug(String DEBUG_TAG, String DEBUG_MESSAGE, String DEBUG_MESSAGE2);
 class DeviceInfoClass{
 private:
   char * deviceId;
+
 public:
   // Basic device veriables
   const char * DEBUG_TAG = "DEVICE_INFO";

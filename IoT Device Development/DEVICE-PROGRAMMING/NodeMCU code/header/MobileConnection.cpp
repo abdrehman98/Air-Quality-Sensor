@@ -1,14 +1,10 @@
-String readBluetooth(SoftwareSerial &, String);
-void connectToMobile();
-
-
-volatile bool connectToMobileFlag = false;         // variable for reading the pushbutton status
-void setMobileFlag() {  connectToMobileFlag = true;  }
+#include "DeviceInfo.h"
 
 void mobileConnectionInit(){
   //--------------- Microcontroller turn-on pin
   pinMode(DeviceInfo.BLUETOOTH_POWER_PIN, OUTPUT);   // -- intialize pin
   digitalWrite(DeviceInfo.BLUETOOTH_POWER_PIN, LOW); // -- Turn off bluetooth
+
   //--------------- Settings: Bluetooth interrupt on pin
   pinMode(DeviceInfo.BLUETOOTH_BUTTON_PIN, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(DeviceInfo.BLUETOOTH_BUTTON_PIN),
@@ -25,12 +21,11 @@ bool checkMobileConnectionRequest(){
 }
 
 void connectToMobile(){
-  connectPhone();
+  printPhone();
   digitalWrite(DeviceInfo.BLUETOOTH_POWER_PIN, HIGH);
   SoftwareSerial blueTooth = SoftwareSerial(DeviceInfo.BLUETOOTH_TX, DeviceInfo.BLUETOOTH_RX);
   blueTooth.begin(DeviceInfo.BLUETOOTH_BAUD);
   delay(1000);
-
 
   blueTooth.println("SSID");
   String ssid = readBluetooth(blueTooth, "SSID");

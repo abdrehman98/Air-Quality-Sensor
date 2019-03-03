@@ -14,38 +14,33 @@
 #include <PMS.h>
 #include <DHT.h>
 
+#include "debug.h"
+
 #include "Device.h"
+#include "SensorManager.h"
 #include "Display.h"
+#include "WIFI.h"
 
 Device device;
 Display display(device);
+WIFI wifi;
+SensorManager sensorManager;
 
-/*
-#include "MyWIFI.h"
-#include "DeviceSensors.h"
-#include "header/MobileConnection.h"
-#include "ServerConnection.h"
-*/
 
-//#include "MobileConnection.cpp"
-//#include "printLCD.cpp"
+
+void DELAY_SR(int t){
+
+}
 void setup() {
-  Serial.begin(9600);
-  delay(1000);
+  debug("MAIN", "Entered in MAIN");
   display.welcome();
+  wifi.begin(device);
+  sensorManager.begin(device);
 
-  //debug("MAIN", "Device Starting");
-  //sensorBegin();
-  //StorageIO rom;
-  //DeviceInfo.begin(rom);
-  //mobileConnectionInit();
-
-  //wifiBegin(rom);
-  //printBegin();
 }
 
 void loop() {
-  //checkMobileConnectionRequest();
-  //printData(readData());
-  //delay(5 * 1000);
+  DataPacket data = sensorManager.read();
+  display.wifiStatus(wifi.getStatus());
+  display.data(data);
 }

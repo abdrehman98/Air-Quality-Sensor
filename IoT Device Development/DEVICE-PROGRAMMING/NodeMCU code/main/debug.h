@@ -1,7 +1,9 @@
 void debug(String, String);
 void debug(String, String, String);
 void debug(String, String, float);
-
+String stFahion(String str){
+  return "\"" + str + "\"";
+}
 void debug(String DEBUG_TAG, String DEBUG_MESSAGE){
   Serial.println(DEBUG_TAG + ":>> " + DEBUG_MESSAGE);
 }

@@ -1,3 +1,8 @@
+bool volatile static connectionFlag = false;
+void M_ISR(){
+  connectionFlag = true;
+}
+
 class MobileConnection{
 private:
   int btBaud;
@@ -6,16 +11,28 @@ private:
   int btInput;
   int button;
 
-  static volatile bool connectionRequest;
-  static void M_ISR(){
-    connectionRequest = true;
+  String wifiSsid;
+  String wifiPassword;
+  const char * DEBUG_TAG = "MOBILE_CONNECTION";
+
+  void clearConnectionRequest(){
+    connectionFlag = false;
+  }
+  void turnOnBluetooth(){
+    digitalWrite(btInput, HIGH);
+  }
+  void turnOffBluetooth(){
+    digitalWrite(btInput, LOW);
   }
 public:
   void begin(Device & device);
   bool getRequestStatus();
   void connect();
+  String getWifiSsid() { return wifiSsid; }
+  String getWifiPassword() { return wifiPassword; }
 };
-void begin(Device & device){
+
+void MobileConnection::begin(Device & device){
 
   btBaud  = device.BLUETOOTH_BAUD;
   btRx    = device.BLUETOOTH_RX;
@@ -29,26 +46,36 @@ void begin(Device & device){
   pinMode(button, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(button),
     M_ISR, RISING);
-}
-
-bool MobileConnection::getRequestStatus(){
-  return connectionRequest;
+  clearConnectionRequest();
 }
 
 void MobileConnection::connect(){
-  digitalWrite(btInput, HIGH);
+  debug(DEBUG_TAG, "TURN ON BLUETOOTH");
+  turnOnBluetooth();
 
-  SoftwareSerial blueTooth = SoftwareSerial(btTx, btRx);
-  blueTooth.begin(btBaud);
+  SoftwareSerial btSerial = SoftwareSerial(btTx, btRx);
+  btSerial.begin(btBaud);
 
   while(! btSerial.available()) delay(20);
-  st = btSerial.readString();
-
+  String st = btSerial.readString();
   st.replace("\n", "");
   st.replace("\r", "");
-  debug(DEBUG_TAG, "Data recieved", st);
+  debug(DEBUG_TAG, "DATA RECIEVED", st);
 
-  delay(500);
+  int position = st.indexOf(",");
+  wifiSsid = st.substring(0, position);
+  wifiPassword = st.substring(position + 1);
 
-  digitalWrite(btInput, HIGH);
+  debug(DEBUG_TAG, "WIFI SSID", wifiSsid);
+  debug(DEBUG_TAG, "WIFI PASSWORD", wifiPassword);
+
+  turnOffBluetooth();
+  debug(DEBUG_TAG, "TURN OFF BLUETOOTH");
+
+  clearConnectionRequest();
+  debug(DEBUG_TAG, "CLEAR CONNECTION FLAG");
+}
+
+bool MobileConnection::getRequestStatus(){
+  return connectionFlag;
 }

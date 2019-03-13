@@ -1,15 +1,15 @@
 class WIFI{
 private:
   const char * DEBUG_TAG = "WIFI";
-  char * ssid;
-  char * password;
+  String ssid;
+  String password;
 
 public:
   void begin(Device & device);
   bool getStatus(){ return WiFi.status() == WL_CONNECTED; }
 
-  void setSsid(char * name){ ssid = name;}
-  void setPassword(char * key){ password = key;}
+  void setSsid(String name){ ssid = name;}
+  void setPassword(String key){ password = key;}
   void setSettings(Device & device);
   void startStation();
 };
@@ -28,10 +28,23 @@ void WIFI::startStation(){
   debug(DEBUG_TAG, "Turn off hardware", "(STA + SOftAP)");
   WiFi.softAPdisconnect(true);
   WiFi.disconnect(true);
-  delay(1000);
+  delay(500);
   // Start wifi hardware
-  WiFi.begin(ssid, password);
+  char * name = new char[ssid.length() + 1];
+  char * key = new char[password.length() + 1];
+
+  ssid.toCharArray(name, ssid.length() + 1);
+  password.toCharArray(key, password.length() + 1);
+  WiFi.begin(name, key);
+
+  debug(DEBUG_TAG, "SETTINGS:");
+  debug(DEBUG_TAG, "\"" + ssid + "\"", "\"" + password + "\"");
+
   debug(DEBUG_TAG, "STATION", "started");
+  debug(DEBUG_TAG, String("\"") + name + "\"", String("\"") + key + "\"");
+
+  delete name;
+  delete key;
 }
 
 void WIFI::begin(Device & device) {

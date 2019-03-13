@@ -12,7 +12,7 @@ public:
   const char * CODE_VERSION = "1";
 
   //------------------ BLUE-TOOTH veriables
-  const static int BLUETOOTH_BAUD = 38400;
+  const static int BLUETOOTH_BAUD = 9600;
   // communication
   const static int BLUETOOTH_RX = D0;
   const static int BLUETOOTH_TX = D4;
@@ -35,41 +35,67 @@ public:
   /**********************************************
   *************** Functions will start **********
   ***********************************************/
-  Device(){
-    Serial.begin(9600);
-    delay(500);
-
-    Serial.println();
-    Serial.println("***********************");
-    Serial.println("_____      ______ _____");
-    Serial.println("|    \\       |    |   |");
-    Serial.println("|     \\      |    |___|");
-    Serial.println("|______\\     |    |\\");
-    Serial.println("|       \\    |    | \\");
-    Serial.println("|        \\___|___ |  \\");
-    Serial.println("CAST: An dream of clean air");
-
-    debug(DEBUG_TAG, "Loading data from EEPROM");
-
-    StorageIO rom;
-    rom.reposition();
-
-    id = rom.readNextString();
-    ssid = rom.readNextString();
-    password = rom.readNextString();
-
-    debug(DEBUG_TAG, "ID", id);
-    debug(DEBUG_TAG, "SSID", ssid);
-    debug(DEBUG_TAG, "PASSWORD", password);
-  }
-
-  char * getId(){ return id;}
-  char * getSsid(){ return ssid;}
-  char * getPassword(){ return password;}
-
+  Device();
+  String getId(){ return id;}
+  String getSsid(){ return ssid;}
+  String getPassword(){ return password;}
+  void setSsid(String ssid);
+  void setPassword(String password);
+  void save();
 private:
-  char * id;
-  char * ssid;
-  char * password;
+  String id;
+  String ssid;
+  String password;
   const char * DEBUG_TAG = "DEVICE";
 };
+
+void Device::setSsid(String ssid){
+  this->ssid = ssid;
+}
+void Device::setPassword(String password){
+  this->password = password;
+}
+
+Device::Device(){
+  Serial.begin(9600);
+  delay(500);
+
+  Serial.println();
+  Serial.println("***********************");
+  Serial.println("_____      ______ _____");
+  Serial.println("|    \\       |    |   |");
+  Serial.println("|     \\      |    |___|");
+  Serial.println("|______\\     |    |\\");
+  Serial.println("|       \\    |    | \\");
+  Serial.println("|        \\___|___ |  \\");
+  Serial.println("CAST: An dream of clean air");
+
+  debug(DEBUG_TAG, "Loading data from EEPROM");
+
+  StorageIO rom;
+  rom.reposition();
+
+  id = rom.readNextString();
+  ssid = rom.readNextString();
+  password = rom.readNextString();
+
+  debug(DEBUG_TAG, "ID", id);
+  debug(DEBUG_TAG, "SSID", ssid);
+  debug(DEBUG_TAG, "PASSWORD", password);
+  debug(DEBUG_TAG, "DONE LOADING");
+}
+
+void Device::save(){
+  debug(DEBUG_TAG, "Loading data from EEPROM");
+
+  StorageIO rom;
+  rom.reposition();
+
+  rom.writeNextString(id);
+  rom.writeNextString(ssid);
+  rom.writeNextString(password);
+
+  debug(DEBUG_TAG, "ID", id);
+  debug(DEBUG_TAG, "SSID", ssid);
+  debug(DEBUG_TAG, "PASSWORD", password);
+}

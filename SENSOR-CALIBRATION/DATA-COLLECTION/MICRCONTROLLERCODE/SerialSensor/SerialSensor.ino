@@ -6,7 +6,7 @@
 SoftwareSerial pmsSerial(RX, TX);
 
 PMS pms(pmsSerial);
-PMS::DATA data;
+PMS::DATA2 data;
 
 void setup(){
   pmsSerial.begin(9600);   // GPIO1, GPIO3 (TX/RX pin on ESP-12E Development Board)

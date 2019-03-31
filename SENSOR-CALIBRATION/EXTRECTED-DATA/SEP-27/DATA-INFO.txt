@@ -1,5 +1,0 @@
-1) This data was fetched from DSM501A sensor.
-2) Thsi sensor was already available at Makeistan.
-3) Is is used to measure pm1.0 and pm2.5 but pm2.5 is very unsevsitive.
-5) This file contains 'pwm of pm1.0', 'pwm of pm2.5', 'timestamp'
-5) Data recollected due to error in previous data.

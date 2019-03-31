@@ -7,8 +7,8 @@ private:
 
   const char * dataService = "/aqs/device/datarecord";
   const char * DEBUG_TAG = "SERVER_CONNECTION";
-  HTTPClient http
-  ;
+  HTTPClient http;
+
   int send(String data, String service){
     int ret = 0;
     String url = "http://";
@@ -17,21 +17,16 @@ private:
     url += service;
 
     http.begin(url);
-    if (http.connected()){
-      debug(DEBUG_TAG, "[SERVER CONNECTION] CONNECTING TO ", url);
+    debug(DEBUG_TAG, "[SERVER CONNECTION] CONNECTING TO ", url);
 
-      http.addHeader( "Content-Type", "application/json");
-      int STATUS_CODE = http.POST(data);
-      debug(DEBUG_TAG, "[SERVER CONNECTION] SENDING SERVER MESSAGE : ", data);
+    http.addHeader( "Content-Type", "application/json");
+    int STATUS_CODE = http.POST(data);
+    debug(DEBUG_TAG, "[SERVER CONNECTION] SENDING SERVER MESSAGE : ", data);
 
-      String payload = http.getString();
-      debug(DEBUG_TAG, "STATUS-CODE:", STATUS_CODE);
-      debug(DEBUG_TAG, "PAYLOAD:", payload);
-      ret = true;
-    } else{
-      debug(DEBUG_TAG, "SERVER OUT OF REACH", url);
-      ret = false;
-    }
+    String payload = http.getString();
+    debug(DEBUG_TAG, "STATUS-CODE:", STATUS_CODE);
+    debug(DEBUG_TAG, "PAYLOAD:", payload);
+    ret = true;
     http.end();
     return ret;
   }
@@ -52,7 +47,7 @@ public:
     jsonDataPacket["pm1"]         = data.pmsData.PM_AE_UG_1_0;
     jsonDataPacket["pm25"]        = data.pmsData.PM_AE_UG_2_5;
     jsonDataPacket["pm10"]        = data.pmsData.PM_AE_UG_10_0;
-    jsonDataPacket["aqi"]         = -1;
+    jsonDataPacket["aqi"]         = data.aqi;
     String strJsonDataPacket;
     jsonDataPacket.printTo(strJsonDataPacket);
 

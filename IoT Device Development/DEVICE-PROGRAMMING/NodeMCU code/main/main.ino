@@ -33,14 +33,16 @@ ServerConnection serverConnection;
 void DELAY_SR(int t){
   for (int i = 0; i < t / 20; i++){
     if (mobileConnection.getRequestStatus()){
+      /*
       display.phone();
       mobileConnection.connect();
       device.setSsid(mobileConnection.getWifiSsid());
       device.setPassword(mobileConnection.getWifiPassword());
       device.save();
       wifi.begin(device);
+      */
+      delay(20);
     }
-    delay(20);
   }
 }
 
@@ -50,7 +52,7 @@ void setup() {
   display.welcome();
   wifi.begin(device);
   sensorManager.begin(device);
-  mobileConnection.begin(device);
+  // mobileConnection.begin(device);
   serverConnection.begin(device);
 }
 

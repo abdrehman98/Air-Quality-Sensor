@@ -1,0 +1,14 @@
+key
+city
+area
+longitude
+latitude
+setup_time
+time_stamp
+pm2.5
+aqi
+co2
+temperature
+humidity
+pm2.5_outdoor
+aqi_outdoor

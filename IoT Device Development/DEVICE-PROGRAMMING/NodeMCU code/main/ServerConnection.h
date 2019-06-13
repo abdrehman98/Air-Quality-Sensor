@@ -2,7 +2,7 @@
 class ServerConnection{
 private:
   String deviceId;
-  char * host = "157.230.218.141";
+  char * host = "45faff9a.ngrok.io";
   int port = 8081;
 
   const char * dataService = "/aqs/device/datarecord";
@@ -13,7 +13,6 @@ private:
     int ret = 0;
     String url = "http://";
     url += host;
-    url += (":" + String(port));
     url += service;
 
     http.begin(url);
@@ -37,10 +36,10 @@ public:
   int sendData(DataPacket & data){
     debug(DEBUG_TAG, "SENDING DATA TO SERVER");
 
-    StaticJsonDocument<200> jsonDataPacket;
+    StaticJsonDocument<200> doc;
+    JsonObject jsonDataPacket = doc.to<JsonObject>();
 
     debug(DEBUG_TAG, "PREPAIRING JSON");
-    jsonDataPacket.add("deviceID");
     jsonDataPacket["deviceId"]    = deviceId;
     jsonDataPacket["temperature"] = data.temperature;
     jsonDataPacket["humidity"]    = data.humidity;

@@ -3,7 +3,7 @@
 #include "ESP8266WiFi.h"
 
 # define DEVICE_ID "1"
-# define WIFI_SSID "DIR Makeistan"
+# define WIFI_SSID "New Makeistan"
 # define WIFI_PASSWORD "makershaker"
 
 

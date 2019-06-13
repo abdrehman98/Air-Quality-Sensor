@@ -37,10 +37,10 @@ public:
   int sendData(DataPacket & data){
     debug(DEBUG_TAG, "SENDING DATA TO SERVER");
 
-    StaticJsonBuffer<200> jsonBuffer;
-    JsonObject& jsonDataPacket  = jsonBuffer.createObject();
+    StaticJsonDocument<200> jsonDataPacket;
 
     debug(DEBUG_TAG, "PREPAIRING JSON");
+    jsonDataPacket.add("deviceID");
     jsonDataPacket["deviceId"]    = deviceId;
     jsonDataPacket["temperature"] = data.temperature;
     jsonDataPacket["humidity"]    = data.humidity;
@@ -49,7 +49,7 @@ public:
     jsonDataPacket["pm10"]        = data.pmsData.PM_AE_UG_10_0;
     jsonDataPacket["aqi"]         = data.aqi;
     String strJsonDataPacket;
-    jsonDataPacket.printTo(strJsonDataPacket);
+    serializeJson(jsonDataPacket, strJsonDataPacket);
 
     debug(DEBUG_TAG, "PACKED_DATA_PACKET", strJsonDataPacket);
     return send(strJsonDataPacket, dataService);
